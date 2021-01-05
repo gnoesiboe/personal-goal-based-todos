@@ -1,7 +1,9 @@
+import { createUserFromUserInfo } from './../../../model/factory/userFactory';
 import firebase from 'firebase';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { User } from '../../../model/user';
+import usePersistCurrentUserInCookie from './usePersistCurrentUserInCookie';
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -16,12 +18,10 @@ export default function useEnsureUserIsAuthenticated() {
         firebase.auth().signInWithRedirect(provider);
     }, [userInfo, loading, error]);
 
+    usePersistCurrentUserInCookie(userInfo);
+
     const user: User | null = userInfo
-        ? {
-              uid: userInfo.uid,
-              name: userInfo.displayName,
-              email: userInfo.email,
-          }
+        ? createUserFromUserInfo(userInfo)
         : null;
 
     return { user, loading, error };
