@@ -1,0 +1,20 @@
+@use './../../styles/settings/layout' as *;
+
+.container {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: auto;
+}
+
+.header {
+    display: block;
+    position: sticky;
+    top: 0;
+    height: auto;
+}
+
+.content {
+    max-width: $layout-container-max-width;
+    margin: 0 auto;
+    padding: 0 $layout-default-side-gap;
+}

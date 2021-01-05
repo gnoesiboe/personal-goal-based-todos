@@ -1,0 +1,18 @@
+$breakpoint-mobile: 320px;
+$breakpoint-tablet: 740px;
+$breakpoint-desktop: 980px;
+$breakpoint-wide: 1300px;
+$breakpoint-desktop-ad: 810px;
+$breakpoint-mobile-landscape: 480px;
+
+$mq-breakpoints: (
+    mobile: $breakpoint-mobile,
+    tablet: $breakpoint-tablet,
+    desktop: $breakpoint-desktop,
+    wide: $breakpoint-wide,
+    // Tweakpoints
+    desktopAd: $breakpoint-desktop-ad,
+    mobileLandscape: $breakpoint-mobile-landscape,
+);
+
+@import '~sass-mq';

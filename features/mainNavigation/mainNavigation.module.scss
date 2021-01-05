@@ -1,0 +1,34 @@
+@use './../../styles/settings/layout' as *;
+
+$item-padding: $layout-default-side-gap / 2;
+
+.container {
+    background: #000;
+}
+
+.list {
+    display: flex;
+    padding: 0;
+    padding: 0 $item-padding;
+    max-width: $layout-container-max-width;
+    margin: 0 auto;
+    color: #fff;
+    justify-content: flex-start;
+}
+
+.listItem {
+    list-style: none;
+}
+
+.item {
+    display: block;
+    padding: $item-padding;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.currentItem {
+    color: green;
+}

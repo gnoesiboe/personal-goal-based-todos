@@ -1,0 +1,4 @@
+@use './breakpoints';
+
+$layout-container-max-width: breakpoints.$breakpoint-desktop;
+$layout-default-side-gap: 20px;
