@@ -1,5 +1,7 @@
 import { Role as RoleModel } from '../../../model/role';
 import React from 'react';
+import Island from '../../../primitives/island/Island';
+import Heading from '../../../primitives/heading/Heading';
 
 type Props = {
     role: RoleModel;
@@ -7,10 +9,10 @@ type Props = {
 };
 
 const Role: React.FC<Props> = ({ role, children }) => (
-    <div>
-        <h2>{role.title}</h2>
+    <Island>
+        <Heading tag="h2">{role.title}</Heading>
         {children}
-    </div>
+    </Island>
 );
 
 export default Role;

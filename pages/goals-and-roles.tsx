@@ -9,6 +9,7 @@ import { User } from '../model/user';
 import RolesOverview from '../features/rolesOverview/RolesOverview';
 import { createMetaTitle } from '../utility/metaUtilities';
 import AddRole from '../features/addRole/AddRole';
+import Heading from '../primitives/heading/Heading';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -19,7 +20,7 @@ const GoalsAndRoles: React.FC<Props> = ({ roles }) => (
         <Head>
             <title>{createMetaTitle('Roles and Goals')}</title>
         </Head>
-        <h1>Roles & Goals</h1>
+        <Heading tag="h1">Roles & Goals</Heading>
         <RolesOverview roles={roles} />
         <AddRole />
     </div>

@@ -1,0 +1,9 @@
+@use '../../styles/settings/spacing';
+@use '../../styles/settings/colors';
+
+.container {
+    background: colors.$first;
+    margin-bottom: spacing.$spacing-medium;
+    border-radius: 10px;
+    padding: 20px;
+}

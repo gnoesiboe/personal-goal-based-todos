@@ -1,16 +1,16 @@
-$widget-text-spacing: 10px;
+@use '../../styles/settings/spacing';
 
 .textWidget {
     display: block;
     width: 100%;
-    margin-bottom: $widget-text-spacing;
+    margin-bottom: spacing.$spacing-small;
     padding: 5px;
 }
 
 .actionButtons {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: spacing.$spacing-small;
 }
 
 .error {

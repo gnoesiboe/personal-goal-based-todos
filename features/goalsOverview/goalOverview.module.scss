@@ -1,5 +1,11 @@
+@use '../../styles/settings/spacing';
+
 .list {
-    margin: 0 0 20px;
-    padding: 0;
-    list-style: none;
+    margin: 0 0 spacing.$spacing-medium;
+    padding-left: 15px;
+
+    li {
+        padding-left: 5px;
+        margin: 0 0 spacing.$spacing-medium;
+    }
 }

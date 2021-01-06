@@ -1,3 +1,5 @@
+@use './settings/colors';
+
 @import '~normalize.css';
 
 html,
@@ -15,6 +17,7 @@ a {
 
 * {
     box-sizing: border-box;
+    color: colors.$third;
 }
 
 p {

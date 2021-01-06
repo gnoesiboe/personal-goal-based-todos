@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, ReactElement } from 'react';
+import React, { ButtonHTMLAttributes, ReactElement, ReactNode } from 'react';
 import createClassName from 'classnames';
 import classNames from './button.module.scss';
 
@@ -7,12 +7,19 @@ type Props = Omit<
     'children' | 'classname'
 > & {
     icon?: ReactElement;
-    children: string;
+    transparent?: true;
+    children: ReactNode;
 };
 
-const Button: React.FC<Props> = ({ icon, children, ...otherProps }) => {
+const Button: React.FC<Props> = ({
+    icon,
+    transparent,
+    children,
+    ...otherProps
+}) => {
     const className = createClassName(classNames.container, {
         [classNames.containerWithIcon]: !!icon,
+        [classNames.isTransparent]: transparent,
     });
 
     return (

@@ -1,9 +1,10 @@
 @use './../../styles/settings/layout' as *;
+@use './../../styles/settings/colors';
 
 $item-padding: $layout-default-side-gap / 2;
 
 .container {
-    background: #000;
+    background: colors.$third;
 }
 
 .list {
@@ -12,7 +13,6 @@ $item-padding: $layout-default-side-gap / 2;
     padding: 0 $item-padding;
     max-width: $layout-container-max-width;
     margin: 0 auto;
-    color: #fff;
     justify-content: flex-start;
 }
 
@@ -23,12 +23,18 @@ $item-padding: $layout-default-side-gap / 2;
 .item {
     display: block;
     padding: $item-padding;
+    transition: 0.3s;
+    color: #fff;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
     }
 }
 
 .currentItem {
-    color: green;
+    $-border-thickness: 5px;
+
+    color: colors.$fifth;
+    padding-bottom: $item-padding - $-border-thickness;
+    border-bottom: $-border-thickness solid #fff;
 }

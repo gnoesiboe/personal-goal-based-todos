@@ -10,16 +10,14 @@ type Props = {
 };
 
 const RolesOverview: React.FC<Props> = ({ roles }) => (
-    <>
-        <RoleList>
-            {roles.map((role) => (
-                <Role key={role.uid} role={role}>
-                    <GoalsOverview goals={role.goals} />
-                    <AddGoal role={role} />
-                </Role>
-            ))}
-        </RoleList>
-    </>
+    <RoleList>
+        {roles.map((role) => (
+            <Role key={role.uid} role={role}>
+                <GoalsOverview goals={role.goals} />
+                <AddGoal role={role} />
+            </Role>
+        ))}
+    </RoleList>
 );
 
 export default RolesOverview;

@@ -2,8 +2,20 @@
     border: 1px solid black;
     padding: 5px 10px;
     border-radius: 0;
+    cursor: pointer;
 
     * {
         margin-right: 5px;
+    }
+}
+
+.isTransparent {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+
+    &:focus {
+        outline: none !important;
     }
 }

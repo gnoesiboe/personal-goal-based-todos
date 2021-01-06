@@ -1,0 +1,11 @@
+@use '../../styles/settings/spacing';
+@use '../../styles/settings/colors';
+
+.container {
+    margin: 0 0 spacing.$spacing-medium;
+    color: colors.$third;
+}
+
+.isFlattened {
+    margin: 0;
+}
