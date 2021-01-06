@@ -5,6 +5,7 @@ import Heading from '../../../primitives/heading/Heading';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import Button from '../../../primitives/button/Button';
 import classNames from '../goalOverview.module.scss';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type Props = {
     goal: GoalModel;
@@ -34,11 +35,22 @@ const Goal: React.FC<Props> = ({ goal }) => {
                     </Heading>
                 </div>
             </Button>
-            {descriptionVisible && goal.description && (
-                <div className={classNames.goalDescription}>
-                    <p>{goal.description}</p>
-                </div>
-            )}
+            <AnimatePresence>
+                {descriptionVisible && goal.description && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{
+                            opacity: 0,
+                            height: 0,
+                            transition: { duration: 0.2 },
+                        }}
+                        className={classNames.goalDescription}
+                    >
+                        <p>{goal.description}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };
