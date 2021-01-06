@@ -7,7 +7,7 @@ type Props = Omit<
     'children' | 'classname' | 'style'
 > & {
     icon?: ReactElement;
-    style?: 'link';
+    style?: 'link' | 'primary';
     size?: 'normal' | 'small';
     transparent?: true;
     deflated?: true;
@@ -27,6 +27,7 @@ const Button: React.FC<Props> = ({
         [classNames.containerWithIcon]: !!icon,
         [classNames.isTransparent]: transparent,
         [classNames.isStyleLink]: style === 'link',
+        [classNames.isStylePrimary]: style === 'primary',
         [classNames.isDeflated]: deflated,
         [classNames.isSizeSmall]: size === 'small',
     });

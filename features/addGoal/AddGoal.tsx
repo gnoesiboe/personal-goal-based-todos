@@ -59,7 +59,11 @@ const AddGoal: React.FC<Props> = ({ role }) => {
                     onFieldKeyDown={onFieldKeyDown}
                 />
             ) : (
-                <Button icon={<PlusIcon />} onClick={() => showForm()}>
+                <Button
+                    icon={<PlusIcon />}
+                    onClick={() => showForm()}
+                    style="primary"
+                >
                     add goal
                 </Button>
             )}
