@@ -15,5 +15,11 @@
 }
 
 .goalDescription {
+    margin-bottom: spacing.$spacing-small;
+}
+
+.goalActions {
+    display: flex;
     margin-bottom: spacing.$spacing-large;
+    gap: spacing.$spacing-medium;
 }

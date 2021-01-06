@@ -13,7 +13,7 @@ const RolesOverview: React.FC<Props> = ({ roles }) => (
     <RoleList>
         {roles.map((role) => (
             <Role key={role.uid} role={role}>
-                <GoalsOverview goals={role.goals} />
+                <GoalsOverview role={role} goals={role.goals} />
                 <AddGoal role={role} />
             </Role>
         ))}

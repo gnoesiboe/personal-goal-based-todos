@@ -1,4 +1,4 @@
-import { RoleWithGoals } from './../model/role';
+import { Role, RoleWithGoals } from './../model/role';
 import firebase from 'firebase';
 import firebaseRoleToApplicationRoleConverter from '../firebase/converter/firebaseRoleToApplicationRoleConverter';
 import { GoalCollection } from '../model/goal';
@@ -37,26 +37,55 @@ export const fetchAllRolesWithGoalsForUser = async (
     return results;
 };
 
+const fetchRoleSnapshot = async (roleUid: string) => {
+    return await firebase
+        .firestore()
+        .collection(collectionName)
+        .doc(roleUid)
+        .withConverter(firebaseRoleToApplicationRoleConverter)
+        .get();
+};
+
 export const addGoalToRole = async (
-    roleId: string,
+    roleUid: string,
     title: string,
     description: string,
 ): Promise<boolean> => {
-    const role = await firebase
-        .firestore()
-        .collection(collectionName)
-        .doc(roleId)
-        .get();
+    const roleSnapshot = await fetchRoleSnapshot(roleUid);
 
-    if (!role.exists) {
+    if (!roleSnapshot) {
         return false;
     }
 
     try {
-        await role.ref.collection(goalsSubCollectionName).add({
+        await roleSnapshot.ref.collection(goalsSubCollectionName).add({
             title,
             description,
         });
+
+        return true;
+    } catch (error) {
+        // @todo error handling / notifying
+
+        return false;
+    }
+};
+
+export const removeGoalFromRole = async (
+    roleUid: string,
+    goalUid: string,
+): Promise<boolean> => {
+    const roleSnapshot = await fetchRoleSnapshot(roleUid);
+
+    if (!roleSnapshot) {
+        return false;
+    }
+
+    try {
+        await roleSnapshot.ref
+            .collection(goalsSubCollectionName)
+            .doc(goalUid)
+            .delete();
 
         return true;
     } catch (error) {

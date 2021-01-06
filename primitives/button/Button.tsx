@@ -9,6 +9,7 @@ type Props = Omit<
     icon?: ReactElement;
     style?: 'link';
     transparent?: true;
+    deflated?: true;
     children: ReactNode;
 };
 
@@ -16,6 +17,7 @@ const Button: React.FC<Props> = ({
     icon,
     style,
     transparent,
+    deflated,
     children,
     ...otherProps
 }) => {
@@ -23,6 +25,7 @@ const Button: React.FC<Props> = ({
         [classNames.containerWithIcon]: !!icon,
         [classNames.isTransparent]: transparent,
         [classNames.isStyleLink]: style === 'link',
+        [classNames.isDeflated]: deflated,
     });
 
     return (
