@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { RoleWithGoals } from '../../model/role';
 import AddGoal from '../addGoal/AddGoal';
-import AddRole from '../addRole/AddRole';
 import GoalsOverview from '../goalsOverview/GoalsOverview';
+import Role from './components/Role';
+import RoleList from './components/RoleList';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -10,17 +11,14 @@ type Props = {
 
 const RolesOverview: React.FC<Props> = ({ roles }) => (
     <>
-        <h1>Roles & Goals</h1>
-        <ul>
+        <RoleList>
             {roles.map((role) => (
-                <li key={role.uid}>
-                    <h2>{role.title}</h2>
+                <Role key={role.uid} role={role}>
                     <GoalsOverview goals={role.goals} />
                     <AddGoal role={role} />
-                </li>
+                </Role>
             ))}
-        </ul>
-        <AddRole />
+        </RoleList>
     </>
 );
 

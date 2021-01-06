@@ -8,6 +8,7 @@ import { cookieName } from '../context/authentication/hooks/usePersistCurrentUse
 import { User } from '../model/user';
 import RolesOverview from '../features/rolesOverview/RolesOverview';
 import { createMetaTitle } from '../utility/metaUtilities';
+import AddRole from '../features/addRole/AddRole';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -18,7 +19,9 @@ const GoalsAndRoles: React.FC<Props> = ({ roles }) => (
         <Head>
             <title>{createMetaTitle('Roles and Goals')}</title>
         </Head>
+        <h1>Roles & Goals</h1>
         <RolesOverview roles={roles} />
+        <AddRole />
     </div>
 );
 
