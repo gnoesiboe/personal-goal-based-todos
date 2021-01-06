@@ -2,6 +2,7 @@ import React, {
     ChangeEventHandler,
     FocusEventHandler,
     FormEventHandler,
+    KeyboardEventHandler,
     MouseEventHandler,
 } from 'react';
 import { FormErrors, FormTouched } from '../../hooks/useFormState';
@@ -16,6 +17,7 @@ export type FormValues = {
 type Props = {
     onSubmit: FormEventHandler<HTMLFormElement>;
     onFieldChange: ChangeEventHandler;
+    onFieldKeyDown: KeyboardEventHandler;
     onFieldBlur: FocusEventHandler;
     onCancelClick: MouseEventHandler<HTMLButtonElement>;
     values: FormValues;
@@ -28,6 +30,7 @@ type Props = {
 const GoalForm: React.FC<Props> = ({
     onSubmit,
     onFieldChange,
+    onFieldKeyDown,
     onFieldBlur,
     onCancelClick,
     values,
@@ -47,6 +50,7 @@ const GoalForm: React.FC<Props> = ({
                 onBlur={onFieldBlur}
                 disabled={disabled}
                 autoFocus
+                onKeyDown={onFieldKeyDown}
             />
             {touched.title && errors.title && (
                 <Form.Error>{errors.title}</Form.Error>
@@ -61,6 +65,7 @@ const GoalForm: React.FC<Props> = ({
                 onBlur={onFieldBlur}
                 disabled={disabled}
                 minRows={5}
+                onKeyDown={onFieldKeyDown}
             />
             {touched.description && errors.description && (
                 <Form.Error>{errors.description}</Form.Error>

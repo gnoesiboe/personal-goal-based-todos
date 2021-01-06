@@ -34,6 +34,7 @@ const AddGoal: React.FC<Props> = ({ role }) => {
         values,
         errors,
         onFieldChange,
+        onFieldKeyDown,
         touched,
         onFieldBlur,
         inputIsValid,
@@ -55,6 +56,7 @@ const AddGoal: React.FC<Props> = ({ role }) => {
                     touched={touched}
                     disabled={disabled}
                     inputIsValid={inputIsValid}
+                    onFieldKeyDown={onFieldKeyDown}
                 />
             ) : (
                 <Button icon={<PlusIcon />} onClick={() => showForm()}>

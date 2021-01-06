@@ -16,6 +16,7 @@ const EditGoal: React.FC<Props> = ({ role, goal, onDone }) => {
         values,
         errors,
         onFieldChange,
+        onFieldKeyDown,
         touched,
         onFieldBlur,
         inputIsValid,
@@ -33,6 +34,7 @@ const EditGoal: React.FC<Props> = ({ role, goal, onDone }) => {
             touched={touched}
             disabled={disabled}
             inputIsValid={inputIsValid}
+            onFieldKeyDown={onFieldKeyDown}
         />
     );
 };

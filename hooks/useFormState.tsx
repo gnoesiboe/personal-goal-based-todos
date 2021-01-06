@@ -2,6 +2,7 @@ import {
     ChangeEventHandler,
     FocusEventHandler,
     FormEventHandler,
+    KeyboardEventHandler,
     useEffect,
     useState,
 } from 'react';
@@ -86,9 +87,7 @@ export default function useFormState<
         setErrors({});
     };
 
-    const onSubmit: FormEventHandler = async (event) => {
-        event.preventDefault();
-
+    const submitForm = async () => {
         // when submitting, define every field as touched to make sure the
         // errors are shown
         setTouched(createTouched(keys, true));
@@ -106,6 +105,12 @@ export default function useFormState<
 
             return success;
         }
+    };
+
+    const onSubmit: FormEventHandler = async (event) => {
+        event.preventDefault();
+
+        submitForm();
     };
 
     const onFieldChange: ChangeEventHandler<HTMLElement> = (event) => {
@@ -140,6 +145,18 @@ export default function useFormState<
         checkInputIsValid();
     };
 
+    const onFieldKeyDown: KeyboardEventHandler = (event) => {
+        if (
+            event.key === 'Enter' &&
+            event.ctrlKey &&
+            !event.shiftKey &&
+            !event.altKey &&
+            !event.metaKey
+        ) {
+            submitForm();
+        }
+    };
+
     return {
         onSubmit,
         values,
@@ -149,5 +166,6 @@ export default function useFormState<
         onFieldBlur,
         inputIsValid,
         disabled,
+        onFieldKeyDown,
     };
 }
