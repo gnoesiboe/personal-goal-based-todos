@@ -67,7 +67,11 @@ const Goal: React.FC<Props> = ({ goal, role, children }) => {
                         }}
                         className={classNames.goalDescription}
                     >
-                        {goal.description && <p>{nl2br(goal.description)}</p>}
+                        {goal.description && (
+                            <p onDoubleClick={() => setIsEditing(true)}>
+                                {nl2br(goal.description)}
+                            </p>
+                        )}
                         <div className={classNames.goalActions}>
                             <EditGoalButton
                                 onClick={() => setIsEditing(true)}
