@@ -7,6 +7,7 @@ import useHandleFormEvents from './hooks/useHandleFormEvents';
 import Form from './../../primitives/form/Form';
 import usePersistNewGoal from './hooks/usePersistNewGoal';
 import useRefreshServerSideProps from '../../hooks/useRefetchServerSideProps';
+import useHideFormOnCancelClick from './hooks/useHideFormOnCancelClick';
 
 type Props = {
     role: Role;
@@ -39,6 +40,8 @@ const AddGoal: React.FC<Props> = ({ role }) => {
         disabled,
     } = useHandleFormEvents(role, onFormValid, onDone);
 
+    const onCancelClick = useHideFormOnCancelClick(hideForm);
+
     return (
         <>
             {formVisible ? (
@@ -52,6 +55,7 @@ const AddGoal: React.FC<Props> = ({ role }) => {
                             onChange={onFieldChange}
                             onBlur={onFieldBlur}
                             disabled={disabled}
+                            autoFocus
                         />
                         {touched.title && errors.title && (
                             <Form.Error>{errors.title}</Form.Error>
@@ -77,7 +81,7 @@ const AddGoal: React.FC<Props> = ({ role }) => {
                         >
                             Save
                         </Button>
-                        <Button type="button" onClick={() => hideForm()}>
+                        <Button type="button" onClick={onCancelClick}>
                             cancel
                         </Button>
                     </Form.ActionButtons>

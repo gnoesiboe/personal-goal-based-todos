@@ -1,29 +1,33 @@
 {
-  "name": "personal-goal-basted-todos",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "@primer/octicons-react": "^11.2.0",
-    "classnames": "^2.2.6",
-    "cookie": "^0.4.1",
-    "firebase": "^8.2.1",
-    "next": "10.0.4",
-    "normalize.css": "^8.0.1",
-    "react": "17.0.1",
-    "react-cookie": "^4.0.3",
-    "react-dom": "17.0.1",
-    "react-firebase-hooks": "^2.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.20",
-    "@types/react": "^17.0.0",
-    "sass": "^1.32.0",
-    "sass-mq": "^5.0.1",
-    "typescript": "^4.1.3"
-  }
+    "name": "personal-goal-basted-todos",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev:build:serve:watch": "next dev",
+        "dev:typescript:validate": "tsc --noEmit",
+        "dev:typescript:validate:watch": "tsc --noEmit --watch",
+        "prod:build": "next build",
+        "prod:start": "next start"
+    },
+    "dependencies": {
+        "@hapi/joi": "^17.1.1",
+        "@primer/octicons-react": "^11.2.0",
+        "classnames": "^2.2.6",
+        "cookie": "^0.4.1",
+        "firebase": "^8.2.1",
+        "next": "10.0.4",
+        "normalize.css": "^8.0.1",
+        "react": "17.0.1",
+        "react-cookie": "^4.0.3",
+        "react-dom": "17.0.1",
+        "react-firebase-hooks": "^2.2.0"
+    },
+    "devDependencies": {
+        "@types/hapi__joi": "^17.1.6",
+        "@types/node": "^14.14.20",
+        "@types/react": "^17.0.0",
+        "sass": "^1.32.0",
+        "sass-mq": "^5.0.1",
+        "typescript": "^4.1.3"
+    }
 }
