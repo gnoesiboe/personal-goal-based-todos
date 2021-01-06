@@ -11,16 +11,14 @@ type Props = {
 };
 
 const Role: React.FC<Props> = ({ role, children }) => (
-    <div className={classNames.container}>
-        <Island>
-            <div className={classNames.roleTypeIndicator}>
-                <PersonIcon />
-            </div>
-            <Heading tag="h2" style="secondary">
-                {role.title}
-            </Heading>
-            {children}
-        </Island>
+    <div className={classNames.roleContainer}>
+        <div className={classNames.roleTypeIndicator}>
+            <PersonIcon />
+        </div>
+        <Heading tag="h2" style="secondary">
+            {role.title}
+        </Heading>
+        {children}
     </div>
 );
 
