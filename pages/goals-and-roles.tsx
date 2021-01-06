@@ -1,28 +1,24 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import { useLoggedInUser } from '../context/authentication/AuthenticationContext';
 import { fetchAllRolesForUser } from '../repository/rolesRepository';
 import { GetServerSideProps, GetStaticProps } from 'next';
 import { Role } from '../model/role';
 import { getCookieValue } from '../utility/cookieUtilities';
 import { cookieName } from '../context/authentication/hooks/usePersistCurrentUserInCookie';
 import { User } from '../model/user';
+import RolesOverview from '../features/rolesOverview/RolesOverview';
+import { createMetaTitle } from '../utility/metaUtilities';
 
 type Props = {
     roles: Role[];
 };
 
-const Goals: React.FC<Props> = ({ roles }) => (
+const GoalsAndRoles: React.FC<Props> = ({ roles }) => (
     <div>
         <Head>
-            <title>Personal Goal based todos</title>
-            <link rel="icon" href="/favicon.ico" />
+            <title>{createMetaTitle('Roles and Goals')}</title>
         </Head>
-        <ul>
-            {roles.map((role) => (
-                <li key={role.uid}>{role.title}</li>
-            ))}
-        </ul>
+        <RolesOverview roles={roles} />
     </div>
 );
 
@@ -44,4 +40,4 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     };
 };
 
-export default Goals;
+export default GoalsAndRoles;

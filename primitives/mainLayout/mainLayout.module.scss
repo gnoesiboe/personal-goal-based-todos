@@ -1,4 +1,6 @@
 @use './../../styles/settings/layout' as *;
+@use './../../styles/settings/breakpoints';
+@import '~sass-mq';
 
 .container {
     display: grid;
@@ -14,7 +16,11 @@
 }
 
 .content {
-    max-width: $layout-container-max-width;
+    width: 100%;
     margin: 0 auto;
     padding: 0 $layout-default-side-gap;
+
+    @include mq($from: desktop) {
+        width: $layout-container-max-width;
+    }
 }

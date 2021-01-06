@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { useLoggedInUser } from '../context/authentication/AuthenticationContext';
+import { createMetaTitle } from '../utility/metaUtilities';
 
 const Home: React.FC = () => {
     const user = useLoggedInUser();
@@ -8,8 +9,7 @@ const Home: React.FC = () => {
     return (
         <div>
             <Head>
-                <title>Personal Goal based todos</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>{createMetaTitle('Todos')}</title>
             </Head>
             <p>Hello {user.name},</p>
             <p>

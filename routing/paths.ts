@@ -1,2 +1,2 @@
 export const home = '/';
-export const goals = '/goals';
+export const goalsAndRoles = '/goals-and-roles';

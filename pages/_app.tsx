@@ -5,20 +5,26 @@ import '../styles/globals.scss';
 import MainNavigation from '../features/mainNavigation/MainNavigation';
 import { AuthenticationContextProvider } from '../context/authentication/AuthenticationContext';
 import { initializeApp as initializeFirebaseApp } from '../firebase/app';
+import Head from 'next/head';
 
 initializeFirebaseApp();
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-    <AuthenticationContextProvider>
-        <MainLayout.Container>
-            <MainLayout.Header>
-                <MainNavigation />
-            </MainLayout.Header>
-            <MainLayout.Content>
-                <Component {...pageProps} />
-            </MainLayout.Content>
-        </MainLayout.Container>
-    </AuthenticationContextProvider>
+    <>
+        <Head>
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <AuthenticationContextProvider>
+            <MainLayout.Container>
+                <MainLayout.Header>
+                    <MainNavigation />
+                </MainLayout.Header>
+                <MainLayout.Content>
+                    <Component {...pageProps} />
+                </MainLayout.Content>
+            </MainLayout.Container>
+        </AuthenticationContextProvider>
+    </>
 );
 
 export default MyApp;
