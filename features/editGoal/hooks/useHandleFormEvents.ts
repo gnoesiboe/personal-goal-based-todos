@@ -40,6 +40,7 @@ export default function useHandleFormEvents(
     };
 
     return useFormState(['title', 'description'], validateInput, onFormValid, {
-        ...goal,
+        title: goal.title,
+        description: goal.description || '',
     });
 }

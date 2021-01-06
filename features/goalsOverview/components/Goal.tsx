@@ -10,6 +10,7 @@ import EditGoal from '../../editGoal/EditGoal';
 import { Role } from '../../../model/role';
 import useRefreshServerSideProps from '../../../hooks/useRefetchServerSideProps';
 import EditGoalButton from './EditGoalButton';
+import nl2br from 'react-nl2br';
 
 type Props = {
     goal: GoalModel;
@@ -66,7 +67,7 @@ const Goal: React.FC<Props> = ({ goal, role, children }) => {
                         }}
                         className={classNames.goalDescription}
                     >
-                        {goal.description && <p>{goal.description}</p>}
+                        {goal.description && <p>{nl2br(goal.description)}</p>}
                         <div className={classNames.goalActions}>
                             <EditGoalButton
                                 onClick={() => setIsEditing(true)}
