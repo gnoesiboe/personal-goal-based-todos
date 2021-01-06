@@ -4,6 +4,7 @@ import AddGoal from '../addGoal/AddGoal';
 import GoalsOverview from '../goalsOverview/GoalsOverview';
 import Role from './components/Role';
 import RoleList from './components/RoleList';
+import classNames from './rolesOverview.module.scss';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -14,7 +15,9 @@ const RolesOverview: React.FC<Props> = ({ roles }) => (
         {roles.map((role) => (
             <Role key={role.uid} role={role}>
                 <GoalsOverview role={role} goals={role.goals} />
-                <AddGoal role={role} />
+                <div className={classNames.roleActionButtons}>
+                    <AddGoal role={role} />
+                </div>
             </Role>
         ))}
     </RoleList>
