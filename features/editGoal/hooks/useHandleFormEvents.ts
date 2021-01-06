@@ -1,19 +1,16 @@
+import { updateGoalFromRole } from './../../../repository/rolesRepository';
 import useFormState, {
-    InputValidator,
     FormErrors,
+    InputValidator,
     OnFormValidHandler,
 } from '../../../hooks/useFormState';
+import { Goal } from '../../../model/goal';
 import { Role } from '../../../model/role';
 import { FormValues } from '../../goalForm/GoalForm';
 
-export type OnFormDataValidHandler = (
-    roleUid: string,
-    values: FormValues,
-) => Promise<boolean>;
-
 export default function useHandleFormEvents(
     role: Role,
-    onFormValidHandler: OnFormDataValidHandler,
+    goal: Goal,
     onDone: () => void,
 ) {
     const validateInput: InputValidator = <FormValues>(values) => {
@@ -28,7 +25,12 @@ export default function useHandleFormEvents(
     };
 
     const onFormValid: OnFormValidHandler<FormValues> = async (values) => {
-        const success = await onFormValidHandler(role.uid, values);
+        const success = await updateGoalFromRole(
+            role.uid,
+            goal.uid,
+            values.title,
+            values.description,
+        );
 
         if (success) {
             onDone();
@@ -37,5 +39,7 @@ export default function useHandleFormEvents(
         return success;
     };
 
-    return useFormState(['title', 'description'], validateInput, onFormValid);
+    return useFormState(['title', 'description'], validateInput, onFormValid, {
+        ...goal,
+    });
 }

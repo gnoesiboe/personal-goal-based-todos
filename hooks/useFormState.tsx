@@ -10,7 +10,7 @@ export type FormErrors<FormValues extends {}> = {
     [key in keyof FormValues]?: string;
 };
 
-type FormTouched<FormValues> = {
+export type FormTouched<FormValues> = {
     [key in keyof FormValues]: boolean;
 };
 

@@ -6,17 +6,35 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import Button from '../../../primitives/button/Button';
 import classNames from '../goalOverview.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
+import EditGoal from '../../editGoal/EditGoal';
+import { Role } from '../../../model/role';
+import useRefreshServerSideProps from '../../../hooks/useRefetchServerSideProps';
+import EditGoalButton from './EditGoalButton';
 
 type Props = {
     goal: GoalModel;
+    role: Role;
     children: ReactNode;
 };
 
-const Goal: React.FC<Props> = ({ goal, children }) => {
+const Goal: React.FC<Props> = ({ goal, role, children }) => {
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
     const {
         visible: detailsVisible,
         toggle: toggleDetailsVisible,
     } = useShowHide();
+
+    const refreshServerSideProps = useRefreshServerSideProps();
+
+    const onEditDone = () => {
+        setIsEditing(false);
+        refreshServerSideProps();
+    };
+
+    if (isEditing) {
+        return <EditGoal goal={goal} role={role} onDone={onEditDone} />;
+    }
 
     return (
         <>
@@ -24,14 +42,10 @@ const Goal: React.FC<Props> = ({ goal, children }) => {
                 <div className={classNames.goalHeader}>
                     <Heading tag="h3" flattened>
                         {goal.title}
-                        {goal.description && (
-                            <>
-                                {detailsVisible ? (
-                                    <ChevronUpIcon />
-                                ) : (
-                                    <ChevronDownIcon />
-                                )}
-                            </>
+                        {detailsVisible ? (
+                            <ChevronUpIcon />
+                        ) : (
+                            <ChevronDownIcon />
                         )}
                     </Heading>
                 </div>
@@ -53,7 +67,12 @@ const Goal: React.FC<Props> = ({ goal, children }) => {
                         className={classNames.goalDescription}
                     >
                         {goal.description && <p>{goal.description}</p>}
-                        <div className={classNames.goalActions}>{children}</div>
+                        <div className={classNames.goalActions}>
+                            <EditGoalButton
+                                onClick={() => setIsEditing(true)}
+                            />
+                            {children}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

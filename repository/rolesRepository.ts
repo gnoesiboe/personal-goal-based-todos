@@ -94,3 +94,29 @@ export const removeGoalFromRole = async (
         return false;
     }
 };
+
+export const updateGoalFromRole = async (
+    roleUid: string,
+    goalUid: string,
+    title: string,
+    description: string,
+): Promise<boolean> => {
+    const roleSnapshot = await fetchRoleSnapshot(roleUid);
+
+    if (!roleSnapshot) {
+        return false;
+    }
+
+    try {
+        await roleSnapshot.ref
+            .collection(goalsSubCollectionName)
+            .doc(goalUid)
+            .set({ title, description });
+
+        return true;
+    } catch (error) {
+        // @todo error handling / notifying
+
+        return false;
+    }
+};

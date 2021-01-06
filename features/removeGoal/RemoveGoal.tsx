@@ -19,6 +19,7 @@ const RemoveGoal: React.FC<Props> = ({ role, goal }) => {
             style="link"
             deflated
             onClick={onButtonClick}
+            size="small"
         >
             remove
         </Button>
