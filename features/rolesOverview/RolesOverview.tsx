@@ -1,18 +1,27 @@
 import React from 'react';
-import { Role } from '../../model/role';
+import { RoleWithGoals } from '../../model/role';
+import AddGoal from '../addGoal/AddGoal';
+import AddRole from '../addRole/AddRole';
+import GoalsOverview from '../goalsOverview/GoalsOverview';
 
 type Props = {
-    roles: Role[];
+    roles: RoleWithGoals[];
 };
 
-const RolesOverview: React.FC<Props> = ({ roles }) => {
-    return (
+const RolesOverview: React.FC<Props> = ({ roles }) => (
+    <>
+        <h1>Roles & Goals</h1>
         <ul>
             {roles.map((role) => (
-                <li key={role.uid}>{role.title}</li>
+                <li key={role.uid}>
+                    <h2>{role.title}</h2>
+                    <GoalsOverview goals={role.goals} />
+                    <AddGoal role={role} />
+                </li>
             ))}
         </ul>
-    );
-};
+        <AddRole />
+    </>
+);
 
 export default RolesOverview;

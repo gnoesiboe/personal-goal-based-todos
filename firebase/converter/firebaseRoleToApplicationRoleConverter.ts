@@ -17,7 +17,7 @@ const firebaseRoleToApplicationRoleConverter: firebase.firestore.FirestoreDataCo
         const data = snapshot.data(options) as RoleDocumentData;
 
         return {
-            uid: snapshot.id, // @todo get this from somewhere
+            uid: snapshot.id,
             title: data.title,
             userUid: data.user_uid,
         };

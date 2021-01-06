@@ -1,0 +1,18 @@
+$widget-text-spacing: 10px;
+
+.textWidget {
+    display: block;
+    width: 100%;
+    margin-bottom: $widget-text-spacing;
+    padding: 5px;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.error {
+    color: red;
+}

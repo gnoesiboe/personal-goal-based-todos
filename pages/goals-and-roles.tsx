@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import { fetchAllRolesForUser } from '../repository/rolesRepository';
+import { fetchAllRolesWithGoalsForUser } from '../repository/rolesRepository';
 import { GetServerSideProps, GetStaticProps } from 'next';
-import { Role } from '../model/role';
+import { RoleWithGoals } from '../model/role';
 import { getCookieValue } from '../utility/cookieUtilities';
 import { cookieName } from '../context/authentication/hooks/usePersistCurrentUserInCookie';
 import { User } from '../model/user';
@@ -10,7 +10,7 @@ import RolesOverview from '../features/rolesOverview/RolesOverview';
 import { createMetaTitle } from '../utility/metaUtilities';
 
 type Props = {
-    roles: Role[];
+    roles: RoleWithGoals[];
 };
 
 const GoalsAndRoles: React.FC<Props> = ({ roles }) => (
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 
     const currentUser: User = JSON.parse(value);
 
-    const roles = await fetchAllRolesForUser(currentUser.uid);
+    const roles = await fetchAllRolesWithGoalsForUser(currentUser.uid);
 
     return {
         props: { roles },
