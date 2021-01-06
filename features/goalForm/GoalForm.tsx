@@ -60,6 +60,7 @@ const GoalForm: React.FC<Props> = ({
                 onChange={onFieldChange}
                 onBlur={onFieldBlur}
                 disabled={disabled}
+                minRows={5}
             />
             {touched.description && errors.description && (
                 <Form.Error>{errors.description}</Form.Error>

@@ -5,6 +5,9 @@ import {
     TextareaHTMLAttributes,
 } from 'react';
 import classNames from './form.module.scss';
+import TextareaAutosize, {
+    TextareaAutosizeProps,
+} from 'react-textarea-autosize';
 
 type FormProps = FormHTMLAttributes<HTMLFormElement>;
 
@@ -18,13 +21,10 @@ const Input: React.FC<InputProps> = (props) => {
     return <input {...props} className={classNames.textWidget} />;
 };
 
-type TextAreaProps = Omit<
-    TextareaHTMLAttributes<HTMLTextAreaElement>,
-    'classname'
->;
+type TextAreaProps = Omit<TextareaAutosizeProps, 'classname'>;
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
-    return <textarea {...props} className={classNames.textWidget} />;
+    return <TextareaAutosize {...props} className={classNames.textWidget} />;
 };
 
 const ActionButtons: React.FC<{ children: ReactNode }> = ({ children }) => (

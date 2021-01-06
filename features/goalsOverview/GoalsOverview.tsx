@@ -1,7 +1,6 @@
 import React from 'react';
 import { Goal as GoalModel } from '../../model/goal';
 import { Role } from '../../model/role';
-import EditGoal from '../editGoal/EditGoal';
 import RemoveGoal from '../removeGoal/RemoveGoal';
 import Goal from './components/Goal';
 import GoalList from './components/GoalList';
