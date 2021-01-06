@@ -10,7 +10,9 @@ type Props = {
 
 const Role: React.FC<Props> = ({ role, children }) => (
     <Island>
-        <Heading tag="h2">{role.title}</Heading>
+        <Heading tag="h2" style="secondary">
+            {role.title}
+        </Heading>
         {children}
     </Island>
 );

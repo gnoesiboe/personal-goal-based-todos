@@ -2,10 +2,16 @@
 @use '../../styles/settings/colors';
 
 .container {
-    margin: 0 0 spacing.$spacing-medium;
+    margin: 0 0 spacing.$spacing-large;
     color: colors.$third;
 }
 
 .isFlattened {
     margin: 0;
+}
+
+.isStyleSecondary {
+    color: colors.$second;
+    border-bottom: 1px solid colors.$second;
+    padding-bottom: 10px;
 }
