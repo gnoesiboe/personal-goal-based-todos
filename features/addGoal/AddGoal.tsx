@@ -81,7 +81,11 @@ const AddGoal: React.FC<Props> = ({ role }) => {
                         >
                             Save
                         </Button>
-                        <Button type="button" onClick={onCancelClick}>
+                        <Button
+                            type="button"
+                            style="link"
+                            onClick={onCancelClick}
+                        >
                             cancel
                         </Button>
                     </Form.ActionButtons>

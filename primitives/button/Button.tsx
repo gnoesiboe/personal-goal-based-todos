@@ -4,15 +4,17 @@ import classNames from './button.module.scss';
 
 type Props = Omit<
     ButtonHTMLAttributes<HTMLButtonElement>,
-    'children' | 'classname'
+    'children' | 'classname' | 'style'
 > & {
     icon?: ReactElement;
+    style?: 'link';
     transparent?: true;
     children: ReactNode;
 };
 
 const Button: React.FC<Props> = ({
     icon,
+    style,
     transparent,
     children,
     ...otherProps
@@ -20,6 +22,7 @@ const Button: React.FC<Props> = ({
     const className = createClassName(classNames.container, {
         [classNames.containerWithIcon]: !!icon,
         [classNames.isTransparent]: transparent,
+        [classNames.isStyleLink]: style === 'link',
     });
 
     return (
