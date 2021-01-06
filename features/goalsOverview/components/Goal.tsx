@@ -4,6 +4,7 @@ import { Goal as GoalModel } from '../../../model/goal';
 import Heading from '../../../primitives/heading/Heading';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import Button from '../../../primitives/button/Button';
+import classNames from '../goalOverview.module.scss';
 
 type Props = {
     goal: GoalModel;
@@ -18,21 +19,25 @@ const Goal: React.FC<Props> = ({ goal }) => {
     return (
         <>
             <Button onClick={() => toggleDescription()} transparent>
-                <Heading tag="h3" flattened>
-                    {goal.title}
-                    {goal.description && (
-                        <>
-                            {descriptionVisible ? (
-                                <ChevronUpIcon />
-                            ) : (
-                                <ChevronDownIcon />
-                            )}
-                        </>
-                    )}
-                </Heading>
+                <div className={classNames.goalHeader}>
+                    <Heading tag="h3" flattened>
+                        {goal.title}
+                        {goal.description && (
+                            <>
+                                {descriptionVisible ? (
+                                    <ChevronUpIcon />
+                                ) : (
+                                    <ChevronDownIcon />
+                                )}
+                            </>
+                        )}
+                    </Heading>
+                </div>
             </Button>
             {descriptionVisible && goal.description && (
-                <p>{goal.description}</p>
+                <div className={classNames.goalDescription}>
+                    <p>{goal.description}</p>
+                </div>
             )}
         </>
     );
