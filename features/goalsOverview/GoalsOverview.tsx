@@ -1,19 +1,18 @@
 import React from 'react';
-import { Goal } from '../../model/goal';
+import { Goal as GoalModel } from '../../model/goal';
+import Goal from './components/Goal';
+import GoalList from './components/GoalList';
 
 type Props = {
-    goals: Goal[];
+    goals: GoalModel[];
 };
 
 const GoalsOverview: React.FC<Props> = ({ goals }) => (
-    <ul>
+    <GoalList>
         {goals.map((goal) => (
-            <li key={goal.uid}>
-                <h3>{goal.title}</h3>
-                {goal.description && <p>{goal.description}</p>}
-            </li>
+            <Goal goal={goal} key={goal.uid} />
         ))}
-    </ul>
+    </GoalList>
 );
 
 export default GoalsOverview;
