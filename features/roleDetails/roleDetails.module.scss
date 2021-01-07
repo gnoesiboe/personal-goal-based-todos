@@ -5,8 +5,12 @@
     margin-bottom: 10px;
 }
 
+.header {
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
 .actionButtons {
     display: flex;
     gap: spacing.$spacing-small;
-    margin-bottom: spacing.$spacing-large;
 }

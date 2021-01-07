@@ -26,21 +26,27 @@ const RoleDetails: React.FC<Props> = ({ role }) => {
 
     return (
         <div className={classNames.container} id={createSlug(role.title)}>
-            {isEditing ? (
-                <EditRole role={role} onDone={onEditDone} />
-            ) : (
-                <Heading tag="h2" style="secondary">
-                    {role.title}
-                </Heading>
-            )}
+            <div className={classNames.header}>
+                {isEditing ? (
+                    <EditRole role={role} onDone={onEditDone} />
+                ) : (
+                    <>
+                        <Heading tag="h2" style="secondary">
+                            {role.title}
+                        </Heading>
+                        <div className={classNames.actionButtons}>
+                            <EditRoleButton
+                                onClick={() => setIsEditing(true)}
+                            />
+                            <RemoveRole role={role} />
+                        </div>
+                    </>
+                )}
+            </div>
 
             <GoalsOverview role={role} goals={role.goals} />
             {!isEditing && (
                 <>
-                    <div className={classNames.actionButtons}>
-                        <EditRoleButton onClick={() => setIsEditing(true)} />
-                        <RemoveRole role={role} />
-                    </div>
                     <AddGoal role={role} />
                 </>
             )}

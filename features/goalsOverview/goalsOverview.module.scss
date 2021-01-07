@@ -1,5 +1,12 @@
 @use '../../styles/settings/spacing';
 
+.introduction {
+    strong {
+        padding: 0 5px;
+        background: rgba(0, 0, 0, 0.1);
+    }
+}
+
 .list {
     margin: 0 0 spacing.$spacing-medium;
     padding-left: 15px;

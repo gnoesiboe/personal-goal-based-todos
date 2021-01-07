@@ -3,6 +3,7 @@ import { Goal as GoalModel } from '../../model/goal';
 import { Role } from '../../model/role';
 import GoalDetails from '../goalDetails/GoalDetails';
 import GoalList from './components/GoalList';
+import classNames from './goalsOverview.module.scss';
 
 type Props = {
     goals: GoalModel[];
@@ -11,8 +12,10 @@ type Props = {
 
 const GoalsOverview: React.FC<Props> = ({ goals, role }) => (
     <>
-        <p>
-            Ik wil een <i>{role.title.toLowerCase()}</i> zijn die...
+        <p className={classNames.introduction}>
+            <strong>
+                Ik wil een <i>{role.title.toLowerCase()}</i> zijn die...
+            </strong>
         </p>
         <GoalList>
             {goals.map((goal) => (
