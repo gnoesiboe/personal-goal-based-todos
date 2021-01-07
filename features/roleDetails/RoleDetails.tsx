@@ -1,7 +1,6 @@
-import { Role as RoleModel, RoleWithGoals } from '../../model/role';
+import { RoleWithGoals } from '../../model/role';
 import React, { useState } from 'react';
 import Heading from '../../primitives/heading/Heading';
-import { PersonIcon } from '@primer/octicons-react';
 import classNames from './roleDetails.module.scss';
 import { createSlug } from '../../utility/stringUtilities';
 import GoalsOverview from '../goalsOverview/GoalsOverview';
@@ -27,9 +26,6 @@ const RoleDetails: React.FC<Props> = ({ role }) => {
 
     return (
         <div className={classNames.container} id={createSlug(role.title)}>
-            <div className={classNames.typeIndicator}>
-                <PersonIcon />
-            </div>
             {isEditing ? (
                 <EditRole role={role} onDone={onEditDone} />
             ) : (
