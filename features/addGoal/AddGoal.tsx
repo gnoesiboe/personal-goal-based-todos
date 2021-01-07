@@ -43,31 +43,27 @@ const AddGoal: React.FC<Props> = ({ role }) => {
 
     const onCancelClick = useHideFormOnCancelClick(hideForm);
 
+    if (formVisible) {
+        return (
+            <GoalForm
+                onSubmit={onSubmit}
+                onFieldChange={onFieldChange}
+                onFieldBlur={onFieldBlur}
+                onCancelClick={onCancelClick}
+                values={values}
+                errors={errors}
+                touched={touched}
+                disabled={disabled}
+                inputIsValid={inputIsValid}
+                onFieldKeyDown={onFieldKeyDown}
+            />
+        );
+    }
+
     return (
-        <>
-            {formVisible ? (
-                <GoalForm
-                    onSubmit={onSubmit}
-                    onFieldChange={onFieldChange}
-                    onFieldBlur={onFieldBlur}
-                    onCancelClick={onCancelClick}
-                    values={values}
-                    errors={errors}
-                    touched={touched}
-                    disabled={disabled}
-                    inputIsValid={inputIsValid}
-                    onFieldKeyDown={onFieldKeyDown}
-                />
-            ) : (
-                <Button
-                    icon={<PlusIcon />}
-                    onClick={() => showForm()}
-                    style="primary"
-                >
-                    add goal
-                </Button>
-            )}
-        </>
+        <Button icon={<PlusIcon />} onClick={() => showForm()} style="primary">
+            add goal
+        </Button>
     );
 };
 

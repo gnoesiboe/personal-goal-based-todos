@@ -1,5 +1,5 @@
 import { title } from 'process';
-import { addGoalToRole } from '../../../repository/rolesRepository';
+import { persistNewGoalForRole } from '../../../repository/rolesRepository';
 import { OnFormDataValidHandler } from './useHandleFormEvents';
 
 export default function usePersistNewGoal() {
@@ -7,7 +7,11 @@ export default function usePersistNewGoal() {
         roleUid,
         values,
     ): Promise<boolean> => {
-        return addGoalToRole(roleUid, values.title, values.description || null);
+        return persistNewGoalForRole(
+            roleUid,
+            values.title,
+            values.description || null,
+        );
     };
 
     return { onFormValid };

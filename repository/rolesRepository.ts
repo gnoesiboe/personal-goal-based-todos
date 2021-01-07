@@ -37,6 +37,24 @@ export const fetchAllRolesWithGoalsForUser = async (
     return results;
 };
 
+export const persistNewRole = async (
+    title: string,
+    userUid: string,
+): Promise<boolean> => {
+    try {
+        await firebase.firestore().collection(collectionName).add({
+            title,
+            user_uid: userUid,
+        });
+
+        return true;
+    } catch (error) {
+        // @todo error handling / notifying
+
+        return false;
+    }
+};
+
 const fetchRoleSnapshot = async (roleUid: string) => {
     return await firebase
         .firestore()
@@ -46,7 +64,7 @@ const fetchRoleSnapshot = async (roleUid: string) => {
         .get();
 };
 
-export const addGoalToRole = async (
+export const persistNewGoalForRole = async (
     roleUid: string,
     title: string,
     description: string,
