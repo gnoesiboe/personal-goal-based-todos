@@ -11,6 +11,7 @@ import { Role } from '../../../model/role';
 import useRefreshServerSideProps from '../../../hooks/useRefetchServerSideProps';
 import EditGoalButton from './EditGoalButton';
 import nl2br from 'react-nl2br';
+import GoalDescriptionOpenedIndicator from './GoalDescriptionOpenedIndicator';
 
 type Props = {
     goal: GoalModel;
@@ -43,11 +44,9 @@ const Goal: React.FC<Props> = ({ goal, role, children }) => {
                 <div className={classNames.goalHeader}>
                     <Heading tag="h3" flattened>
                         {goal.title}
-                        {detailsVisible ? (
-                            <ChevronUpIcon />
-                        ) : (
-                            <ChevronDownIcon />
-                        )}
+                        <GoalDescriptionOpenedIndicator
+                            detailsVisible={detailsVisible}
+                        />
                     </Heading>
                 </div>
             </Button>

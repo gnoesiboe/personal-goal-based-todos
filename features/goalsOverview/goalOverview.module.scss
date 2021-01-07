@@ -24,3 +24,8 @@
     margin-bottom: spacing.$spacing-large;
     gap: spacing.$spacing-medium;
 }
+
+.goalDescriptionOpenedIndicator {
+    display: inline-block;
+    margin-left: 3px;
+}
