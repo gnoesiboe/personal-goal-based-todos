@@ -1,6 +1,5 @@
 import { Role as RoleModel } from '../../../model/role';
 import React from 'react';
-import Island from '../../../primitives/island/Island';
 import Heading from '../../../primitives/heading/Heading';
 import { PersonIcon } from '@primer/octicons-react';
 import classNames from '../rolesOverview.module.scss';
