@@ -2,7 +2,7 @@ import { createTimestamp } from './../utility/dateTimeUtilities';
 import { Role, RoleWithGoals } from './../model/role';
 import firebase from 'firebase';
 import firebaseRoleToApplicationRoleConverter from '../firebase/converter/firebaseRoleToApplicationRoleConverter';
-import { GoalCollection } from '../model/goal';
+import { Goal, GoalCollection } from '../model/goal';
 import firebaseGoalToApplicationGoalConverter from '../firebase/converter/firebaseGoalToApplicationGoalConverter';
 
 const collectionName = 'roles';
@@ -120,9 +120,7 @@ export const removeGoalFromRole = async (
 
 export const updateGoalFromRole = async (
     roleUid: string,
-    goalUid: string,
-    title: string,
-    description: string,
+    updatedGoal: Goal,
 ): Promise<boolean> => {
     const roleSnapshot = await fetchRoleSnapshot(roleUid);
 
@@ -133,8 +131,8 @@ export const updateGoalFromRole = async (
     try {
         await roleSnapshot.ref
             .collection(goalsSubCollectionName)
-            .doc(goalUid)
-            .set({ title, description });
+            .doc(updatedGoal.uid)
+            .set(updatedGoal);
 
         return true;
     } catch (error) {

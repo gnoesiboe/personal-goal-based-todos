@@ -4,6 +4,7 @@ import { Goal } from '../../model/goal';
 interface GoalDocumentData {
     title: string;
     description: string | null;
+    timestamp: number;
 }
 
 const firebaseGoalToApplicationGoalConverter: firebase.firestore.FirestoreDataConverter<Goal> = {
@@ -11,6 +12,7 @@ const firebaseGoalToApplicationGoalConverter: firebase.firestore.FirestoreDataCo
         return {
             title: goal.title,
             description: goal.description,
+            timestamp: goal.timestamp,
         };
     },
     fromFirestore: function (snapshot, options) {
@@ -20,6 +22,7 @@ const firebaseGoalToApplicationGoalConverter: firebase.firestore.FirestoreDataCo
             uid: snapshot.id,
             title: data.title,
             description: data.description,
+            timestamp: data.timestamp,
         };
     },
 };

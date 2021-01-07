@@ -25,12 +25,10 @@ export default function useHandleFormEvents(
     };
 
     const onFormValid: OnFormValidHandler<FormValues> = async (values) => {
-        const success = await updateGoalFromRole(
-            role.uid,
-            goal.uid,
-            values.title,
-            values.description,
-        );
+        const success = await updateGoalFromRole(role.uid, {
+            ...goal,
+            ...values,
+        });
 
         if (success) {
             onDone();
