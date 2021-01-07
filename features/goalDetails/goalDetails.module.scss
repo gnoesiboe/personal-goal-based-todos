@@ -1,0 +1,21 @@
+@use '../../styles/settings/spacing';
+
+.header {
+    margin-bottom: spacing.$spacing-small;
+    text-align: left;
+}
+
+.description {
+    margin-bottom: spacing.$spacing-small;
+}
+
+.actions {
+    display: flex;
+    margin-bottom: spacing.$spacing-large;
+    gap: spacing.$spacing-medium;
+}
+
+.descriptionOpenedIndicator {
+    display: inline-block;
+    margin-left: 3px;
+}

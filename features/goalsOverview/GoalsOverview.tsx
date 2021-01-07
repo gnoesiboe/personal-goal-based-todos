@@ -1,8 +1,7 @@
 import React from 'react';
 import { Goal as GoalModel } from '../../model/goal';
 import { Role } from '../../model/role';
-import RemoveGoal from '../removeGoal/RemoveGoal';
-import Goal from './components/Goal';
+import GoalDetails from '../goalDetails/GoalDetails';
 import GoalList from './components/GoalList';
 
 type Props = {
@@ -17,9 +16,7 @@ const GoalsOverview: React.FC<Props> = ({ goals, role }) => (
         </p>
         <GoalList>
             {goals.map((goal) => (
-                <Goal goal={goal} role={role} key={goal.uid}>
-                    <RemoveGoal role={role} goal={goal} />
-                </Goal>
+                <GoalDetails goal={goal} role={role} key={goal.uid} />
             ))}
         </GoalList>
     </>

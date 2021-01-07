@@ -9,23 +9,3 @@
         margin: 0 0 spacing.$spacing-small;
     }
 }
-
-.goalHeader {
-    margin-bottom: spacing.$spacing-small;
-    text-align: left;
-}
-
-.goalDescription {
-    margin-bottom: spacing.$spacing-small;
-}
-
-.goalActions {
-    display: flex;
-    margin-bottom: spacing.$spacing-large;
-    gap: spacing.$spacing-medium;
-}
-
-.goalDescriptionOpenedIndicator {
-    display: inline-block;
-    margin-left: 3px;
-}
