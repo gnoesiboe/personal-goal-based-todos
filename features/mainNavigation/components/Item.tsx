@@ -9,11 +9,14 @@ type Props = {
     path: string;
 };
 
-const ListItem: React.FC<Props> = ({ title, path }) => {
+const Item: React.FC<Props> = ({ title, path }) => {
     const router = useRouter();
 
+    // remove anchors if any
+    const currentPath = router.asPath.split('#')[0];
+
     const className = createClassName(classNames.item, {
-        [classNames.currentItem]: router.asPath === path,
+        [classNames.currentItem]: currentPath === path,
     });
 
     return (
@@ -23,4 +26,4 @@ const ListItem: React.FC<Props> = ({ title, path }) => {
     );
 };
 
-export default ListItem;
+export default Item;
