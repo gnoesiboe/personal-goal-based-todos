@@ -1,0 +1,24 @@
+@use './../../styles/settings/breakpoints';
+@use './../../styles/settings/spacing';
+@import '~sass-mq';
+
+.container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.actionButtons {
+    margin-left: 20px;
+    display: flex;
+    gap: spacing.$spacing-small;
+}
+
+.typeIndicator {
+    display: none;
+    position: absolute;
+    left: -45px;
+
+    @include mq($from: desktop) {
+        display: block;
+    }
+}

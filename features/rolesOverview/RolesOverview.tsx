@@ -1,14 +1,10 @@
-import React, { Fragment, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { RoleWithGoals } from '../../model/role';
 import Heading from '../../primitives/heading/Heading';
-import Island from '../../primitives/island/Island';
 import MainLayout from '../../primitives/mainLayout/MainLayout';
-import AddGoal from '../addGoal/AddGoal';
-import GoalsOverview from '../goalsOverview/GoalsOverview';
 import RoleSubNavagation from '../roleSubNavigation/roleSubNavigation';
-import Role from './components/Role';
+import RoleDetails from '../roleDetails/RoleDetails';
 import RoleList from './components/RoleList';
-import classNames from './rolesOverview.module.scss';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -25,12 +21,7 @@ const RolesOverview: React.FC<Props> = ({ roles, children }) => (
         <MainLayout.ContentMain>
             <RoleList>
                 {roles.map((role) => (
-                    <Role key={role.uid} role={role}>
-                        <GoalsOverview role={role} goals={role.goals} />
-                        <div className={classNames.roleActionButtons}>
-                            <AddGoal role={role} />
-                        </div>
-                    </Role>
+                    <RoleDetails key={role.uid} role={role} />
                 ))}
             </RoleList>
             {children}
