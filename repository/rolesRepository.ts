@@ -59,6 +59,25 @@ export const persistNewRole = async (
     }
 };
 
+export const persistRoleUpdates = async (
+    updatedRole: Role,
+): Promise<boolean> => {
+    try {
+        await firebase
+            .firestore()
+            .collection(collectionName)
+            .doc(updatedRole.uid)
+            .withConverter(firebaseRoleToApplicationRoleConverter)
+            .set(updatedRole);
+
+        return true;
+    } catch (error) {
+        // @todo error handling / notifying
+
+        return false;
+    }
+};
+
 const fetchRoleSnapshot = async (roleUid: string) => {
     return await firebase
         .firestore()

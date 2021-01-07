@@ -8,9 +8,9 @@
 }
 
 .actionButtons {
-    margin-left: 20px;
     display: flex;
     gap: spacing.$spacing-small;
+    margin-bottom: spacing.$spacing-large;
 }
 
 .typeIndicator {
