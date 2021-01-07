@@ -51,7 +51,7 @@ const AddRole: React.FC = () => {
 
     return (
         <Button icon={<PlusIcon />} style="primary" onClick={() => showForm()}>
-            Add role
+            rol toevoegen
         </Button>
     );
 };

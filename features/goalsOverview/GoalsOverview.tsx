@@ -11,13 +11,18 @@ type Props = {
 };
 
 const GoalsOverview: React.FC<Props> = ({ goals, role }) => (
-    <GoalList>
-        {goals.map((goal) => (
-            <Goal goal={goal} role={role} key={goal.uid}>
-                <RemoveGoal role={role} goal={goal} />
-            </Goal>
-        ))}
-    </GoalList>
+    <>
+        <p>
+            Ik wil een <i>{role.title.toLowerCase()}</i> zijn die...
+        </p>
+        <GoalList>
+            {goals.map((goal) => (
+                <Goal goal={goal} role={role} key={goal.uid}>
+                    <RemoveGoal role={role} goal={goal} />
+                </Goal>
+            ))}
+        </GoalList>
+    </>
 );
 
 export default GoalsOverview;

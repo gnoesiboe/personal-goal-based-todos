@@ -62,7 +62,7 @@ const AddGoal: React.FC<Props> = ({ role }) => {
 
     return (
         <Button icon={<PlusIcon />} onClick={() => showForm()} style="primary">
-            add goal
+            doel toevoegen
         </Button>
     );
 };

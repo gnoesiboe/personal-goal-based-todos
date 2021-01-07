@@ -19,7 +19,7 @@ const RolesOverview: React.FC<Props> = ({ roles, children }) => (
     <MainLayout.Body>
         <MainLayout.ContentHeader>
             <Heading tag="h1" flattened>
-                Roles & Goals
+                Rollen en bijbehorende doelen
             </Heading>
         </MainLayout.ContentHeader>
         <MainLayout.ContentMain>

@@ -17,7 +17,7 @@ const RoleSubNavagation: React.FC<Props> = ({ roles }) => {
         <Island className={classNames.container}>
             <div className={classNames.header}>
                 <Heading tag="h3" style="secondary">
-                    Roles
+                    Mijn rollen
                 </Heading>
             </div>
             <ul className={classNames.list}>
