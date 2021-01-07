@@ -12,6 +12,7 @@ import EditGoalButton from '../goalsOverview/components/EditGoalButton';
 import nl2br from 'react-nl2br';
 import DescriptionOpenedIndicator from './components/DescriptionOpenedIndicator';
 import RemoveGoal from '../removeGoal/RemoveGoal';
+import Title from './components/Title';
 
 type Props = {
     goal: GoalModel;
@@ -41,12 +42,11 @@ const GoalDetails: React.FC<Props> = ({ goal, role }) => {
         <>
             <Button onClick={() => toggleDetailsVisible()} transparent>
                 <div className={classNames.header}>
-                    <Heading tag="h3" flattened>
-                        {goal.title}
+                    <Title goal={goal}>
                         <DescriptionOpenedIndicator
                             detailsVisible={detailsVisible}
                         />
-                    </Heading>
+                    </Title>
                 </div>
             </Button>
             <AnimatePresence>

@@ -5,6 +5,14 @@
     text-align: left;
 }
 
+.title {
+    em {
+        margin: 0;
+        text-decoration: underline;
+        font-style: normal;
+    }
+}
+
 .description {
     margin-bottom: spacing.$spacing-small;
 }
