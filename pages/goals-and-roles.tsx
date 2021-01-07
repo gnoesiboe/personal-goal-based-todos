@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { fetchAllRolesWithGoalsForUser } from '../repository/rolesRepository';
+import { fetchAllRolesWithGoalsForUserOrderedByTimestamp } from '../repository/rolesRepository';
 import { GetServerSideProps, GetStaticProps } from 'next';
 import { RoleWithGoals } from '../model/role';
 import { getCookieValue } from '../utility/cookieUtilities';
@@ -36,7 +36,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 
     const currentUser: User = JSON.parse(value);
 
-    const roles = await fetchAllRolesWithGoalsForUser(currentUser.uid);
+    const roles = await fetchAllRolesWithGoalsForUserOrderedByTimestamp(
+        currentUser.uid,
+    );
 
     return {
         props: { roles },
