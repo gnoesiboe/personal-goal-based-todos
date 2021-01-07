@@ -4,7 +4,7 @@ import { Goal as GoalModel } from '../../../model/goal';
 import Heading from '../../../primitives/heading/Heading';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import Button from '../../../primitives/button/Button';
-import classNames from '../goalOverview.module.scss';
+import classNames from '../goalsOverview.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 import EditGoal from '../../editGoal/EditGoal';
 import { Role } from '../../../model/role';

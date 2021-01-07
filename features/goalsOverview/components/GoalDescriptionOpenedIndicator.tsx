@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
-import classNames from '../goalOverview.module.scss';
+import classNames from '../goalsOverview.module.scss';
 
 type Props = {
     detailsVisible: boolean;

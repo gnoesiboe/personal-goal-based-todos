@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import classNames from './../goalOverview.module.scss';
+import classNames from './../goalsOverview.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 
 type Props = {
