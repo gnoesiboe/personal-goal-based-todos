@@ -4,6 +4,7 @@ import Island from '../../../primitives/island/Island';
 import Heading from '../../../primitives/heading/Heading';
 import { PersonIcon } from '@primer/octicons-react';
 import classNames from '../rolesOverview.module.scss';
+import { createSlug } from '../../../utility/stringUtilities';
 
 type Props = {
     role: RoleModel;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const Role: React.FC<Props> = ({ role, children }) => (
-    <div className={classNames.roleContainer}>
+    <div className={classNames.roleContainer} id={createSlug(role.title)}>
         <div className={classNames.roleTypeIndicator}>
             <PersonIcon />
         </div>

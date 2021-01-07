@@ -3,6 +3,7 @@ import { Role } from '../../model/role';
 import { Goal } from '../../model/goal';
 import GoalForm from '../goalForm/GoalForm';
 import useHandleFormEvents from './hooks/useHandleFormEvents';
+import classNames from './editGoal.module.scss';
 
 type Props = {
     role: Role;
@@ -24,18 +25,20 @@ const EditGoal: React.FC<Props> = ({ role, goal, onDone }) => {
     } = useHandleFormEvents(role, goal, onDone);
 
     return (
-        <GoalForm
-            onSubmit={onSubmit}
-            onFieldChange={onFieldChange}
-            onFieldBlur={onFieldBlur}
-            onCancelClick={() => onDone()}
-            values={values}
-            errors={errors}
-            touched={touched}
-            disabled={disabled}
-            inputIsValid={inputIsValid}
-            onFieldKeyDown={onFieldKeyDown}
-        />
+        <div className={classNames.container}>
+            <GoalForm
+                onSubmit={onSubmit}
+                onFieldChange={onFieldChange}
+                onFieldBlur={onFieldBlur}
+                onCancelClick={() => onDone()}
+                values={values}
+                errors={errors}
+                touched={touched}
+                disabled={disabled}
+                inputIsValid={inputIsValid}
+                onFieldKeyDown={onFieldKeyDown}
+            />
+        </div>
     );
 };
 

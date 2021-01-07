@@ -19,9 +19,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
                 <MainLayout.Header>
                     <MainNavigation />
                 </MainLayout.Header>
-                <MainLayout.Content>
-                    <Component {...pageProps} />
-                </MainLayout.Content>
+                <Component {...pageProps} />
             </MainLayout.Container>
         </AuthenticationContextProvider>
     </>

@@ -1,0 +1,29 @@
+@use './../../styles/settings/breakpoints';
+@import '~sass-mq';
+
+.container {
+    @include mq($from: desktop) {
+        position: sticky;
+        top: 60px;
+        left: 0;
+    }
+}
+
+.header {
+    display: none;
+
+    @include mq($from: desktop) {
+        display: block;
+    }
+}
+
+.list {
+    padding: 0 0 0 15px;
+    margin: 0;
+}
+
+.anchor {
+    &:hover {
+        text-decoration: underline;
+    }
+}

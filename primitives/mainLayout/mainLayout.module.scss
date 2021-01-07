@@ -1,5 +1,7 @@
 @use './../../styles/settings/layout' as *;
 @use './../../styles/settings/breakpoints';
+@use './../../styles/settings/spacing';
+@use './../../styles/settings/z-index';
 @import '~sass-mq';
 
 .container {
@@ -11,17 +13,42 @@
 .header {
     display: block;
     position: sticky;
+    z-index: z-index.$z-index-main-header;
     top: 0;
     height: auto;
     margin-bottom: 50px;
 }
 
-.content {
+.body {
     width: 100%;
     margin: 0 auto;
     padding: 0 $layout-default-side-gap $layout-default-side-gap;
+    display: grid;
+    gap: spacing.$spacing-medium;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'contentHeader'
+        'contentSidebar'
+        'contentMain ';
 
     @include mq($from: desktop) {
         width: $layout-container-max-width;
+        grid-template-areas:
+            'contentHeader contentHeader'
+            'contentMain contentSidebar';
+        grid-template-columns: 3fr 1fr;
     }
+}
+
+.contentHeader {
+    grid-area: contentHeader;
+    padding-bottom: spacing.$spacing-large;
+}
+
+.contentSidebar {
+    grid-area: contentSidebar;
+}
+
+.contentMain {
+    grid-area: contentMain;
 }
