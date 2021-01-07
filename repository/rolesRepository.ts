@@ -78,6 +78,22 @@ export const persistRoleUpdates = async (
     }
 };
 
+export const removeRole = async (roleUid: string): Promise<boolean> => {
+    try {
+        await firebase
+            .firestore()
+            .collection(collectionName)
+            .doc(roleUid)
+            .delete();
+
+        return true;
+    } catch (error) {
+        // @todo error handling / notifying
+
+        return false;
+    }
+};
+
 const fetchRoleSnapshot = async (roleUid: string) => {
     return await firebase
         .firestore()

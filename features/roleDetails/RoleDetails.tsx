@@ -9,6 +9,7 @@ import AddGoal from '../addGoal/AddGoal';
 import EditRoleButton from './components/EditRoleButton';
 import EditRole from '../editRole/EditRole';
 import useRefreshServerSideProps from '../../hooks/useRefetchServerSideProps';
+import RemoveRole from '../removeRole/RemoveRole';
 
 type Props = {
     role: RoleWithGoals;
@@ -42,6 +43,7 @@ const RoleDetails: React.FC<Props> = ({ role }) => {
                 <>
                     <div className={classNames.actionButtons}>
                         <EditRoleButton onClick={() => setIsEditing(true)} />
+                        <RemoveRole role={role} />
                     </div>
                     <AddGoal role={role} />
                 </>

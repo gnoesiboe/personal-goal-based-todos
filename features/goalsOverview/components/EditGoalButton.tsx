@@ -14,7 +14,7 @@ const EditGoalButton: React.FC<Props> = ({ onClick }) => (
         size="small"
         onClick={onClick}
     >
-        edit
+        wijzigen
     </Button>
 );
 

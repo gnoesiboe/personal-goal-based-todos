@@ -1,17 +1,15 @@
 import React from 'react';
-import { Role } from '../../model/role';
 import Button from '../../primitives/button/Button';
 import { TrashcanIcon } from '@primer/octicons-react';
-import useRemoveGoalOnButtonClick from './hooks/useRemoveGoalOnButtonClick';
-import { Goal } from '../../model/goal';
+import { Role } from '../../model/role';
+import useRemoveRoleOnButtonClick from './hooks/useRemoveRoleOnButtonClick';
 
 type Props = {
     role: Role;
-    goal: Goal;
 };
 
-const RemoveGoal: React.FC<Props> = ({ role, goal }) => {
-    const { onButtonClick } = useRemoveGoalOnButtonClick(role, goal);
+const RemoveRole: React.FC<Props> = ({ role }) => {
+    const { onButtonClick } = useRemoveRoleOnButtonClick(role);
 
     return (
         <Button
@@ -26,4 +24,4 @@ const RemoveGoal: React.FC<Props> = ({ role, goal }) => {
     );
 };
 
-export default RemoveGoal;
+export default RemoveRole;
