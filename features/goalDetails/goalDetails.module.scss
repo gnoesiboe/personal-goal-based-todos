@@ -17,5 +17,10 @@
 
 .descriptionOpenedIndicator {
     display: inline-block;
-    margin-left: 3px;
+    margin: 0 0 0 3px !important;
+    transition: all 0.2s linear;
+}
+
+.descriptionOpenedIndicatorIsOpened {
+    transform: rotate(180deg);
 }
