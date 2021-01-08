@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export const initializeApp = () => {
     // ensure that the firebase app is not initialized twice, which results in an error

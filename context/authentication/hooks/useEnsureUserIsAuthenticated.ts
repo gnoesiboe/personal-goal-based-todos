@@ -1,6 +1,7 @@
 import { createUserFromUserInfo } from './../../../model/factory/userFactory';
-import firebase from 'firebase';
-import { useEffect, useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { User } from '../../../model/user';
 import usePersistCurrentUserInCookie from './usePersistCurrentUserInCookie';

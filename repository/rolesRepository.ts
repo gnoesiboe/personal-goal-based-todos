@@ -1,6 +1,6 @@
 import { createTimestamp } from './../utility/dateTimeUtilities';
 import { Role, RoleWithGoals } from './../model/role';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import firebaseRoleToApplicationRoleConverter from '../firebase/converter/firebaseRoleToApplicationRoleConverter';
 import { Goal, GoalCollection } from '../model/goal';
 import firebaseGoalToApplicationGoalConverter from '../firebase/converter/firebaseGoalToApplicationGoalConverter';
