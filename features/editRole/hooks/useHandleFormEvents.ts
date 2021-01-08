@@ -1,3 +1,4 @@
+import { useNotifications } from './../../../context/notification/NotificationContext';
 import { persistRoleUpdates } from './../../../repository/rolesRepository';
 import useFormState, {
     FormErrors,
@@ -6,8 +7,11 @@ import useFormState, {
 } from '../../../hooks/useFormState';
 import { Role } from '../../../model/role';
 import { FormValues } from '../../goalForm/GoalForm';
+import { NotificationType } from '../../../model/notification';
 
 export default function useHandleFormEvents(role: Role, onDone: () => void) {
+    const { notify } = useNotifications();
+
     const validateInput: InputValidator<FormValues> = (values) => {
         const newErrors: FormErrors<FormValues> = {};
 
@@ -26,6 +30,12 @@ export default function useHandleFormEvents(role: Role, onDone: () => void) {
 
         if (success) {
             onDone();
+        } else {
+            notify(
+                'Oeps!',
+                'Er is iets foutgegaan bij het opslaan van wijzigingen. Probeer het later nog eens!',
+                NotificationType.Error,
+            );
         }
 
         return success;

@@ -3,7 +3,7 @@ import classNames from './heading.module.scss';
 import createClassName from 'classnames';
 
 type Props = Omit<HTMLAttributes<HTMLHeadingElement>, 'className' | 'style'> & {
-    tag: 'h1' | 'h2' | 'h3';
+    tag: 'h1' | 'h2' | 'h3' | 'h4';
     style?: 'primary' | 'secondary';
     flattened?: true;
 };

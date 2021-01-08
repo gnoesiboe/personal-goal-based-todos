@@ -4,7 +4,7 @@ import classNames from './button.module.scss';
 
 type Props = Omit<
     ButtonHTMLAttributes<HTMLButtonElement>,
-    'children' | 'classname' | 'style'
+    'children' | 'className' | 'style'
 > & {
     icon?: ReactElement;
     style?: 'link' | 'primary';
@@ -12,6 +12,7 @@ type Props = Omit<
     transparent?: true;
     deflated?: true;
     children: ReactNode;
+    className?: string;
 };
 
 const Button: React.FC<Props> = ({
@@ -21,16 +22,21 @@ const Button: React.FC<Props> = ({
     transparent,
     deflated,
     children,
+    className: additionalClassName,
     ...otherProps
 }) => {
-    const className = createClassName(classNames.container, {
-        [classNames.containerWithIcon]: !!icon,
-        [classNames.isTransparent]: transparent,
-        [classNames.isStyleLink]: style === 'link',
-        [classNames.isStylePrimary]: style === 'primary',
-        [classNames.isDeflated]: deflated,
-        [classNames.isSizeSmall]: size === 'small',
-    });
+    const className = createClassName(
+        classNames.container,
+        {
+            [classNames.containerWithIcon]: !!icon,
+            [classNames.isTransparent]: transparent,
+            [classNames.isStyleLink]: style === 'link',
+            [classNames.isStylePrimary]: style === 'primary',
+            [classNames.isDeflated]: deflated,
+            [classNames.isSizeSmall]: size === 'small',
+        },
+        additionalClassName,
+    );
 
     return (
         <button {...otherProps} className={className}>

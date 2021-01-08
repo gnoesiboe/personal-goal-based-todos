@@ -6,6 +6,8 @@ import MainNavigation from '../features/mainNavigation/MainNavigation';
 import { AuthenticationContextProvider } from '../context/authentication/AuthenticationContext';
 import { initializeApp as initializeFirebaseApp } from '../firebase/app';
 import Head from 'next/head';
+import { NotificationContextProvider } from '../context/notification/NotificationContext';
+import NotificationOverview from '../features/notificationOverview/NotificationOverview';
 
 initializeFirebaseApp();
 
@@ -14,14 +16,17 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
         <Head>
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <AuthenticationContextProvider>
-            <MainLayout.Container>
-                <MainLayout.Header>
-                    <MainNavigation />
-                </MainLayout.Header>
-                <Component {...pageProps} />
-            </MainLayout.Container>
-        </AuthenticationContextProvider>
+        <NotificationContextProvider>
+            <AuthenticationContextProvider>
+                <MainLayout.Container>
+                    <MainLayout.Header>
+                        <MainNavigation />
+                    </MainLayout.Header>
+                    <Component {...pageProps} />
+                </MainLayout.Container>
+            </AuthenticationContextProvider>
+            <NotificationOverview />
+        </NotificationContextProvider>
     </>
 );
 

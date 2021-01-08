@@ -53,7 +53,7 @@ export const persistNewRole = async (
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('could not persist new role', error);
 
         return false;
     }
@@ -72,7 +72,7 @@ export const persistRoleUpdates = async (
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('could not persist role update', error);
 
         return false;
     }
@@ -88,7 +88,7 @@ export const removeRole = async (roleUid: string): Promise<boolean> => {
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('could not remove role', error);
 
         return false;
     }
@@ -123,7 +123,7 @@ export const persistNewGoalForRole = async (
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('Could not persist new goal', error);
 
         return false;
     }
@@ -147,7 +147,7 @@ export const removeGoalFromRole = async (
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('Could not remove goal', error);
 
         return false;
     }
@@ -171,7 +171,7 @@ export const updateGoalFromRole = async (
 
         return true;
     } catch (error) {
-        // @todo error handling / notifying
+        console.error('Could not update goal', error);
 
         return false;
     }

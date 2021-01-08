@@ -1,3 +1,4 @@
+import { useNotifications } from './../../../context/notification/NotificationContext';
 import { useLoggedInUser } from './../../../context/authentication/AuthenticationContext';
 import { persistNewRole } from './../../../repository/rolesRepository';
 import useFormState, {
@@ -6,9 +7,12 @@ import useFormState, {
     OnFormValidHandler,
 } from '../../../hooks/useFormState';
 import { FormValues } from '../../roleForm/RoleForm';
+import { NotificationType } from '../../../model/notification';
 
 export default function useHandleFormEvents(onDone: () => void) {
     const user = useLoggedInUser();
+
+    const { notify } = useNotifications();
 
     const validateInput: InputValidator<FormValues> = (values) => {
         const newErrors: FormErrors<FormValues> = {};
@@ -29,6 +33,12 @@ export default function useHandleFormEvents(onDone: () => void) {
 
         if (success) {
             onDone();
+        } else {
+            notify(
+                'Oeps!',
+                'Er is iets foutgegaan bij het opslaan van je nieuwe rol. Probeer het later nog eens!',
+                NotificationType.Error,
+            );
         }
 
         return success;

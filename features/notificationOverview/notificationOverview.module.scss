@@ -1,0 +1,22 @@
+@use './../../styles/settings/z-index';
+@use './../../styles/settings/spacing';
+
+$-spacing-from-window-borders: spacing.$spacing-small;
+
+.container {
+    position: fixed;
+    top: 20px;
+    right: $-spacing-from-window-borders;
+    margin-left: $-spacing-from-window-borders;
+    z-index: z-index.$z-index-notification-overview;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: spacing.$spacing-small;
+    flex-direction: column;
+    align-items: flex-end;
+}

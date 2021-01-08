@@ -1,0 +1,46 @@
+@use './../../styles/settings/breakpoints';
+@use './../../styles/settings/spacing';
+@use './../../styles/settings/colors';
+@import '~sass-mq';
+
+.container {
+    padding: spacing.$spacing-medium;
+    background: #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    justify-items: start;
+    flex-direction: column;
+
+    @include mq($from: tablet) {
+        max-width: 50vw;
+    }
+}
+
+.header {
+    position: relative;
+    padding-right: 20px;
+}
+
+.isTypeSuccess {
+    background: colors.$success;
+}
+
+.isTypeError {
+    background: colors.$error;
+}
+
+.isTypeWarning {
+    background: colors.$warning;
+}
+
+.closeButton {
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    transform: rotate(45deg);
+}
+
+.description {
+    margin: spacing.$spacing-small 0 0;
+}

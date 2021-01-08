@@ -23,13 +23,15 @@
         "react-dom": "17.0.1",
         "react-firebase-hooks": "^2.2.0",
         "react-nl2br": "^1.0.1",
-        "react-textarea-autosize": "^8.3.0"
+        "react-textarea-autosize": "^8.3.0",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/classnames": "^2.2.11",
         "@types/hapi__joi": "^17.1.6",
         "@types/node": "^14.14.20",
         "@types/react": "^17.0.0",
+        "@types/uuid": "^8.3.0",
         "sass": "^1.32.0",
         "sass-mq": "^5.0.1",
         "typescript": "^4.1.3"
