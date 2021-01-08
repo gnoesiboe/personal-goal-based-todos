@@ -9,6 +9,7 @@ import { User } from '../model/user';
 import RolesOverview from '../features/rolesOverview/RolesOverview';
 import { createMetaTitle } from '../utility/metaUtilities';
 import AddRole from '../features/addRole/AddRole';
+import { home } from '../routing/paths';
 
 type Props = {
     roles: RoleWithGoals[];
@@ -31,7 +32,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     const value = getCookieValue(cookieName, request);
 
     if (!value) {
-        throw new Error('Expecting cookie value to be available at this point');
+        return {
+            redirect: {
+                destination: home,
+                permanent: false,
+            },
+        };
     }
 
     const currentUser: User = JSON.parse(value);
