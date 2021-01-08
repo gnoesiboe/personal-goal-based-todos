@@ -1,7 +1,6 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import useShowHide from '../../hooks/useShowHide';
 import { Goal as GoalModel } from '../../model/goal';
-import Heading from '../../primitives/heading/Heading';
 import Button from '../../primitives/button/Button';
 import classNames from './goalDetails.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';

@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { home, goalsAndRoles } from '../../routing/paths';
 import List from './components/List';
 import Item from './components/Item';

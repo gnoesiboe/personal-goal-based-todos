@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { ChevronDownIcon } from '@primer/octicons-react';
 import classNames from '../goalDetails.module.scss';
 import createClassName from 'classnames';
 

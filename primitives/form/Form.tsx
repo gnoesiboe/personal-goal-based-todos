@@ -1,9 +1,4 @@
-import {
-    FormHTMLAttributes,
-    InputHTMLAttributes,
-    ReactNode,
-    TextareaHTMLAttributes,
-} from 'react';
+import { FormHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import classNames from './form.module.scss';
 import TextareaAutosize, {
     TextareaAutosizeProps,
@@ -13,7 +8,9 @@ type FormProps = FormHTMLAttributes<HTMLFormElement>;
 
 const Form: React.FC<FormProps> = (props) => <form {...props} />;
 
-const Group: React.FC<{ children }> = ({ children }) => <div>{children}</div>;
+const Group: React.FC<{ children: ReactNode }> = ({ children }) => (
+    <div>{children}</div>
+);
 
 type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'classname'>;
 

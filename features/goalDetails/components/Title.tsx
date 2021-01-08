@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Goal } from '../../../model/goal';
 import Heading from '../../../primitives/heading/Heading';
 import classNames from '../goalDetails.module.scss';

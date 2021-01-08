@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { fetchAllRolesWithGoalsForUserOrderedByTimestamp } from '../repository/rolesRepository';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { RoleWithGoals } from '../model/role';
 import { getCookieValue } from '../utility/cookieUtilities';
 import { cookieName } from '../context/authentication/hooks/usePersistCurrentUserInCookie';

@@ -10,11 +10,10 @@ import { FormValues } from '../../roleForm/RoleForm';
 export default function useHandleFormEvents(onDone: () => void) {
     const user = useLoggedInUser();
 
-    const validateInput: InputValidator = <FormValues>(values) => {
+    const validateInput: InputValidator<FormValues> = (values) => {
         const newErrors: FormErrors<FormValues> = {};
 
         if (!values.title) {
-            // @ts-ignore → don't know how to get this typescript error fixed
             newErrors.title = 'Required';
         }
 
@@ -22,6 +21,10 @@ export default function useHandleFormEvents(onDone: () => void) {
     };
 
     const onFormValid: OnFormValidHandler<FormValues> = async (values) => {
+        if (!user) {
+            throw new Error('Expecting user to be available at this point');
+        }
+
         const success = await persistNewRole(values.title, user.uid);
 
         if (success) {

@@ -16,6 +16,10 @@ export default function useAnchorLinking() {
 
         const id = parts.pop();
 
+        if (!id) {
+            return;
+        }
+
         const targetEl = document.getElementById(id);
 
         if (!targetEl) {

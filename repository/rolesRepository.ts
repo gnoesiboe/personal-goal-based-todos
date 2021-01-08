@@ -106,7 +106,7 @@ const fetchRoleSnapshot = async (roleUid: string) => {
 export const persistNewGoalForRole = async (
     roleUid: string,
     title: string,
-    description: string,
+    description: string | null,
 ): Promise<boolean> => {
     const roleSnapshot = await fetchRoleSnapshot(roleUid);
 

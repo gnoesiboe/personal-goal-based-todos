@@ -13,7 +13,7 @@ const Home: React.FC = () => {
                 <title>{createMetaTitle('Todos')}</title>
             </Head>
             <MainLayout.ContentMain>
-                <p>Hello {user.name},</p>
+                <p>Hello {user?.name},</p>
                 <p>
                     Cillum asperiores? Magni voluptas ultricies ut viverra
                     quidem, a! Quisquam malesuada modi. Aliquid sagittis ullam

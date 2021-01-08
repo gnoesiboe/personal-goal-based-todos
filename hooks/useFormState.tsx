@@ -15,7 +15,7 @@ export type FormTouched<FormValues> = {
     [key in keyof FormValues]: boolean;
 };
 
-export type InputValidator = <FormValues>(
+export type InputValidator<FormValues> = (
     values: FormValues,
 ) => FormErrors<FormValues>;
 
@@ -24,22 +24,29 @@ export type OnFormValidHandler<FormValues> = (
 ) => Promise<boolean>;
 
 const determineValues = <FormValues,>(
-    keys: string[],
+    keys: Array<keyof FormValues>,
     initialValues: Partial<FormValues> = {},
-) => {
-    const values = {};
+): FormValues => {
+    const values: Partial<FormValues> = {};
 
     keys.forEach((key) => {
+        // @ts-ignore → don't know how to fix this type error
         values[key] = '';
     });
 
     return { ...values, ...initialValues } as FormValues;
 };
 
-const createTouched = <FormValues,>(keys: string[], fieldValue: boolean) => {
+const createTouched = <FormValues,>(
+    keys: Array<keyof FormValues>,
+    fieldValue: boolean,
+) => {
     const touched = {};
 
-    keys.forEach((key) => (touched[key] = fieldValue));
+    keys.forEach((key) => {
+        // @ts-ignore → don't know how to fix this type error
+        touched[key] = fieldValue;
+    });
 
     return touched as FormTouched<FormValues>;
 };
@@ -47,8 +54,8 @@ const createTouched = <FormValues,>(keys: string[], fieldValue: boolean) => {
 export default function useFormState<
     FormValues extends Record<string, string | null>
 >(
-    keys: Array<string>,
-    validateInput: InputValidator,
+    keys: Array<keyof FormValues>,
+    validateInput: InputValidator<FormValues>,
     onFormValid: OnFormValidHandler<FormValues>,
     initialValues: Partial<FormValues> = {},
 ) {

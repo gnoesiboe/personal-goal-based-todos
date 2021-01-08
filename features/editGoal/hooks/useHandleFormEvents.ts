@@ -13,11 +13,10 @@ export default function useHandleFormEvents(
     goal: Goal,
     onDone: () => void,
 ) {
-    const validateInput: InputValidator = <FormValues>(values) => {
+    const validateInput: InputValidator<FormValues> = (values) => {
         const newErrors: FormErrors<FormValues> = {};
 
         if (!values.title) {
-            // @ts-ignore → don't know how to get this typescript error fixed
             newErrors.title = 'Required';
         }
 
