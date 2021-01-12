@@ -1,4 +1,6 @@
 @use '../../styles/settings/breakpoints';
+@use '../../styles/settings/colors';
+@import '~sass-mq';
 
 .dayList {
     display: flex;
@@ -8,13 +10,19 @@
     height: 50vh;
     gap: 20px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
     justify-content: center;
+    overflow: hidden;
 }
 
 .day {
-    width: 300px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
-    background: yellow;
+    width: 100%;
+    background: colors.$first;
+    transition: background 1s;
+
+    @include mq($from: tablet) {
+        max-width: 300px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+    }
 }
 
 .dayIsCurrent {
-    border: 2px solid black;
+    background: colors.$fifth;
 }

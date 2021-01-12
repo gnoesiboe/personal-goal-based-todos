@@ -7,6 +7,7 @@ import {
     isToday,
     isTomorrow,
     format,
+    isBefore,
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
 
@@ -17,7 +18,7 @@ export const createDateRange = (start: Date, noOfDays: number): Date[] => {
 
     let cursor: Date = startOfDay(new Date(start.getTime()));
 
-    for (let i = 0; i < noOfDays; i++) {
+    for (let i = 0, l = noOfDays - 1; i < l; i++) {
         const withOnDayAdded = startOfDay(addDays(cursor, 1));
 
         out.push(withOnDayAdded);
@@ -52,3 +53,6 @@ export const getRelativeDayDescription = (date: Date) => {
         locale: nl,
     });
 };
+
+export const checkDateIsBefore = (date: Date, dateToCompare: Date) =>
+    isBefore(date, dateToCompare);

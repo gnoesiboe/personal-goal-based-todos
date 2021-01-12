@@ -15,6 +15,7 @@ import DayNavigation from '../../primitives/dayNavigation/DayNavigation';
 const TodoOverview: React.FC = () => {
     const {
         currentDate,
+        direction,
         onNextClick,
         onTodayClick,
         onPreviousClick,
@@ -32,7 +33,7 @@ const TodoOverview: React.FC = () => {
                 </Heading>
             </MainLayout.ContentHeader>
             <MainLayout.ContentMain>
-                <Island breakout ghost>
+                <Island breakout ghost deflated>
                     <DayNavigation
                         onNextClick={onNextClick}
                         onTodayClick={onTodayClick}
@@ -45,6 +46,7 @@ const TodoOverview: React.FC = () => {
                                 key={date.getTime()}
                                 date={date}
                                 current={checkIsSameDay(currentDate, date)}
+                                navigationDirection={direction}
                             />
                         ))}
                     </DayList>

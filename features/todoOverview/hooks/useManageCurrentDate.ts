@@ -2,19 +2,55 @@ import {
     createStartOfToday,
     addNumberOfDays,
     subtractNumberOfDays,
+    checkDateIsBefore,
 } from './../../../utility/dateTimeUtilities';
 import { MouseEventHandler, useState, useEffect } from 'react';
 
+export type DayNavigationDirection = 'forwards' | 'backwards';
+
+export type DateCursor = {
+    date: Date;
+    direction: DayNavigationDirection;
+};
+
 export default function useManageCurrentDate() {
-    const [currentDate, setCurrentDate] = useState<Date>(createStartOfToday());
+    const [
+        { date: currentDate, direction },
+        setCurrentDate,
+    ] = useState<DateCursor>({
+        date: createStartOfToday(),
+        direction: 'forwards',
+    });
 
     const moveToPrevious = () =>
-        setCurrentDate((currentValue) => subtractNumberOfDays(currentValue, 1));
+        setCurrentDate((currentValue) => ({
+            date: subtractNumberOfDays(currentValue.date, 1),
+            direction: 'backwards',
+        }));
 
-    const moveToToday = () => setCurrentDate(createStartOfToday());
+    const moveToToday = () => {
+        setCurrentDate((currentValue) => {
+            const today = createStartOfToday();
+
+            const direction: DayNavigationDirection = checkDateIsBefore(
+                currentValue.date,
+                today,
+            )
+                ? 'forwards'
+                : 'backwards';
+
+            return {
+                date: today,
+                direction,
+            };
+        });
+    };
 
     const moveToNext = () =>
-        setCurrentDate((currentValue) => addNumberOfDays(currentValue, 1));
+        setCurrentDate((currentValue) => ({
+            date: addNumberOfDays(currentValue.date, 1),
+            direction: 'forwards',
+        }));
 
     const onNextClick: MouseEventHandler<HTMLButtonElement> = () =>
         moveToNext();
@@ -59,5 +95,11 @@ export default function useManageCurrentDate() {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, []);
 
-    return { currentDate, onNextClick, onTodayClick, onPreviousClick };
+    return {
+        currentDate,
+        direction,
+        onNextClick,
+        onTodayClick,
+        onPreviousClick,
+    };
 }
