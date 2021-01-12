@@ -10,7 +10,7 @@ import {
     createDateRange,
 } from '../../utility/dateTimeUtilities';
 import useManageCurrentDate from './hooks/useManageCurrentDate';
-import DayNavigation from './components/DayNavigation';
+import DayNavigation from '../../primitives/dayNavigation/DayNavigation';
 
 const TodoOverview: React.FC = () => {
     const {
