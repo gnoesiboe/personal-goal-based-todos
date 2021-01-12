@@ -26,18 +26,31 @@
     display: grid;
     gap: spacing.$spacing-medium;
     grid-template-columns: 1fr;
-    grid-template-areas:
-        'contentHeader'
-        'contentSidebar'
-        'contentMain ';
 
     @include mq($from: desktop) {
         width: $layout-container-max-width;
+    }
+}
+
+.bodyIsWithSidebar {
+    grid-template-areas:
+        'contentHeader'
+        'contentSidebar'
+        'contentMain';
+
+    @include mq($from: desktop) {
         grid-template-areas:
             'contentHeader contentHeader'
             'contentMain contentSidebar';
         grid-template-columns: 3fr 1fr;
     }
+}
+
+.bodyIsFullWidth {
+    grid-template-areas:
+        'contentHeader'
+        'contentMain';
+    grid-template-columns: 1fr;
 }
 
 .contentHeader {

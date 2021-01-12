@@ -1,0 +1,20 @@
+@use '../../styles/settings/breakpoints';
+
+.dayList {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    height: 50vh;
+    gap: 20px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+    justify-content: center;
+}
+
+.day {
+    width: 300px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+    background: yellow;
+}
+
+.dayIsCurrent {
+    border: 2px solid black;
+}
