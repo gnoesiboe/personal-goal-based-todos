@@ -8,7 +8,7 @@ const MainNavigation: React.FC = () => (
     <nav className={classNames.container}>
         <List>
             <Item title="home" path={home} />
-            <Item title="goals & roles" path={goalsAndRoles} />
+            <Item title="rollen & doelen" path={goalsAndRoles} />
         </List>
     </nav>
 );
