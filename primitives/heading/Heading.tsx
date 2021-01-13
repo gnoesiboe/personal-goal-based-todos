@@ -6,6 +6,7 @@ type Props = Omit<HTMLAttributes<HTMLHeadingElement>, 'className' | 'style'> & {
     tag: 'h1' | 'h2' | 'h3' | 'h4';
     style?: 'primary' | 'secondary';
     flattened?: true;
+    centered?: true;
 };
 
 const Heading: React.FC<Props> = ({
@@ -13,11 +14,13 @@ const Heading: React.FC<Props> = ({
     style = 'primary',
     flattened,
     children,
+    centered,
     ...otherProps
 }) => {
     const className = createClassName(classNames.container, {
         [classNames.isFlattened]: flattened,
         [classNames.isStyleSecondary]: style === 'secondary',
+        [classNames.isCentered]: centered,
     });
 
     return React.createElement(tag, { ...otherProps, className }, children);

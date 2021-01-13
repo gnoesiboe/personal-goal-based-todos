@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from '../todoOverview.module.scss';
 import createClassName from 'classnames';
 import { getRelativeDayDescription } from '../../../utility/dateTimeUtilities';
 import { DayNavigationDirection } from '../hooks/useManageCurrentDate';
 import { motion } from 'framer-motion';
-import { transitionVariants } from './DayList';
+import { defaultDuration, transitionVariants } from './DayList';
+import Heading from '../../../primitives/heading/Heading';
 
 type Props = {
     date: Date;
     current: boolean;
     navigationDirection: DayNavigationDirection;
+    children: ReactNode;
 };
 
-const Day: React.FC<Props> = ({ date, current, navigationDirection }) => {
+const Day: React.FC<Props> = ({
+    date,
+    current,
+    navigationDirection,
+    children,
+}) => {
     const className = createClassName(classNames.day, {
         [classNames.dayIsCurrent]: current,
     });
@@ -22,15 +29,22 @@ const Day: React.FC<Props> = ({ date, current, navigationDirection }) => {
             variants={transitionVariants}
             custom={navigationDirection}
             initial="enter"
-            animate="center"
-            exit="exit"
+            animate="animate"
             transition={{
-                x: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.4 },
+                x: {
+                    type: 'spring',
+                    stiffness: 150,
+                    damping: 30,
+                    duration: defaultDuration,
+                },
+                opacity: { duration: defaultDuration },
             }}
             className={className}
         >
-            <h3>{getRelativeDayDescription(date)}</h3>
+            <Heading tag="h2" style="secondary" centered>
+                {getRelativeDayDescription(date)}
+            </Heading>
+            {children}
         </motion.div>
     );
 };

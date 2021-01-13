@@ -1,28 +1,57 @@
 @use '../../styles/settings/breakpoints';
 @use '../../styles/settings/colors';
+@use '../../styles/settings/z-index';
+@use '../../styles/settings/spacing';
 @import '~sass-mq';
+
+.dayListContainer {
+    position: relative;
+}
 
 .dayList {
     display: flex;
     padding: 0;
     margin: 0;
     list-style: none;
-    height: 50vh;
+    height: 'auto';
     gap: 20px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
     justify-content: center;
     overflow: hidden;
 }
 
 .day {
+    flex: 0 0 100%;
     width: 100%;
     background: colors.$first;
-    transition: background 1s;
+    box-sizing: border-box;
+    padding: spacing.$spacing-small;
 
     @include mq($from: tablet) {
-        max-width: 300px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+        $-max-width: 300px;
+
+        flex: 0 0 $-max-width;
+        width: $-max-width; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
     }
 }
 
 .dayIsCurrent {
     background: colors.$fifth;
+}
+
+.directionIndicator {
+    position: absolute;
+    top: 25px;
+    left: calc(50% - 30px);
+    z-index: z-index.$z-index-todo-overview-direction-indicator;
+    display: none;
+
+    @include mq($from: tablet) {
+        display: block;
+    }
+}
+
+.todoList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }

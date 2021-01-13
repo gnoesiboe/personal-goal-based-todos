@@ -1,0 +1,31 @@
+@use '../../styles/settings/spacing';
+
+.container {
+    margin-bottom: spacing.$spacing-small;
+    padding: spacing.$spacing-small;
+    display: flex;
+    justify-content: flex-start;
+    gap: spacing.$spacing-small;
+    align-items: flex-start;
+}
+
+.breadcrumb {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 5px;
+    font-size: 0.8rem;
+    font-style: italic;
+
+    li:not(:last-child) {
+        &:after {
+            content: ' »';
+        }
+    }
+}
+
+.checkbox {
+    display: block;
+    margin-top: 30px;
+}

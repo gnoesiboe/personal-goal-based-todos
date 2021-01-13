@@ -1,24 +1,19 @@
-import { AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { ReactElement } from 'react';
 import { DayNavigationDirection } from '../hooks/useManageCurrentDate';
 import classNames from '../todoOverview.module.scss';
 
+export const defaultDuration = 1;
+
 export const transitionVariants = {
     enter: (navigationDirection: DayNavigationDirection) => ({
-        x: navigationDirection === 'forwards' ? 320 : -320,
-        opacity: 0,
+        x: navigationDirection === 'forwards' ? 340 : -340,
+        opacity: 0.5,
     }),
-    center: {
-        zIndex: 1,
+    animate: {
         x: 0,
         opacity: 1,
     },
-    exit: (navigationDirection: DayNavigationDirection) => ({
-        zIndex: 0,
-        x: navigationDirection === 'backwards' ? 320 : -320,
-        opacity: 0,
-        transition: { duration: 0.4 },
-    }),
 };
 
 type Props = {
@@ -26,9 +21,15 @@ type Props = {
 };
 
 const DayList: React.FC<Props> = ({ children }) => (
-    <div className={classNames.dayList}>
-        <AnimatePresence>{children}</AnimatePresence>
-    </div>
+    <motion.div
+        transition={{
+            staggerChildren: 0.07,
+            delayChildren: 0,
+        }}
+        className={classNames.dayList}
+    >
+        {children}
+    </motion.div>
 );
 
 export default DayList;

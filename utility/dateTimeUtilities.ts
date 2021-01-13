@@ -56,3 +56,6 @@ export const getRelativeDayDescription = (date: Date) => {
 
 export const checkDateIsBefore = (date: Date, dateToCompare: Date) =>
     isBefore(date, dateToCompare);
+
+export const createDateKey = (date: Date) =>
+    startOfDay(date).getTime().toString();
