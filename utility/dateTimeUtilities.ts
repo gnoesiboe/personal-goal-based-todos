@@ -8,6 +8,8 @@ import {
     isTomorrow,
     format,
     isBefore,
+    parse,
+    startOfTomorrow,
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
 
@@ -30,6 +32,8 @@ export const createDateRange = (start: Date, noOfDays: number): Date[] => {
 };
 
 export const createStartOfToday = () => startOfToday();
+
+export const createStartOfTomorrow = () => startOfTomorrow();
 
 export const checkIsSameDay = (first: Date, second: Date) =>
     isSameDay(first, second);
@@ -59,3 +63,8 @@ export const checkDateIsBefore = (date: Date, dateToCompare: Date) =>
 
 export const createDateKey = (date: Date) =>
     startOfDay(date).getTime().toString();
+
+export const parseTimestamp = (timestamp: number) =>
+    parse(timestamp.toString(), 't', new Date(), {
+        locale: nl,
+    });

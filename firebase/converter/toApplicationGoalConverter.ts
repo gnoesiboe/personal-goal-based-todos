@@ -1,13 +1,8 @@
 import firebase from 'firebase/app';
 import { Goal } from '../../model/goal';
+import { GoalDocumentData } from '../model/roleDocumentData';
 
-interface GoalDocumentData {
-    title: string;
-    description: string | null;
-    timestamp: number;
-}
-
-const firebaseGoalToApplicationGoalConverter: firebase.firestore.FirestoreDataConverter<Goal> = {
+const firebaseToApplicationGoalConverter: firebase.firestore.FirestoreDataConverter<Goal> = {
     toFirestore: function (goal: Goal): GoalDocumentData {
         return {
             title: goal.title,
@@ -27,4 +22,4 @@ const firebaseGoalToApplicationGoalConverter: firebase.firestore.FirestoreDataCo
     },
 };
 
-export default firebaseGoalToApplicationGoalConverter;
+export default firebaseToApplicationGoalConverter;

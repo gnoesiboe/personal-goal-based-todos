@@ -17,6 +17,7 @@ import classNames from './todoOverview.module.scss';
 import TodoList from './components/TodoList';
 import TodoListItem from '../todoListItem/TodoListItem';
 import useManageTodoListItems from './hooks/useManageTodoListItems';
+import useManageCurrentTodo from './hooks/useManageCurrentTodo';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -32,6 +33,11 @@ const TodoOverview: React.FC = () => {
     const { itemsPerDate } = useManageTodoListItems(currentDate, noOfDays);
 
     const dateRange = createDateRange(currentDate, noOfDays);
+
+    const { currentTodoIndex } = useManageCurrentTodo(
+        itemsPerDate,
+        currentDate,
+    );
 
     const today = createStartOfToday();
 
@@ -54,19 +60,29 @@ const TodoOverview: React.FC = () => {
                             {dateRange.map((date) => {
                                 const key = createDateKey(date);
                                 const items = itemsPerDate[key] || [];
+                                const isToday = checkIsSameDay(date, today);
+                                const isCurrent = checkIsSameDay(
+                                    date,
+                                    currentDate,
+                                );
 
                                 return (
                                     <Day
                                         key={date.getTime()}
                                         date={date}
-                                        current={checkIsSameDay(date, today)}
+                                        today={isToday}
                                         navigationDirection={direction}
                                     >
                                         <TodoList>
-                                            {items.map((item) => (
+                                            {items.map((item, index) => (
                                                 <TodoListItem
                                                     key={item.id}
                                                     item={item}
+                                                    current={
+                                                        isCurrent &&
+                                                        index ===
+                                                            currentTodoIndex
+                                                    }
                                                 />
                                             ))}
                                         </TodoList>

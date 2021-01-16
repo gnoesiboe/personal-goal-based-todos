@@ -1,20 +1,20 @@
 import { createTimestamp } from './../utility/dateTimeUtilities';
 import { Role, RoleWithGoals } from './../model/role';
 import firebase from 'firebase/app';
-import firebaseRoleToApplicationRoleConverter from '../firebase/converter/firebaseRoleToApplicationRoleConverter';
+import firebaseToApplicationRoleConverter from '../firebase/converter/toApplicationRoleConverter';
 import { Goal, GoalCollection } from '../model/goal';
-import firebaseGoalToApplicationGoalConverter from '../firebase/converter/firebaseGoalToApplicationGoalConverter';
+import firebaseToApplicationGoalConverter from '../firebase/converter/toApplicationGoalConverter';
 
-const collectionName = 'roles';
-const goalsSubCollectionName = 'goals';
+export const roleCollectionName = 'roles';
+export const goalsSubCollectionName = 'goals';
 
 export const fetchAllRolesWithGoalsForUserOrderedByTimestamp = async (
     userUid: string,
 ): Promise<RoleWithGoals[]> => {
     const snapshot = await firebase
         .firestore()
-        .collection(collectionName)
-        .withConverter(firebaseRoleToApplicationRoleConverter)
+        .collection(roleCollectionName)
+        .withConverter(firebaseToApplicationRoleConverter)
         .where('user_uid', '==', userUid)
         .orderBy('timestamp', 'asc')
         .get();
@@ -25,7 +25,7 @@ export const fetchAllRolesWithGoalsForUserOrderedByTimestamp = async (
 
             const goalResults = await result.ref
                 .collection(goalsSubCollectionName)
-                .withConverter(firebaseGoalToApplicationGoalConverter)
+                .withConverter(firebaseToApplicationGoalConverter)
                 .orderBy('timestamp', 'asc')
                 .get();
 
@@ -45,7 +45,7 @@ export const persistNewRole = async (
     userUid: string,
 ): Promise<boolean> => {
     try {
-        await firebase.firestore().collection(collectionName).add({
+        await firebase.firestore().collection(roleCollectionName).add({
             title,
             user_uid: userUid,
             timestamp: createTimestamp(),
@@ -65,9 +65,9 @@ export const persistRoleUpdates = async (
     try {
         await firebase
             .firestore()
-            .collection(collectionName)
+            .collection(roleCollectionName)
             .doc(updatedRole.uid)
-            .withConverter(firebaseRoleToApplicationRoleConverter)
+            .withConverter(firebaseToApplicationRoleConverter)
             .set(updatedRole);
 
         return true;
@@ -82,7 +82,7 @@ export const removeRole = async (roleUid: string): Promise<boolean> => {
     try {
         await firebase
             .firestore()
-            .collection(collectionName)
+            .collection(roleCollectionName)
             .doc(roleUid)
             .delete();
 
@@ -97,9 +97,9 @@ export const removeRole = async (roleUid: string): Promise<boolean> => {
 const fetchRoleSnapshot = async (roleUid: string) => {
     return await firebase
         .firestore()
-        .collection(collectionName)
+        .collection(roleCollectionName)
         .doc(roleUid)
-        .withConverter(firebaseRoleToApplicationRoleConverter)
+        .withConverter(firebaseToApplicationRoleConverter)
         .get();
 };
 

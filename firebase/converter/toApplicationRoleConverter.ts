@@ -1,13 +1,8 @@
 import firebase from 'firebase/app';
 import { Role } from '../../model/role';
+import { RoleDocumentData } from '../model/roleDocumentData';
 
-interface RoleDocumentData {
-    title: string;
-    user_uid: string;
-    timestamp: number;
-}
-
-const firebaseRoleToApplicationRoleConverter: firebase.firestore.FirestoreDataConverter<Role> = {
+const firebaseToApplicationRoleConverter: firebase.firestore.FirestoreDataConverter<Role> = {
     toFirestore: function (role: Role): RoleDocumentData {
         return {
             title: role.title,
@@ -27,4 +22,4 @@ const firebaseRoleToApplicationRoleConverter: firebase.firestore.FirestoreDataCo
     },
 };
 
-export default firebaseRoleToApplicationRoleConverter;
+export default firebaseToApplicationRoleConverter;

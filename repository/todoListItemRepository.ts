@@ -1,4 +1,7 @@
-import { createStartOfToday } from './../utility/dateTimeUtilities';
+import {
+    createStartOfToday,
+    createStartOfTomorrow,
+} from './../utility/dateTimeUtilities';
 import { TodoListItem } from '../model/todoListItem';
 
 export const fetchAllForUpcomingDates = async (
@@ -13,6 +16,7 @@ export const fetchAllForUpcomingDates = async (
             date: createStartOfToday(),
             important: true,
             urgent: false,
+            userUid: 'v0n2lQCbyPVbZRUIKTh6tJpnbpL2',
         },
         {
             id: 'b',
@@ -21,14 +25,16 @@ export const fetchAllForUpcomingDates = async (
             date: createStartOfToday(),
             important: true,
             urgent: true,
+            userUid: 'v0n2lQCbyPVbZRUIKTh6tJpnbpL2',
         },
         {
             id: 'c',
             done: true,
             summary: 'Een eindje fietsen met de hond',
-            date: createStartOfToday(),
+            date: createStartOfTomorrow(),
             important: false,
             urgent: true,
+            userUid: 'v0n2lQCbyPVbZRUIKTh6tJpnbpL2',
         },
     ];
 };

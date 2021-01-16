@@ -9,19 +9,19 @@ import Heading from '../../../primitives/heading/Heading';
 
 type Props = {
     date: Date;
-    current: boolean;
+    today: boolean;
     navigationDirection: DayNavigationDirection;
     children: ReactNode;
 };
 
 const Day: React.FC<Props> = ({
     date,
-    current,
+    today,
     navigationDirection,
     children,
 }) => {
     const className = createClassName(classNames.day, {
-        [classNames.dayIsCurrent]: current,
+        [classNames.dayIsToday]: today,
     });
 
     return (

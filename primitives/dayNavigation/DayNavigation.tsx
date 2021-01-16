@@ -6,11 +6,7 @@ import {
 import Island from '../island/Island';
 import Item from './components/Item';
 import ItemList from './components/ItemList';
-import {
-    ArrowLeftIcon,
-    ArrowRightIcon,
-    ClockIcon,
-} from '@primer/octicons-react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 
 type Props = {
     onPreviousClick: MouseEventHandler<HTMLButtonElement>;

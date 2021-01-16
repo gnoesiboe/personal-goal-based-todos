@@ -9,6 +9,11 @@
     align-items: flex-start;
 }
 
+.containerIsCurrent {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+}
+
 .breadcrumb {
     margin: 0;
     padding: 0;
