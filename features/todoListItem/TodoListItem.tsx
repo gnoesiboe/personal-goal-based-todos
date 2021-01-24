@@ -2,6 +2,7 @@ import React from 'react';
 import { TodoListItem as TodoListItemModel } from '../../model/todoListItem';
 import classNames from './todoListItem.module.scss';
 import createClassName from 'classnames';
+import CheckboxInput from './components/CheckboxInput';
 
 type Props = {
     item: TodoListItemModel;
@@ -13,19 +14,22 @@ const TodoListItem: React.FC<Props> = ({ item, current }) => {
         [classNames.containerIsCurrent]: current,
     });
 
+    const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
+
     return (
         <div className={className}>
-            <input
-                type="checkbox"
-                className={classNames.checkbox}
+            <CheckboxInput
+                hasBreadcrumb={hasBreadcrumb}
                 checked={item.done}
                 onChange={() => {}} /* @todo implement */
             />
             <div className={classNames.content}>
-                <ul className={classNames.breadcrumb}>
-                    <li>Vader</li>
-                    <li>Liefde geven</li>
-                </ul>
+                {item.roleTitle && item.goalTitle && (
+                    <ul className={classNames.breadcrumb}>
+                        <li title={item.roleTitle}>{item.roleTitle}</li>
+                        <li title={item.goalTitle}>{item.goalTitle}</li>
+                    </ul>
+                )}
                 <div className={classNames.summary}>{item.summary}</div>
             </div>
         </div>

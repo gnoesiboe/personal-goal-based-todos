@@ -2,6 +2,7 @@
 @use '../../styles/settings/colors';
 @use '../../styles/settings/z-index';
 @use '../../styles/settings/spacing';
+@use '../../styles/settings/sizes';
 @import '~sass-mq';
 
 .dayListContainer {
@@ -24,18 +25,33 @@
     width: 100%;
     background: colors.$first;
     box-sizing: border-box;
-    padding: spacing.$spacing-small;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     @include mq($from: tablet) {
-        $-max-width: 300px;
-
-        flex: 0 0 $-max-width;
-        width: $-max-width; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+        flex: 0 0 sizes.$day-max-width;
+        width: sizes.$day-max-width; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
     }
+}
+
+.dayHeader {
+    padding-top: spacing.$spacing-small;
+}
+
+.dayContent {
+    padding: spacing.$spacing-small;
+    flex: 1;
 }
 
 .dayIsToday {
     background: colors.$fifth;
+}
+
+.dayActions {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 20px 10px;
 }
 
 .directionIndicator {

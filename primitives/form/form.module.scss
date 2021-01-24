@@ -1,10 +1,15 @@
 @use '../../styles/settings/spacing';
 @use '../../styles/settings/colors';
 
-.textWidget {
+@mixin default-widget-props {
     display: block;
     width: 100%;
     margin-bottom: spacing.$spacing-small;
+}
+
+.textWidget {
+    @include default-widget-props;
+
     padding: 10px;
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -16,7 +21,14 @@
     }
 }
 
+.select {
+    @include default-widget-props;
+
+    padding: 5px;
+}
+
 .actionButtons {
+    margin-top: spacing.$spacing-medium;
     display: flex;
     flex-direction: row;
     gap: spacing.$spacing-small;

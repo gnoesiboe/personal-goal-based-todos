@@ -1,11 +1,9 @@
 import React, { ReactNode } from 'react';
 import classNames from '../todoOverview.module.scss';
 import createClassName from 'classnames';
-import { getRelativeDayDescription } from '../../../utility/dateTimeUtilities';
 import { DayNavigationDirection } from '../hooks/useManageCurrentDate';
 import { motion } from 'framer-motion';
 import { defaultDuration, transitionVariants } from './DayList';
-import Heading from '../../../primitives/heading/Heading';
 
 type Props = {
     date: Date;
@@ -14,12 +12,7 @@ type Props = {
     children: ReactNode;
 };
 
-const Day: React.FC<Props> = ({
-    date,
-    today,
-    navigationDirection,
-    children,
-}) => {
+const Day: React.FC<Props> = ({ today, navigationDirection, children }) => {
     const className = createClassName(classNames.day, {
         [classNames.dayIsToday]: today,
     });
@@ -41,9 +34,6 @@ const Day: React.FC<Props> = ({
             }}
             className={className}
         >
-            <Heading tag="h2" style="secondary" centered>
-                {getRelativeDayDescription(date)}
-            </Heading>
             {children}
         </motion.div>
     );

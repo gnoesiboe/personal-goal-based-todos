@@ -9,6 +9,7 @@ import {
     createDateKey,
     createDateRange,
     createStartOfToday,
+    getRelativeDayDescription,
 } from '../../utility/dateTimeUtilities';
 import useManageCurrentDate from './hooks/useManageCurrentDate';
 import DayNavigation from '../../primitives/dayNavigation/DayNavigation';
@@ -18,6 +19,8 @@ import TodoList from './components/TodoList';
 import TodoListItem from '../todoListItem/TodoListItem';
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import useManageCurrentTodo from './hooks/useManageCurrentTodo';
+import AddTodo from '../addTodo/AddTodo';
+import Heading from '../../primitives/heading/Heading';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -73,19 +76,42 @@ const TodoOverview: React.FC = () => {
                                         today={isToday}
                                         navigationDirection={direction}
                                     >
-                                        <TodoList>
-                                            {items.map((item, index) => (
-                                                <TodoListItem
-                                                    key={item.id}
-                                                    item={item}
-                                                    current={
-                                                        isCurrent &&
-                                                        index ===
-                                                            currentTodoIndex
-                                                    }
-                                                />
-                                            ))}
-                                        </TodoList>
+                                        <div className={classNames.dayHeader}>
+                                            <Heading
+                                                tag="h2"
+                                                style="secondary"
+                                                centered
+                                                flattened
+                                            >
+                                                {getRelativeDayDescription(
+                                                    date,
+                                                )}
+                                            </Heading>
+                                        </div>
+                                        <div className={classNames.dayContent}>
+                                            <TodoList>
+                                                {items.map((item, index) => (
+                                                    <TodoListItem
+                                                        key={item.id}
+                                                        item={item}
+                                                        current={
+                                                            isCurrent &&
+                                                            index ===
+                                                                currentTodoIndex
+                                                        }
+                                                    />
+                                                ))}
+                                            </TodoList>
+                                        </div>
+                                        {isCurrent && (
+                                            <div
+                                                className={
+                                                    classNames.dayActions
+                                                }
+                                            >
+                                                <AddTodo date={date} />
+                                            </div>
+                                        )}
                                     </Day>
                                 );
                             })}

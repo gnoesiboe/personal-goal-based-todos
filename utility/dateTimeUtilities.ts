@@ -10,8 +10,10 @@ import {
     isBefore,
     parse,
     startOfTomorrow,
+    endOfDay,
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
+import firebase from 'firebase/app';
 
 export const createTimestamp = (): number => new Date().getTime();
 
@@ -30,6 +32,8 @@ export const createDateRange = (start: Date, noOfDays: number): Date[] => {
 
     return out;
 };
+
+export const createEndOfDay = (date: Date) => endOfDay(date);
 
 export const createStartOfToday = () => startOfToday();
 
@@ -64,7 +68,17 @@ export const checkDateIsBefore = (date: Date, dateToCompare: Date) =>
 export const createDateKey = (date: Date) =>
     startOfDay(date).getTime().toString();
 
-export const parseTimestamp = (timestamp: number) =>
-    parse(timestamp.toString(), 't', new Date(), {
+export const parseFirebaseTimestamp = (
+    firestoreTimestamp: firebase.firestore.Timestamp,
+) => {
+    const asTimestamp = firestoreTimestamp.seconds;
+
+    return parse(asTimestamp.toString(), 't', new Date(), {
         locale: nl,
     });
+};
+
+export const createFirestoreTimestampFromDate = (
+    date: Date,
+): firebase.firestore.Timestamp =>
+    new firebase.firestore.Timestamp(date.getTime() / 1000, 0);

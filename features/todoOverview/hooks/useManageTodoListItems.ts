@@ -1,11 +1,15 @@
 import { sortTodoListItemsByPriority } from './../../../model/selector/todoListItemSelectors';
-import { createDateKey } from './../../../utility/dateTimeUtilities';
+import {
+    createDateKey,
+    parseFirebaseTimestamp,
+} from './../../../utility/dateTimeUtilities';
 import { useNotifications } from './../../../context/notification/NotificationContext';
-import { fetchAllForUpcomingDates } from './../../../repository/todoListItemRepository';
+import { fetchAllForUserForUpcomingDates } from './../../../repository/todoListItemRepository';
 import { groupItemsWithCallback } from './../../../utility/arrayUtilities';
 import { useState, useEffect } from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
 import { NotificationType } from '../../../model/notification';
+import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
 
 export default function useManageTodoListItems(
     currentDate: Date,
@@ -17,10 +21,20 @@ export default function useManageTodoListItems(
 
     const { notify } = useNotifications();
 
+    const user = useLoggedInUser();
+
     useEffect(() => {
         setIsFetching(true);
 
-        fetchAllForUpcomingDates(currentDate, noOfDaysDisplayed)
+        if (!user || noOfDaysDisplayed === 0) {
+            return;
+        }
+
+        fetchAllForUserForUpcomingDates(
+            currentDate,
+            noOfDaysDisplayed,
+            user.uid,
+        )
             .then((items) => setItems(items))
             .catch((error) => {
                 console.error(
@@ -35,7 +49,7 @@ export default function useManageTodoListItems(
                 );
             })
             .finally(() => setIsFetching(false));
-    }, [currentDate, setIsFetching]);
+    }, [currentDate, setIsFetching, noOfDaysDisplayed]);
 
     if (items) {
         sortTodoListItemsByPriority(items);
@@ -43,7 +57,7 @@ export default function useManageTodoListItems(
 
     const itemsPerDate = groupItemsWithCallback<TodoListItem>(
         items || [],
-        (item) => createDateKey(item.date),
+        (item) => createDateKey(parseFirebaseTimestamp(item.date)),
     );
 
     return { itemsPerDate, isFetching };

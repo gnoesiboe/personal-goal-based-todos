@@ -1,4 +1,9 @@
-import { FormHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
+import {
+    FormHTMLAttributes,
+    InputHTMLAttributes,
+    ReactNode,
+    SelectHTMLAttributes,
+} from 'react';
 import classNames from './form.module.scss';
 import TextareaAutosize, {
     TextareaAutosizeProps,
@@ -24,6 +29,12 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     return <TextareaAutosize {...props} className={classNames.textWidget} />;
 };
 
+type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'classname'>;
+
+const Select: React.FC<SelectProps> = (props) => {
+    return <select {...props} className={classNames.select} />;
+};
+
 const ActionButtons: React.FC<{ children: ReactNode }> = ({ children }) => (
     <div className={classNames.actionButtons}>{children}</div>
 );
@@ -37,6 +48,7 @@ export default {
     Group,
     Input,
     TextArea,
+    Select,
     ActionButtons,
     Error,
 };

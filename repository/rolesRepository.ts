@@ -45,6 +45,7 @@ export const persistNewRole = async (
     userUid: string,
 ): Promise<boolean> => {
     try {
+        // @todo use converter instead?
         await firebase.firestore().collection(roleCollectionName).add({
             title,
             user_uid: userUid,
@@ -92,6 +93,25 @@ export const removeRole = async (roleUid: string): Promise<boolean> => {
 
         return false;
     }
+};
+
+export const fetchRole = async (roleUid: string) => {
+    const snapshot = await fetchRoleSnapshot(roleUid);
+
+    return snapshot.data();
+};
+
+export const fetchGoal = async (roleUid: string, goalUid: string) => {
+    const snapshot = await firebase
+        .firestore()
+        .collection(
+            `${roleCollectionName}/${roleUid}/${goalsSubCollectionName}`,
+        )
+        .doc(goalUid)
+        .withConverter(firebaseToApplicationGoalConverter)
+        .get();
+
+    return snapshot.data();
 };
 
 const fetchRoleSnapshot = async (roleUid: string) => {

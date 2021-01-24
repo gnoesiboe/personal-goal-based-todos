@@ -125,7 +125,8 @@ export default function useFormState<
 
         if (
             !(target instanceof HTMLTextAreaElement) &&
-            !(target instanceof HTMLInputElement)
+            !(target instanceof HTMLInputElement) &&
+            !(target instanceof HTMLSelectElement)
         ) {
             throw new Error('Element type not supported');
         }

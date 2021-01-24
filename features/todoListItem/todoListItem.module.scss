@@ -1,4 +1,5 @@
 @use '../../styles/settings/spacing';
+@use '../../styles/settings/sizes';
 
 .container {
     margin-bottom: spacing.$spacing-small;
@@ -14,16 +15,28 @@
     border-radius: 5px;
 }
 
+.content {
+    flex: 1;
+}
+
 .breadcrumb {
     margin: 0;
     padding: 0;
-    list-style: none;
-    display: flex;
-    gap: 5px;
+    list-style-type: none;
+    width: sizes.$day-max-width - 65px;
     font-size: 0.8rem;
     font-style: italic;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    li {
+        display: inline;
+    }
 
     li:not(:last-child) {
+        margin-right: 5px;
+
         &:after {
             content: ' »';
         }
@@ -32,5 +45,9 @@
 
 .checkbox {
     display: block;
+    margin-top: 5px;
+}
+
+.checkboxHasBreadcrumb {
     margin-top: 30px;
 }
