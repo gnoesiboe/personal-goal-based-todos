@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import classNames from '../todoOverview.module.scss';
 import createClassName from 'classnames';
-import { DayNavigationDirection } from '../hooks/useManageCurrentDate';
+import { DayNavigationDirection } from '../../../context/todos/hooks/useManageCurrentDate';
 import { motion } from 'framer-motion';
 import { defaultDuration, transitionVariants } from './DayList';
 

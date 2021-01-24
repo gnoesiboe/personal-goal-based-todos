@@ -8,6 +8,7 @@ import { initializeApp as initializeFirebaseApp } from '../firebase/app';
 import Head from 'next/head';
 import { NotificationContextProvider } from '../context/notification/NotificationContext';
 import NotificationOverview from '../features/notificationOverview/NotificationOverview';
+import { TodoListItemContextProvider } from '../context/todos/TodoListItemsContext';
 
 initializeFirebaseApp();
 
@@ -18,12 +19,14 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
         </Head>
         <NotificationContextProvider>
             <AuthenticationContextProvider>
-                <MainLayout.Container>
-                    <MainLayout.Header>
-                        <MainNavigation />
-                    </MainLayout.Header>
-                    <Component {...pageProps} />
-                </MainLayout.Container>
+                <TodoListItemContextProvider>
+                    <MainLayout.Container>
+                        <MainLayout.Header>
+                            <MainNavigation />
+                        </MainLayout.Header>
+                        <Component {...pageProps} />
+                    </MainLayout.Container>
+                </TodoListItemContextProvider>
             </AuthenticationContextProvider>
             <NotificationOverview />
         </NotificationContextProvider>

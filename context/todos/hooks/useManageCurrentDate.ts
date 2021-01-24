@@ -3,7 +3,7 @@ import {
     addNumberOfDays,
     subtractNumberOfDays,
     checkDateIsBefore,
-} from './../../../utility/dateTimeUtilities';
+} from '../../../utility/dateTimeUtilities';
 import { MouseEventHandler, useState, useEffect } from 'react';
 
 export type DayNavigationDirection = 'forwards' | 'backwards';
@@ -15,7 +15,7 @@ export type DateCursor = {
 
 export default function useManageCurrentDate() {
     const [
-        { date: currentDate, direction },
+        { date: currentDate, direction: dayNavigationDirection },
         setCurrentDate,
     ] = useState<DateCursor>({
         date: createStartOfToday(),
@@ -52,14 +52,11 @@ export default function useManageCurrentDate() {
             direction: 'forwards',
         }));
 
-    const onNextClick: MouseEventHandler<HTMLButtonElement> = () =>
-        moveToNext();
+    const onNextDateClick = () => moveToNext();
 
-    const onTodayClick: MouseEventHandler<HTMLButtonElement> = () =>
-        moveToToday();
+    const onTodayClick = () => moveToToday();
 
-    const onPreviousClick: MouseEventHandler<HTMLButtonElement> = () =>
-        moveToPrevious();
+    const onPreviousDateClick = () => moveToPrevious();
 
     useEffect(() => {
         const onKeyDown = (event: WindowEventMap['keydown']) => {
@@ -97,9 +94,9 @@ export default function useManageCurrentDate() {
 
     return {
         currentDate,
-        direction,
-        onNextClick,
+        dayNavigationDirection,
+        onNextDateClick,
         onTodayClick,
-        onPreviousClick,
+        onPreviousDateClick,
     };
 }

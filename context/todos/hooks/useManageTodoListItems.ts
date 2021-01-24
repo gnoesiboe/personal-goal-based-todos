@@ -1,15 +1,15 @@
-import { sortTodoListItemsByPriority } from './../../../model/selector/todoListItemSelectors';
+import { sortTodoListItemsByPriority } from '../../../model/selector/todoListItemSelectors';
 import {
     createDateKey,
     parseFirebaseTimestamp,
-} from './../../../utility/dateTimeUtilities';
-import { useNotifications } from './../../../context/notification/NotificationContext';
-import { fetchAllForUserForUpcomingDates } from './../../../repository/todoListItemRepository';
-import { groupItemsWithCallback } from './../../../utility/arrayUtilities';
+} from '../../../utility/dateTimeUtilities';
+import { useNotifications } from '../../notification/NotificationContext';
+import { fetchAllForUserForUpcomingDates } from '../../../repository/todoListItemRepository';
+import { groupItemsWithCallback } from '../../../utility/arrayUtilities';
 import { useState, useEffect } from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
 import { NotificationType } from '../../../model/notification';
-import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
+import { useLoggedInUser } from '../../authentication/AuthenticationContext';
 
 export default function useManageTodoListItems(
     currentDate: Date,

@@ -4,7 +4,7 @@ import {
     resolveNextCurrentTodoIndex,
     resolvePossibleSameTodoIndex,
     resolvePreviousCurrentTodoIndex,
-} from '../utility/currentTodoIndexResolver';
+} from '../../../features/todoOverview/utility/currentTodoIndexResolver';
 
 export default function useManageCurrentTodo(
     itemsPerDate: Record<string, TodoListItem[]>,

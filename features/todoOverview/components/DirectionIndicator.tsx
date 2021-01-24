@@ -1,5 +1,5 @@
 import React from 'react';
-import { DayNavigationDirection } from '../hooks/useManageCurrentDate';
+import { DayNavigationDirection } from '../../../context/todos/hooks/useManageCurrentDate';
 import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 import classNames from '../todoOverview.module.scss';
 import useHideAfterTimeout from '../../../hooks/useHideAfterTimeout';
