@@ -41,3 +41,22 @@ export const persistNewTodo = async (item: TodoListItem): Promise<boolean> => {
         return false;
     }
 };
+
+export const persistTodoUpdate = async (
+    updatedItem: TodoListItem,
+): Promise<boolean> => {
+    try {
+        await firebase
+            .firestore()
+            .collection(todosCollectionName)
+            .withConverter(firebaseToApplicationTodoListItemConverter)
+            .doc(updatedItem.id)
+            .set(updatedItem);
+
+        return true;
+    } catch (error) {
+        console.error('Could not persist updates to todo', error);
+
+        return false;
+    }
+};

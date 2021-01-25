@@ -3,6 +3,7 @@ import { TodoListItem as TodoListItemModel } from '../../model/todoListItem';
 import classNames from './todoListItem.module.scss';
 import createClassName from 'classnames';
 import CheckboxInput from './components/CheckboxInput';
+import useToggleDoneStatus from './hooks/useToggleDoneStatus';
 
 type Props = {
     item: TodoListItemModel;
@@ -14,6 +15,8 @@ const TodoListItem: React.FC<Props> = ({ item, current }) => {
         [classNames.containerIsCurrent]: current,
     });
 
+    const { onInputChange } = useToggleDoneStatus(item);
+
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
     return (
@@ -21,7 +24,7 @@ const TodoListItem: React.FC<Props> = ({ item, current }) => {
             <CheckboxInput
                 hasBreadcrumb={hasBreadcrumb}
                 checked={item.done}
-                onChange={() => {}} /* @todo implement */
+                onChange={onInputChange}
             />
             <div className={classNames.content}>
                 {item.roleTitle && item.goalTitle && (
