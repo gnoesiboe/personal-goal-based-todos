@@ -5,7 +5,9 @@ import useManageCurrentDate, {
     DayNavigationDirection,
 } from './hooks/useManageCurrentDate';
 import useManageCurrentTodo from './hooks/useManageCurrentTodo';
-import useManageTodoListItems from './hooks/useManageTodoListItems';
+import useManageTodoListItems, {
+    AddTodoHandler,
+} from './hooks/useManageTodoListItems';
 
 type ContextValue = {
     noOfDaysDisplayed: number;
@@ -17,6 +19,7 @@ type ContextValue = {
     itemsPerDate: Record<string, TodoListItem[]>;
     isFetching: boolean;
     currentTodoIndex: number | null;
+    addTodo: AddTodoHandler;
 };
 
 const initialValue: ContextValue = {
@@ -29,6 +32,7 @@ const initialValue: ContextValue = {
     itemsPerDate: {},
     isFetching: false,
     currentTodoIndex: null,
+    addTodo: async () => false,
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -46,7 +50,7 @@ export const TodoListItemContextProvider: React.FC<{
         onPreviousDateClick,
     } = useManageCurrentDate();
 
-    const { itemsPerDate, isFetching } = useManageTodoListItems(
+    const { itemsPerDate, isFetching, addTodo } = useManageTodoListItems(
         currentDate,
         noOfDaysDisplayed,
     );
@@ -66,15 +70,18 @@ export const TodoListItemContextProvider: React.FC<{
         itemsPerDate,
         isFetching,
         currentTodoIndex,
+        addTodo,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 export const useTodoListItems = () => {
-    const { currentTodoIndex, itemsPerDate, isFetching } = useContext(Context);
+    const { currentTodoIndex, itemsPerDate, isFetching, addTodo } = useContext(
+        Context,
+    );
 
-    return { currentTodoIndex, itemsPerDate, isFetching };
+    return { currentTodoIndex, itemsPerDate, isFetching, addTodo };
 };
 
 export const useCurrentDate = () => {

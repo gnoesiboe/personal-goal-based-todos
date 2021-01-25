@@ -4,12 +4,17 @@ import {
     parseFirebaseTimestamp,
 } from '../../../utility/dateTimeUtilities';
 import { useNotifications } from '../../notification/NotificationContext';
-import { fetchAllForUserForUpcomingDates } from '../../../repository/todoListItemRepository';
+import {
+    fetchAllForUserForUpcomingDates,
+    persistNewTodo,
+} from '../../../repository/todoListItemRepository';
 import { groupItemsWithCallback } from '../../../utility/arrayUtilities';
 import { useState, useEffect } from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
 import { NotificationType } from '../../../model/notification';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
+
+export type AddTodoHandler = (todoListItem: TodoListItem) => Promise<boolean>;
 
 export default function useManageTodoListItems(
     currentDate: Date,
@@ -23,18 +28,10 @@ export default function useManageTodoListItems(
 
     const user = useLoggedInUser();
 
-    useEffect(() => {
+    const fetchTodos = (date: Date, noOfDays: number, userUid: string) => {
         setIsFetching(true);
 
-        if (!user || noOfDaysDisplayed === 0) {
-            return;
-        }
-
-        fetchAllForUserForUpcomingDates(
-            currentDate,
-            noOfDaysDisplayed,
-            user.uid,
-        )
+        fetchAllForUserForUpcomingDates(date, noOfDays, userUid)
             .then((items) => setItems(items))
             .catch((error) => {
                 console.error(
@@ -49,7 +46,27 @@ export default function useManageTodoListItems(
                 );
             })
             .finally(() => setIsFetching(false));
+    };
+
+    useEffect(() => {
+        if (!user || noOfDaysDisplayed === 0) {
+            return;
+        }
+
+        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
     }, [currentDate, setIsFetching, noOfDaysDisplayed]);
+
+    const addTodo: AddTodoHandler = async (newItem) => {
+        const success = await persistNewTodo(newItem);
+
+        if (!user) {
+            throw new Error('Expecting a logged in user at this point');
+        }
+
+        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+
+        return success;
+    };
 
     if (items) {
         sortTodoListItemsByPriority(items);
@@ -60,5 +77,5 @@ export default function useManageTodoListItems(
         (item) => createDateKey(parseFirebaseTimestamp(item.date)),
     );
 
-    return { itemsPerDate, isFetching };
+    return { itemsPerDate, isFetching, addTodo };
 }

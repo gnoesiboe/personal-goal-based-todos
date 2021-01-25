@@ -1,3 +1,5 @@
+import { createTodoListItemFromFormValuesForUserAndDate } from './../../../model/factory/todoListItemFactory';
+import { useTodoListItems } from './../../../context/todos/TodoListItemsContext';
 import { useNotifications } from './../../../context/notification/NotificationContext';
 import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
 import useFormState, {
@@ -7,7 +9,6 @@ import useFormState, {
 } from '../../../hooks/useFormState';
 import { NotificationType } from '../../../model/notification';
 import { FormValues } from '../../todoForm/TodoForm';
-import { persistNewTodo } from '../../../repository/todoListItemRepository';
 
 export type OnFormDataValidHandler = (
     roleUid: string,
@@ -18,13 +19,13 @@ export default function useHandleAddTodoFormEvents(
     date: Date,
     onDone: () => void,
 ) {
+    const { addTodo } = useTodoListItems();
+
     const user = useLoggedInUser();
 
     const { notify } = useNotifications();
 
     const validateInput: InputValidator<FormValues> = (values) => {
-        console.log('val', values);
-
         const newErrors: FormErrors<FormValues> = {};
 
         if (!values.summary) {
@@ -43,18 +44,13 @@ export default function useHandleAddTodoFormEvents(
             throw new Error('Expecting user to be available at this point');
         }
 
-        const [roleUid, goalUid] = values.roleWithGoal.split(',');
-
-        console.log('incoming', roleUid, goalUid);
-
-        const success = await persistNewTodo(
-            values.summary,
-            values.description,
-            roleUid,
-            goalUid,
+        const newTodo = await createTodoListItemFromFormValuesForUserAndDate(
+            values,
+            user,
             date,
-            user.uid,
         );
+
+        const success = await addTodo(newTodo);
 
         if (success) {
             onDone();

@@ -1,23 +1,8 @@
-import {
-    GoalDocumentData,
-    RoleDocumentData,
-} from './../firebase/model/roleDocumentData.d';
-import {
-    createEndOfDay,
-    createFirestoreTimestampFromDate,
-} from './../utility/dateTimeUtilities';
+import { createEndOfDay } from './../utility/dateTimeUtilities';
 import { TodoListItem } from '../model/todoListItem';
 import firebase from 'firebase/app';
 import firebaseToApplicationTodoListItemConverter from '../firebase/converter/toApplicationTodoListItemConverter';
-import { generateId } from '../utility/idGenerator';
 import { addNumberOfDays } from '../utility/dateTimeUtilities';
-import {
-    roleCollectionName,
-    goalsSubCollectionName,
-    fetchRole,
-    fetchGoal,
-} from './rolesRepository';
-import useFetchRoleAndGoal from '../features/todoListItem/useFetchRoleAndGoal';
 
 const todosCollectionName = 'todos';
 
@@ -41,60 +26,13 @@ export const fetchAllForUserForUpcomingDates = async (
     return snapshot.docs.map((doc) => doc.data());
 };
 
-export const persistNewTodo = async (
-    summary: string,
-    description: string | null,
-    roleUid: string | null,
-    goalUid: string | null,
-    date: Date,
-    userUid: string,
-): Promise<boolean> => {
+export const persistNewTodo = async (item: TodoListItem): Promise<boolean> => {
     try {
-        let role = null;
-
-        if (roleUid) {
-            role = await fetchRole(roleUid);
-        }
-
-        let goal = null;
-
-        if (goalUid && role) {
-            goal = await fetchGoal(role.uid, goalUid);
-        }
-
-        const todoListItem: TodoListItem = {
-            id: generateId(),
-            date: createFirestoreTimestampFromDate(date),
-            summary,
-            description,
-            done: false,
-            urgent: false,
-            important: false,
-            userUid,
-            goalRef:
-                role && goal
-                    ? (firebase
-                          .firestore()
-                          .doc(
-                              `${roleCollectionName}/${role.uid}/${goalsSubCollectionName}/${goal.uid}`,
-                          ) as firebase.firestore.DocumentReference<GoalDocumentData>)
-                    : null,
-            goalTitle: goal?.title || null,
-            roleRef: role
-                ? (firebase
-                      .firestore()
-                      .doc(
-                          `${roleCollectionName}/${role.uid}`,
-                      ) as firebase.firestore.DocumentReference<RoleDocumentData>)
-                : null,
-            roleTitle: role?.title || null,
-        };
-
         await firebase
             .firestore()
             .collection(todosCollectionName)
             .withConverter(firebaseToApplicationTodoListItemConverter)
-            .add(todoListItem);
+            .add(item);
 
         return true;
     } catch (error) {

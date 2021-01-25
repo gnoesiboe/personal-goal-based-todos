@@ -8,7 +8,6 @@ import TodoForm from '../todoForm/TodoForm';
 import Island from '../../primitives/island/Island';
 import Heading from '../../primitives/heading/Heading';
 import useHandleAddTodoFormEvents from './hooks/useHandleAddTodoFormEvents';
-import useRefreshServerSideProps from '../../hooks/useRefetchServerSideProps';
 
 type Props = {
     date: Date;
@@ -18,13 +17,6 @@ const AddTodo: React.FC<Props> = ({ date }) => {
     const { visible, show: showForm, hide: hideForm } = useShowHide(false);
 
     useShowModalWithKeyboardShortcut(showForm);
-
-    const refreshServerSideProps = useRefreshServerSideProps();
-
-    const onDone = () => {
-        hideForm();
-        refreshServerSideProps();
-    };
 
     const {
         onSubmit,
@@ -36,7 +28,7 @@ const AddTodo: React.FC<Props> = ({ date }) => {
         onFieldBlur,
         inputIsValid,
         disabled,
-    } = useHandleAddTodoFormEvents(date, onDone);
+    } = useHandleAddTodoFormEvents(date, hideForm);
 
     if (visible) {
         return (
