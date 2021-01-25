@@ -15,7 +15,7 @@ const TodoListItem: React.FC<Props> = ({ item, current }) => {
         [classNames.containerIsCurrent]: current,
     });
 
-    const { onInputChange } = useToggleDoneStatus(item);
+    const { onInputChange } = useToggleDoneStatus(item, current);
 
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
