@@ -23,7 +23,7 @@ type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'classname'>;
 
 const Input: React.FC<InputProps> = ({ type, ...otherProps }) => {
     const className = createClassName({
-        [classNames.textWidget]: type === 'text',
+        [classNames.textWidget]: !type || type === 'text',
     });
 
     return <input {...otherProps} type={type} className={className} />;

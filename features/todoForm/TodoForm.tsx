@@ -48,7 +48,7 @@ const TodoForm: React.FC<Props> = ({
         <Form.Form onSubmit={onSubmit}>
             <Form.Group>
                 <Form.Input
-                    type="summary"
+                    type="text"
                     name="summary"
                     placeholder="Summary"
                     value={values.summary}
@@ -117,7 +117,6 @@ const TodoForm: React.FC<Props> = ({
                         onChange={onFieldChange}
                         onBlur={onFieldBlur}
                         disabled={disabled}
-                        autoFocus
                         onKeyDown={onFieldKeyDown}
                     />
                     Urgent
