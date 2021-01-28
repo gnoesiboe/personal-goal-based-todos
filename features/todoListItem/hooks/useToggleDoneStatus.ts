@@ -42,7 +42,7 @@ export default function useToggleDoneStatus(
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [current]);
+    }, [current, item]);
 
     return { onInputChange };
 }
