@@ -1,4 +1,4 @@
-import { applyItemUpdate } from './../utility/todoListItemStateModifiers';
+import { applyItemUpdate } from '../utility/todoListItemStateModifiers';
 import { sortTodoListItemsByPriority } from '../../../model/selector/todoListItemSelectors';
 import {
     createDateKey,
@@ -80,6 +80,7 @@ export default function useManageTodoListItems(
             throw new Error('Expecting a logged in user at this point');
         }
 
+        // noinspection ES6MissingAwait
         fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
 
         return success;
@@ -114,6 +115,7 @@ export default function useManageTodoListItems(
         const success = await persistTodoUpdate(updatedTodo);
 
         if (success) {
+            // noinspection ES6MissingAwait
             fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
         }
 

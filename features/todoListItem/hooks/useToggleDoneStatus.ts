@@ -1,4 +1,4 @@
-import { TodoListItem } from './../../../model/todoListItem.d';
+import { TodoListItem } from '../../../model/todoListItem';
 import { ChangeEventHandler, useEffect } from 'react';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 

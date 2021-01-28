@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { TodoListItem } from './../../../model/todoListItem.d';
+import { TodoListItem } from '../../../model/todoListItem';
 
 export const applyItemUpdate = (
     currentItems: TodoListItem[],

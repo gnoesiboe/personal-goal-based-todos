@@ -14,7 +14,6 @@ import DayNavigation from '../../primitives/dayNavigation/DayNavigation';
 import DirectionIndicator from './components/DirectionIndicator';
 import classNames from './todoOverview.module.scss';
 import TodoList from './components/TodoList';
-import TodoListItem from '../todoListItem/TodoListItem';
 import AddTodo from '../addTodo/AddTodo';
 import Heading from '../../primitives/heading/Heading';
 import {
@@ -32,7 +31,7 @@ const TodoOverview: React.FC = () => {
         noOfDaysDisplayed,
     } = useCurrentDate();
 
-    const { itemsPerDate, currentTodoIndex } = useTodoListItems();
+    const { itemsPerDate } = useTodoListItems();
 
     const dateRange = createDateRange(currentDate, noOfDaysDisplayed);
 
@@ -85,19 +84,10 @@ const TodoOverview: React.FC = () => {
                                             </Heading>
                                         </div>
                                         <div className={classNames.dayContent}>
-                                            <TodoList>
-                                                {items.map((item, index) => (
-                                                    <TodoListItem
-                                                        key={item.id}
-                                                        item={item}
-                                                        current={
-                                                            isCurrent &&
-                                                            index ===
-                                                                currentTodoIndex
-                                                        }
-                                                    />
-                                                ))}
-                                            </TodoList>
+                                            <TodoList
+                                                items={items}
+                                                currentDate={isCurrent}
+                                            />
                                         </div>
                                         {isCurrent && (
                                             <div
