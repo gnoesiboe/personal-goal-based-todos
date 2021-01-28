@@ -7,7 +7,6 @@ export interface TodoListItemFirebaseData
     summary: string;
     done: boolean;
     urgent: boolean;
-    important: boolean;
     userUid: string;
     goalRef: firebase.firestore.DocumentReference<GoalDocumentData> | null;
     goalTitle: string | null;

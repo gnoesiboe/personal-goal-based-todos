@@ -4,7 +4,7 @@ import {
     subtractNumberOfDays,
     checkDateIsBefore,
 } from '../../../utility/dateTimeUtilities';
-import { MouseEventHandler, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export type DayNavigationDirection = 'forwards' | 'backwards';
 

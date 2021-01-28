@@ -27,6 +27,13 @@
     padding: 5px;
 }
 
+.label {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .actionButtons {
     margin-top: spacing.$spacing-medium;
     display: flex;

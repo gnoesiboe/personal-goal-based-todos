@@ -52,7 +52,7 @@ const createTouched = <FormValues,>(
 };
 
 export default function useFormState<
-    FormValues extends Record<string, string | null>
+    FormValues extends Record<string, string | null | boolean>
 >(
     keys: Array<keyof FormValues>,
     validateInput: InputValidator<FormValues>,
@@ -132,7 +132,10 @@ export default function useFormState<
         }
 
         const field = target.name as keyof FormValues;
-        const newValue = target.value;
+        const newValue =
+            target instanceof HTMLInputElement && target.type === 'checkbox'
+                ? target.checked
+                : target.value;
 
         setValues((currentValues) => ({
             ...currentValues,

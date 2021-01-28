@@ -1,6 +1,6 @@
-import { createTodoListItemFromFormValuesForUserAndDate } from './../../../model/factory/todoListItemFactory';
-import { useTodoListItems } from './../../../context/todos/TodoListItemsContext';
-import { useNotifications } from './../../../context/notification/NotificationContext';
+import { createTodoListItemFromFormValuesForUserAndDate } from '../../../model/factory/todoListItemFactory';
+import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
+import { useNotifications } from '../../../context/notification/NotificationContext';
 import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
 import useFormState, {
     FormErrors,
@@ -9,11 +9,6 @@ import useFormState, {
 } from '../../../hooks/useFormState';
 import { NotificationType } from '../../../model/notification';
 import { FormValues } from '../../todoForm/TodoForm';
-
-export type OnFormDataValidHandler = (
-    roleUid: string,
-    values: FormValues,
-) => Promise<boolean>;
 
 export default function useHandleAddTodoFormEvents(
     date: Date,
@@ -30,10 +25,6 @@ export default function useHandleAddTodoFormEvents(
 
         if (!values.summary) {
             newErrors.summary = 'Required';
-        }
-
-        if (!values.roleWithGoal) {
-            newErrors.roleWithGoal = 'Required';
         }
 
         return newErrors;
@@ -66,8 +57,11 @@ export default function useHandleAddTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal'],
+        ['summary', 'description', 'roleWithGoal', 'urgent'],
         validateInput,
         onFormValid,
+        {
+            urgent: false,
+        },
     );
 }

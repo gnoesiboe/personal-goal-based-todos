@@ -1,12 +1,12 @@
 import {
     GoalDocumentData,
     RoleDocumentData,
-} from './../../firebase/model/roleDocumentData.d';
+} from '../../firebase/model/roleDocumentData';
 import {
     fetchGoal,
     goalsSubCollectionName,
-} from './../../repository/rolesRepository';
-import { User } from './../user.d';
+} from '../../repository/rolesRepository';
+import { User } from '../user';
 import { FormValues } from '../../features/todoForm/TodoForm';
 import { TodoListItem } from '../todoListItem';
 import {
@@ -42,8 +42,7 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
         summary: values.summary,
         description: values.description,
         done: false,
-        urgent: false,
-        important: false,
+        urgent: values.urgent,
         userUid: user.uid,
         goalRef:
             role && goal

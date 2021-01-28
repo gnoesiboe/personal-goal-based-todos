@@ -14,6 +14,7 @@ export type FormValues = {
     summary: string;
     description: string;
     roleWithGoal: string;
+    urgent: boolean;
 };
 
 type Props = {
@@ -105,6 +106,24 @@ const TodoForm: React.FC<Props> = ({
                             <Form.Error>{errors.roleWithGoal}</Form.Error>
                         )}
                     </>
+                )}
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    <Form.Input
+                        type="checkbox"
+                        name="urgent"
+                        checked={values.urgent}
+                        onChange={onFieldChange}
+                        onBlur={onFieldBlur}
+                        disabled={disabled}
+                        autoFocus
+                        onKeyDown={onFieldKeyDown}
+                    />
+                    Urgent
+                </Form.Label>
+                {touched.urgent && errors.urgent && (
+                    <Form.Error>{errors.urgent}</Form.Error>
                 )}
             </Form.Group>
             <Form.ActionButtons>
