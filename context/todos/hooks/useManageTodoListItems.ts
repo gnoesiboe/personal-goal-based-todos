@@ -17,7 +17,11 @@ export default function useManageTodoListItems(
         noOfDaysDisplayed,
     );
 
-    const { addTodo, updateTodo } = useModifyTodoCollection(
+    const {
+        addTodo,
+        updateTodo,
+        postponeTodoToTomorrow,
+    } = useModifyTodoCollection(
         currentDate,
         noOfDaysDisplayed,
         fetchTodos,
@@ -35,5 +39,11 @@ export default function useManageTodoListItems(
         (item) => createDateKey(parseFirebaseTimestamp(item.date)),
     );
 
-    return { itemsPerDate, isFetching, addTodo, updateTodo };
+    return {
+        itemsPerDate,
+        isFetching,
+        addTodo,
+        updateTodo,
+        postponeTodoToTomorrow,
+    };
 }

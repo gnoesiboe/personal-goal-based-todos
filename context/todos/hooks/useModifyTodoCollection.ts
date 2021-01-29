@@ -7,12 +7,30 @@ import { TodoListItem } from '../../../model/todoListItem';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
 import { FetchTodoHandler } from './useFetchTodoListItems';
 import { Dispatch, SetStateAction } from 'react';
+import {
+    addNumberOfDays,
+    createFirestoreTimestampFromDate,
+    parseFirebaseTimestamp,
+} from '../../../utility/dateTimeUtilities';
 
 export type AddTodoHandler = (todoListItem: TodoListItem) => Promise<boolean>;
+
 export type UpdateTodoHandler = (
     id: string,
     updates: Partial<TodoListItem>,
 ) => Promise<boolean>;
+
+export type PostponeTodoToTomorrowHandler = (id: string) => Promise<boolean>;
+
+const persistUpdates = async (
+    todoToUpdate: TodoListItem,
+    updates: Partial<TodoListItem>,
+): Promise<boolean> => {
+    return await persistTodoUpdate({
+        ...todoToUpdate,
+        ...updates,
+    });
+};
 
 export default function useModifyTodoCollection(
     currentDate: Date,
@@ -57,12 +75,7 @@ export default function useModifyTodoCollection(
         setItems(applyItemUpdate(items, id, updates));
 
         // persist to server
-        const updatedTodo = {
-            ...todoToUpdate,
-            ...updates,
-        };
-
-        const success = await persistTodoUpdate(updatedTodo);
+        const success = await persistUpdates(todoToUpdate, updates);
 
         if (success) {
             // noinspection ES6MissingAwait
@@ -72,5 +85,49 @@ export default function useModifyTodoCollection(
         return success;
     };
 
-    return { addTodo, updateTodo };
+    const postponeTodoToTomorrow: PostponeTodoToTomorrowHandler = async (
+        id,
+    ) => {
+        if (!user) {
+            throw new Error('Expecting user to be available at this point');
+        }
+
+        if (!items) {
+            throw new Error(
+                'Expecting current items to be available at this point',
+            );
+        }
+
+        const todoToUpdate = items.find((cursorItem) => cursorItem.id === id);
+
+        if (!todoToUpdate) {
+            return false;
+        }
+
+        const newDate = createFirestoreTimestampFromDate(
+            addNumberOfDays(parseFirebaseTimestamp(todoToUpdate.date), 1),
+        );
+
+        const updates: Partial<TodoListItem> = {
+            date: newDate,
+        };
+
+        // optimistic updating
+        setItems(applyItemUpdate(items, id, updates));
+
+        // persist to server
+        const success = await persistUpdates(todoToUpdate, updates);
+
+        if (success) {
+            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
+            fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
+        } else {
+            // rewind optimistic update
+            setItems(applyItemUpdate(items, id, todoToUpdate));
+        }
+
+        return success;
+    };
+
+    return { addTodo, updateTodo, postponeTodoToTomorrow };
 }

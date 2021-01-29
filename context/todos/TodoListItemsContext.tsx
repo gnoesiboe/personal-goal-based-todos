@@ -10,6 +10,7 @@ import {
     AddTodoHandler,
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
+import useKeyboardEventListeners from './hooks/useKeyboardEventListeners';
 
 type ContextValue = {
     noOfDaysDisplayed: number;
@@ -59,11 +60,19 @@ export const TodoListItemContextProvider: React.FC<{
         isFetching,
         addTodo,
         updateTodo,
+        postponeTodoToTomorrow,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
 
     const { currentTodoIndex } = useManageCurrentTodo(
         itemsPerDate,
         currentDate,
+    );
+
+    useKeyboardEventListeners(
+        postponeTodoToTomorrow,
+        itemsPerDate,
+        currentDate,
+        currentTodoIndex,
     );
 
     const value: ContextValue = {
