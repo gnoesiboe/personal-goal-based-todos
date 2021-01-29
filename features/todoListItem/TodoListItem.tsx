@@ -5,12 +5,15 @@ import createClassName from 'classnames';
 import CheckboxInput from './components/CheckboxInput';
 import useToggleDoneStatus from './hooks/useToggleDoneStatus';
 
+export type OnContainerClickHandler = (id: string) => void;
+
 type Props = {
     item: TodoListItemModel;
     current: boolean;
+    onContainerClick: OnContainerClickHandler;
 };
 
-const TodoListItem: React.FC<Props> = ({ item, current }) => {
+const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     const className = createClassName(classNames.container, {
         [classNames.containerIsCurrent]: current,
     });
@@ -20,7 +23,7 @@ const TodoListItem: React.FC<Props> = ({ item, current }) => {
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
     return (
-        <div className={className}>
+        <div className={className} onClick={() => onContainerClick(item.id)}>
             <CheckboxInput
                 hasBreadcrumb={hasBreadcrumb}
                 checked={item.done}

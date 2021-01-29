@@ -5,15 +5,18 @@ import {
     resolvePossibleSameTodoIndex,
     resolvePreviousCurrentTodoIndex,
 } from '../../../features/todoOverview/utility/currentTodoIndexResolver';
+import { createDateKey } from '../../../utility/dateTimeUtilities';
+
+export type SetCurrentTodoIndexHandler = (index: number) => void;
 
 export default function useManageCurrentTodo(
     itemsPerDate: Record<string, TodoListItem[]>,
     currentDate: Date,
 ) {
-    const [currentTodoIndex, setCurrentTodoIndex] = useState<number>(0);
+    const [currentTodoIndex, setCurrentTodoIndexState] = useState<number>(0);
 
     useEffect(() => {
-        setCurrentTodoIndex((currentTodoIndex) => {
+        setCurrentTodoIndexState((currentTodoIndex) => {
             return resolvePossibleSameTodoIndex(
                 itemsPerDate,
                 currentDate,
@@ -24,7 +27,7 @@ export default function useManageCurrentTodo(
 
     useEffect(() => {
         const moveToNext = () => {
-            setCurrentTodoIndex((currentTodoIndex) => {
+            setCurrentTodoIndexState((currentTodoIndex) => {
                 return resolveNextCurrentTodoIndex(
                     itemsPerDate,
                     currentDate,
@@ -34,7 +37,7 @@ export default function useManageCurrentTodo(
         };
 
         const moveToPrevious = () => {
-            setCurrentTodoIndex((currentTodoIndex) => {
+            setCurrentTodoIndexState((currentTodoIndex) => {
                 return resolvePreviousCurrentTodoIndex(
                     itemsPerDate,
                     currentDate,
@@ -74,5 +77,17 @@ export default function useManageCurrentTodo(
         return () => window.removeEventListener('keydown', onKeyDown);
     }, [itemsPerDate, currentDate]);
 
-    return { currentTodoIndex };
+    const setCurrentTodoIndex: SetCurrentTodoIndexHandler = (index) => {
+        const items = itemsPerDate[createDateKey(currentDate)] || [];
+
+        const indexExists = typeof items[index] !== 'undefined';
+
+        if (!indexExists) {
+            return;
+        }
+
+        setCurrentTodoIndexState(index);
+    };
+
+    return { currentTodoIndex, setCurrentTodoIndex };
 }

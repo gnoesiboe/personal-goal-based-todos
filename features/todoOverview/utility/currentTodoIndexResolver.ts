@@ -1,4 +1,4 @@
-import { createDateKey } from './../../../utility/dateTimeUtilities';
+import { createDateKey } from '../../../utility/dateTimeUtilities';
 import { TodoListItem } from '../../../model/todoListItem';
 
 export const resolveNextCurrentTodoIndex = (

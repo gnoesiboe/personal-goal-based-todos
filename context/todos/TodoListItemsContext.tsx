@@ -4,7 +4,9 @@ import useDetermineNumberOfDaysThatCanBeDisplayed from './hooks/useDetermineNumb
 import useManageCurrentDate, {
     DayNavigationDirection,
 } from './hooks/useManageCurrentDate';
-import useManageCurrentTodo from './hooks/useManageCurrentTodo';
+import useManageCurrentTodo, {
+    SetCurrentTodoIndexHandler,
+} from './hooks/useManageCurrentTodo';
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import {
     AddTodoHandler,
@@ -22,6 +24,7 @@ type ContextValue = {
     itemsPerDate: Record<string, TodoListItem[]>;
     isFetching: boolean;
     currentTodoIndex: number | null;
+    setCurrentTodoIndex: SetCurrentTodoIndexHandler;
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
 };
@@ -36,6 +39,7 @@ const initialValue: ContextValue = {
     itemsPerDate: {},
     isFetching: false,
     currentTodoIndex: null,
+    setCurrentTodoIndex: () => {},
     addTodo: async () => false,
     updateTodo: async () => false,
 };
@@ -63,7 +67,7 @@ export const TodoListItemContextProvider: React.FC<{
         postponeTodoToTomorrow,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
 
-    const { currentTodoIndex } = useManageCurrentTodo(
+    const { currentTodoIndex, setCurrentTodoIndex } = useManageCurrentTodo(
         itemsPerDate,
         currentDate,
     );
@@ -85,6 +89,7 @@ export const TodoListItemContextProvider: React.FC<{
         itemsPerDate,
         isFetching,
         currentTodoIndex,
+        setCurrentTodoIndex,
         addTodo,
         updateTodo,
     };
@@ -95,6 +100,7 @@ export const TodoListItemContextProvider: React.FC<{
 export const useTodoListItems = () => {
     const {
         currentTodoIndex,
+        setCurrentTodoIndex,
         itemsPerDate,
         isFetching,
         addTodo,
@@ -103,6 +109,7 @@ export const useTodoListItems = () => {
 
     return {
         currentTodoIndex,
+        setCurrentTodoIndex,
         itemsPerDate,
         isFetching,
         addTodo,
