@@ -6,6 +6,11 @@ import {
     resolvePreviousCurrentTodoIndex,
 } from '../../../features/todoOverview/utility/currentTodoIndexResolver';
 import { createDateKey } from '../../../utility/dateTimeUtilities';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
+import {
+    moveToNextTodoDefinition,
+    moveToPreviousTodoDefinition,
+} from '../../../constants/keyboardDefinitions';
 
 export type SetCurrentTodoIndexHandler = (index: number) => void;
 
@@ -56,18 +61,11 @@ export default function useManageCurrentTodo(
                 return;
             }
 
-            if (
-                event.altKey ||
-                event.shiftKey ||
-                event.ctrlKey ||
-                event.metaKey
-            ) {
-                return;
-            }
-
-            if (event.key === 'ArrowDown') {
+            if (checkKeyDefinitionIsPressed(moveToNextTodoDefinition, event)) {
                 moveToNext();
-            } else if (event.key === 'ArrowUp') {
+            } else if (
+                checkKeyDefinitionIsPressed(moveToPreviousTodoDefinition, event)
+            ) {
                 moveToPrevious();
             }
         };

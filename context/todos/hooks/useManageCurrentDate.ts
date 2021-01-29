@@ -5,6 +5,12 @@ import {
     checkDateIsBefore,
 } from '../../../utility/dateTimeUtilities';
 import { useState, useEffect } from 'react';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
+import {
+    moveToNextDateDefinition,
+    moveToPreviousDateDefinition,
+    moveToTodayDefinition,
+} from '../../../constants/keyboardDefinitions';
 
 export type DayNavigationDirection = 'forwards' | 'backwards';
 
@@ -69,20 +75,15 @@ export default function useManageCurrentDate() {
                 return;
             }
 
-            if (
-                event.altKey ||
-                event.shiftKey ||
-                event.ctrlKey ||
-                event.metaKey
-            ) {
-                return;
-            }
-
-            if (event.key === 'ArrowRight') {
+            if (checkKeyDefinitionIsPressed(moveToNextDateDefinition, event)) {
                 moveToNext();
-            } else if (event.key === 'ArrowLeft') {
+            } else if (
+                checkKeyDefinitionIsPressed(moveToPreviousDateDefinition, event)
+            ) {
                 moveToPrevious();
-            } else if (event.key === 't') {
+            } else if (
+                checkKeyDefinitionIsPressed(moveToTodayDefinition, event)
+            ) {
                 moveToToday();
             }
         };

@@ -1,6 +1,8 @@
 import { TodoListItem } from '../../../model/todoListItem';
 import { ChangeEventHandler, useEffect } from 'react';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
+import { toggleDoneStatusDefinition } from '../../../constants/keyboardDefinitions';
 
 export default function useToggleDoneStatus(
     item: TodoListItem,
@@ -9,6 +11,7 @@ export default function useToggleDoneStatus(
     const { updateTodo } = useTodoListItems();
 
     const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+        // noinspection JSIgnoredPromiseFromCall
         updateTodo(item.id, {
             done: event.target.checked,
         });
@@ -28,15 +31,11 @@ export default function useToggleDoneStatus(
             }
 
             if (
-                event.shiftKey ||
-                event.metaKey ||
-                event.key !== ' ' ||
-                !event.ctrlKey
+                checkKeyDefinitionIsPressed(toggleDoneStatusDefinition, event)
             ) {
-                return;
+                // noinspection JSIgnoredPromiseFromCall
+                updateTodo(item.id, { done: !item.done });
             }
-
-            updateTodo(item.id, { done: !item.done });
         };
 
         window.addEventListener('keydown', onKeyDown);

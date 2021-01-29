@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
+import { startAddTodoDefinition } from '../../../constants/keyboardDefinitions';
 
 export default function useShowModalWithKeyboardShortcut(show: () => void) {
     useEffect(() => {
@@ -12,13 +14,7 @@ export default function useShowModalWithKeyboardShortcut(show: () => void) {
                 return;
             }
 
-            if (
-                event.key === 'a' &&
-                !event.shiftKey &&
-                !event.altKey &&
-                !event.ctrlKey &&
-                !event.metaKey
-            ) {
+            if (checkKeyDefinitionIsPressed(startAddTodoDefinition, event)) {
                 event.preventDefault();
 
                 show();
