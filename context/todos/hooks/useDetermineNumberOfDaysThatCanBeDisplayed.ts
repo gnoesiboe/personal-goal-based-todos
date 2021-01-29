@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 // keep inline with todoOverview.module.scss
 const gapWidth = 20;
-const dayWidth = 300;
+const dayWidth = 400; // keep inline with sizes.scss
 
 export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
     const [noOfRows, setNoOfRows] = useState<number>(0);
