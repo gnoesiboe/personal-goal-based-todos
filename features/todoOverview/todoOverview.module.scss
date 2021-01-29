@@ -35,6 +35,10 @@
     }
 }
 
+.dayIsToday {
+    background: colors.$fifth;
+}
+
 .dayHeader {
     padding-top: spacing.$spacing-small;
 }
@@ -42,10 +46,6 @@
 .dayContent {
     padding: spacing.$spacing-small;
     flex: 1;
-}
-
-.dayIsToday {
-    background: colors.$fifth;
 }
 
 .dayActions {
