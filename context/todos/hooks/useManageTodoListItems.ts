@@ -70,6 +70,7 @@ export default function useManageTodoListItems(
             return;
         }
 
+        // noinspection JSIgnoredPromiseFromCall
         fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
     }, [currentDate, setIsFetching, noOfDaysDisplayed]);
 
