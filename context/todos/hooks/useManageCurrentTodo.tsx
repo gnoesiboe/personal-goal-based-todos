@@ -6,10 +6,7 @@ import {
     resolvePreviousCurrentTodoIndex,
 } from '../../../features/todoOverview/utility/currentTodoIndexResolver';
 import { createDateKey } from '../../../utility/dateTimeUtilities';
-import {
-    checkIsFormKeyboardEvent,
-    checkKeyDefinitionIsPressed,
-} from '../../../utility/keyboardUtilities';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
     moveToNextTodoDefinition,
     moveToPreviousTodoDefinition,
@@ -55,10 +52,6 @@ export default function useManageCurrentTodo(
         };
 
         const onKeyDown = (event: WindowEventMap['keydown']) => {
-            if (checkIsFormKeyboardEvent(event)) {
-                return;
-            }
-
             if (checkKeyDefinitionIsPressed(moveToNextTodoDefinition, event)) {
                 moveToNext();
             } else if (

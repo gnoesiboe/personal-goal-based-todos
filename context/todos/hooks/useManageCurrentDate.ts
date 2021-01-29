@@ -5,10 +5,7 @@ import {
     checkDateIsBefore,
 } from '../../../utility/dateTimeUtilities';
 import { useState, useEffect } from 'react';
-import {
-    checkIsFormKeyboardEvent,
-    checkKeyDefinitionIsPressed,
-} from '../../../utility/keyboardUtilities';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
     moveToNextDateDefinition,
     moveToPreviousDateDefinition,
@@ -69,10 +66,6 @@ export default function useManageCurrentDate() {
 
     useEffect(() => {
         const onKeyDown = (event: WindowEventMap['keydown']) => {
-            if (checkIsFormKeyboardEvent(event)) {
-                return;
-            }
-
             if (checkKeyDefinitionIsPressed(moveToNextDateDefinition, event)) {
                 moveToNext();
             } else if (

@@ -33,3 +33,8 @@ export const toggleDoneStatusDefinition: Partial<KeyDefinition> = {
     key: ' ',
     ctrlKey: true,
 };
+
+export const submitFormDefinition: Partial<KeyDefinition> = {
+    key: 'Enter',
+    ctrlKey: true,
+};

@@ -2,10 +2,7 @@ import { useEffect } from 'react';
 import { PostponeTodoToTomorrowHandler } from './useModifyTodoCollection';
 import { TodoListItem } from '../../../model/todoListItem';
 import { createDateKey } from '../../../utility/dateTimeUtilities';
-import {
-    checkIsFormKeyboardEvent,
-    checkKeyDefinitionIsPressed,
-} from '../../../utility/keyboardUtilities';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import { postponeTillTomorrowDefinition } from '../../../constants/keyboardDefinitions';
 
 export default function useKeyboardEventListeners(
@@ -20,10 +17,6 @@ export default function useKeyboardEventListeners(
         }
 
         const onKeyDown = (event: WindowEventMap['keydown']) => {
-            if (checkIsFormKeyboardEvent(event)) {
-                return;
-            }
-
             if (
                 checkKeyDefinitionIsPressed(
                     postponeTillTomorrowDefinition,

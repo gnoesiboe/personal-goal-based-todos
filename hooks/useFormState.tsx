@@ -6,6 +6,8 @@ import {
     useEffect,
     useState,
 } from 'react';
+import { checkKeyDefinitionIsPressed } from '../utility/keyboardUtilities';
+import { submitFormDefinition } from '../constants/keyboardDefinitions';
 
 export type FormErrors<FormValues extends {}> = {
     [key in keyof FormValues]?: string;
@@ -117,6 +119,7 @@ export default function useFormState<
     const onSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
 
+        // noinspection ES6MissingAwait
         submitForm();
     };
 
@@ -157,13 +160,8 @@ export default function useFormState<
     };
 
     const onFieldKeyDown: KeyboardEventHandler = (event) => {
-        if (
-            event.key === 'Enter' &&
-            event.ctrlKey &&
-            !event.shiftKey &&
-            !event.altKey &&
-            !event.metaKey
-        ) {
+        if (checkKeyDefinitionIsPressed(submitFormDefinition, event, false)) {
+            // noinspection JSIgnoredPromiseFromCall
             submitForm();
         }
     };

@@ -1,10 +1,7 @@
 import { TodoListItem } from '../../../model/todoListItem';
 import { ChangeEventHandler, useEffect } from 'react';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
-import {
-    checkIsFormKeyboardEvent,
-    checkKeyDefinitionIsPressed,
-} from '../../../utility/keyboardUtilities';
+import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import { toggleDoneStatusDefinition } from '../../../constants/keyboardDefinitions';
 
 export default function useToggleDoneStatus(
@@ -26,10 +23,6 @@ export default function useToggleDoneStatus(
         }
 
         const onKeyDown = (event: WindowEventMap['keydown']) => {
-            if (checkIsFormKeyboardEvent(event)) {
-                return;
-            }
-
             if (
                 checkKeyDefinitionIsPressed(toggleDoneStatusDefinition, event)
             ) {

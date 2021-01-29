@@ -22,7 +22,12 @@ const normalizeDefinition = (
 export const checkKeyDefinitionIsPressed = (
     definition: Partial<KeyDefinition>,
     event: WindowEventMap['keyup'] | WindowEventMap['keydown'] | KeyboardEvent,
+    filterOutFormEvents: boolean = true,
 ): boolean => {
+    if (filterOutFormEvents && checkIsFormKeyboardEvent(event)) {
+        return false;
+    }
+
     const normalizedDefinition = normalizeDefinition(definition);
 
     return (
@@ -34,7 +39,7 @@ export const checkKeyDefinitionIsPressed = (
     );
 };
 
-export const checkIsFormKeyboardEvent = (
+const checkIsFormKeyboardEvent = (
     event: WindowEventMap['keyup'] | WindowEventMap['keydown'] | KeyboardEvent,
 ): boolean => {
     const target = event.target;
