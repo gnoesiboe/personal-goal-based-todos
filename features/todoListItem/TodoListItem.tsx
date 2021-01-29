@@ -4,6 +4,9 @@ import classNames from './todoListItem.module.scss';
 import createClassName from 'classnames';
 import CheckboxInput from './components/CheckboxInput';
 import useToggleDoneStatus from './hooks/useToggleDoneStatus';
+import ActionButtonList from './components/ActionButtonList';
+import ActionButton from './components/ActionButton';
+import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -14,7 +17,9 @@ type Props = {
 };
 
 const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
-    const className = createClassName(classNames.container, {
+    const { removeTodo, postponeTodoToTomorrow } = useTodoListItems();
+
+    const containerClassName = createClassName(classNames.container, {
         [classNames.containerIsCurrent]: current,
     });
 
@@ -23,21 +28,38 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
     return (
-        <div className={className} onClick={() => onContainerClick(item.id)}>
-            <CheckboxInput
-                hasBreadcrumb={hasBreadcrumb}
-                checked={item.done}
-                onChange={onInputChange}
-            />
-            <div className={classNames.content}>
-                {item.roleTitle && item.goalTitle && (
-                    <ul className={classNames.breadcrumb}>
-                        <li title={item.roleTitle}>{item.roleTitle}</li>
-                        <li title={item.goalTitle}>{item.goalTitle}</li>
-                    </ul>
-                )}
-                <div className={classNames.summary}>{item.summary}</div>
+        <div className={containerClassName}>
+            <div
+                className={classNames.header}
+                onClick={() => onContainerClick(item.id)}
+            >
+                <CheckboxInput
+                    hasBreadcrumb={hasBreadcrumb}
+                    checked={item.done}
+                    onChange={onInputChange}
+                />
+                <div className={classNames.content}>
+                    {item.roleTitle && item.goalTitle && (
+                        <ul className={classNames.breadcrumb}>
+                            <li title={item.roleTitle}>{item.roleTitle}</li>
+                            <li title={item.goalTitle}>{item.goalTitle}</li>
+                        </ul>
+                    )}
+                    <div className={classNames.summary}>{item.summary}</div>
+                </div>
             </div>
+            {current && (
+                <ActionButtonList>
+                    <ActionButton onClick={() => removeTodo(item.id)}>
+                        delete
+                    </ActionButton>
+                    <ActionButton
+                        onClick={() => postponeTodoToTomorrow(item.id)}
+                    >
+                        tomorrow
+                    </ActionButton>
+                </ActionButtonList>
+            )}
         </div>
     );
 };

@@ -10,6 +10,7 @@ import useManageCurrentTodo, {
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import {
     AddTodoHandler,
+    PostponeTodoToTomorrowHandler,
     RemoveTodoHandler,
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
@@ -30,6 +31,7 @@ type ContextValue = {
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
+    postponeTodoToTomorrow: PostponeTodoToTomorrowHandler;
 };
 
 const initialValue: ContextValue = {
@@ -46,6 +48,7 @@ const initialValue: ContextValue = {
     addTodo: async () => false,
     updateTodo: async () => false,
     removeTodo: async () => false,
+    postponeTodoToTomorrow: async () => false,
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -97,6 +100,7 @@ export const TodoListItemContextProvider: React.FC<{
         addTodo,
         updateTodo,
         removeTodo,
+        postponeTodoToTomorrow,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -111,6 +115,7 @@ export const useTodoListItems = () => {
         addTodo,
         updateTodo,
         removeTodo,
+        postponeTodoToTomorrow,
     } = useContext(Context);
 
     return {
@@ -121,6 +126,7 @@ export const useTodoListItems = () => {
         addTodo,
         updateTodo,
         removeTodo,
+        postponeTodoToTomorrow,
     };
 };
 

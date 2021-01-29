@@ -4,15 +4,18 @@
 .container {
     margin-bottom: spacing.$spacing-small;
     padding: spacing.$spacing-small;
-    display: flex;
-    justify-content: flex-start;
-    gap: spacing.$spacing-small;
-    align-items: flex-start;
 }
 
 .containerIsCurrent {
     background: rgba(255, 255, 255, 0.4);
     border-radius: 5px;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-start;
+    gap: spacing.$spacing-small;
+    align-items: flex-start;
 }
 
 .content {
@@ -50,4 +53,27 @@
 
 .checkboxHasBreadcrumb {
     margin-top: 30px;
+}
+
+.actionButtonList {
+    display: flex;
+    list-style: none;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0 0 0 23px;
+    gap: 10px;
+
+    li {
+        display: inline;
+    }
+}
+
+.actionButton {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.3);
+
+    &:hover {
+        text-decoration: underline;
+        color: rgba(0, 0, 0, 0.6);
+    }
 }
