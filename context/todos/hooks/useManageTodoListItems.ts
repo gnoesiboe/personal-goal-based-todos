@@ -4,17 +4,14 @@ import {
     createDateKey,
     parseFirebaseTimestamp,
 } from '../../../utility/dateTimeUtilities';
-import { useNotifications } from '../../notification/NotificationContext';
 import {
-    fetchAllForUserForUpcomingDates,
     persistNewTodo,
     persistTodoUpdate,
 } from '../../../repository/todoListItemRepository';
 import { groupItemsWithCallback } from '../../../utility/arrayUtilities';
-import { useState, useEffect } from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
-import { NotificationType } from '../../../model/notification';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
+import useFetchTodoListItems from './useFetchTodoListItems';
 
 export type AddTodoHandler = (todoListItem: TodoListItem) => Promise<boolean>;
 export type UpdateTodoHandler = (
@@ -26,53 +23,12 @@ export default function useManageTodoListItems(
     currentDate: Date,
     noOfDaysDisplayed: number,
 ) {
-    const [items, setItems] = useState<TodoListItem[] | null>(null);
-
-    const [isFetching, setIsFetching] = useState<boolean>(false);
-
-    const { notify } = useNotifications();
+    const { items, fetchTodos, isFetching, setItems } = useFetchTodoListItems(
+        currentDate,
+        noOfDaysDisplayed,
+    );
 
     const user = useLoggedInUser();
-
-    const fetchTodos = async (
-        date: Date,
-        noOfDays: number,
-        userUid: string,
-    ) => {
-        setIsFetching(true);
-
-        try {
-            const newItems = await fetchAllForUserForUpcomingDates(
-                date,
-                noOfDays,
-                userUid,
-            );
-
-            setItems(newItems);
-        } catch (error) {
-            console.error(
-                'Something went wrong wile fetching todo list items',
-                error,
-            );
-
-            notify(
-                'Oeps!',
-                'Er is iets foutgegaan bij het ophalen van de items. Probeer het later nog eens!',
-                NotificationType.Error,
-            );
-        }
-
-        setIsFetching(false);
-    };
-
-    useEffect(() => {
-        if (!user || noOfDaysDisplayed === 0) {
-            return;
-        }
-
-        // noinspection JSIgnoredPromiseFromCall
-        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
-    }, [currentDate, setIsFetching, noOfDaysDisplayed]);
 
     const addTodo: AddTodoHandler = async (newItem) => {
         const success = await persistNewTodo(newItem);
