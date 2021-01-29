@@ -5,6 +5,12 @@ import { useLoggedInUser } from '../../authentication/AuthenticationContext';
 import { useNotifications } from '../../notification/NotificationContext';
 import { TodoListItem } from '../../../model/todoListItem';
 
+export type FetchTodoHandler = (
+    date: Date,
+    noOfDays: number,
+    userUid: string,
+) => Promise<boolean>;
+
 export default function useFetchTodoListItems(
     currentDate: Date,
     noOfDaysDisplayed: number,
@@ -17,11 +23,7 @@ export default function useFetchTodoListItems(
 
     const { notify } = useNotifications();
 
-    const fetchTodos = async (
-        date: Date,
-        noOfDays: number,
-        userUid: string,
-    ) => {
+    const fetchTodos: FetchTodoHandler = async (date, noOfDays, userUid) => {
         setIsFetching(true);
 
         try {
@@ -32,6 +34,10 @@ export default function useFetchTodoListItems(
             );
 
             setItems(newItems);
+
+            setIsFetching(false);
+
+            return true;
         } catch (error) {
             console.error(
                 'Something went wrong wile fetching todo list items',
@@ -43,9 +49,11 @@ export default function useFetchTodoListItems(
                 'Er is iets foutgegaan bij het ophalen van de items. Probeer het later nog eens!',
                 NotificationType.Error,
             );
+
+            setIsFetching(false);
         }
 
-        setIsFetching(false);
+        return false;
     };
 
     useEffect(() => {

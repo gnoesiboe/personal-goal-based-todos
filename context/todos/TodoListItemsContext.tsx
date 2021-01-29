@@ -5,10 +5,11 @@ import useManageCurrentDate, {
     DayNavigationDirection,
 } from './hooks/useManageCurrentDate';
 import useManageCurrentTodo from './hooks/useManageCurrentTodo';
-import useManageTodoListItems, {
+import useManageTodoListItems from './hooks/useManageTodoListItems';
+import {
     AddTodoHandler,
     UpdateTodoHandler,
-} from './hooks/useManageTodoListItems';
+} from './hooks/useModifyTodoCollection';
 
 type ContextValue = {
     noOfDaysDisplayed: number;
