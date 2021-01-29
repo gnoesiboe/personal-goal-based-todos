@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
-import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
+import {
+    checkIsFormKeyboardEvent,
+    checkKeyDefinitionIsPressed,
+} from '../../../utility/keyboardUtilities';
 import { startAddTodoDefinition } from '../../../constants/keyboardDefinitions';
 
 export default function useShowModalWithKeyboardShortcut(show: () => void) {
     useEffect(() => {
         const onKeyDown = (event: WindowEventMap['keydown']) => {
-            const target = event.target;
-
-            if (
-                target instanceof HTMLInputElement ||
-                target instanceof HTMLTextAreaElement
-            ) {
+            if (checkIsFormKeyboardEvent(event)) {
                 return;
             }
 

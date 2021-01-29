@@ -33,3 +33,15 @@ export const checkKeyDefinitionIsPressed = (
         event.metaKey === normalizedDefinition.metaKey
     );
 };
+
+export const checkIsFormKeyboardEvent = (
+    event: WindowEventMap['keyup'] | WindowEventMap['keydown'] | KeyboardEvent,
+): boolean => {
+    const target = event.target;
+
+    return (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement
+    );
+};
