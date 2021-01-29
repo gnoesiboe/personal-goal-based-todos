@@ -1,6 +1,7 @@
 import {
     persistNewTodo,
     persistTodoUpdate,
+    removeTodoFromServer,
 } from '../../../repository/todoListItemRepository';
 import { applyItemUpdate } from '../utility/todoListItemStateModifiers';
 import { TodoListItem } from '../../../model/todoListItem';
@@ -22,6 +23,8 @@ export type UpdateTodoHandler = (
 
 export type PostponeTodoToTomorrowHandler = (id: string) => Promise<boolean>;
 
+export type RemoveTodoHandler = (id: string) => Promise<boolean>;
+
 const persistUpdates = async (
     todoToUpdate: TodoListItem,
     updates: Partial<TodoListItem>,
@@ -42,11 +45,28 @@ export default function useModifyTodoCollection(
     const user = useLoggedInUser();
 
     const addTodo: AddTodoHandler = async (newItem) => {
-        const success = await persistNewTodo(newItem);
-
         if (!user) {
             throw new Error('Expecting a logged in user at this point');
         }
+
+        const success = await persistNewTodo(newItem);
+
+        // noinspection ES6MissingAwait
+        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+
+        return success;
+    };
+
+    const removeTodo: RemoveTodoHandler = async (id) => {
+        if (!user) {
+            throw new Error('Expecting a logged in user at this point');
+        }
+
+        if (!confirm('Weet je het zeker?')) {
+            return true;
+        }
+
+        const success = await removeTodoFromServer(id);
 
         // noinspection ES6MissingAwait
         fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
@@ -129,5 +149,5 @@ export default function useModifyTodoCollection(
         return success;
     };
 
-    return { addTodo, updateTodo, postponeTodoToTomorrow };
+    return { addTodo, updateTodo, postponeTodoToTomorrow, removeTodo };
 }

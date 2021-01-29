@@ -10,9 +10,11 @@ import useManageCurrentTodo, {
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import {
     AddTodoHandler,
+    RemoveTodoHandler,
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
 import useKeyboardEventListeners from './hooks/useKeyboardEventListeners';
+import { createDateKey } from '../../utility/dateTimeUtilities';
 
 type ContextValue = {
     noOfDaysDisplayed: number;
@@ -27,6 +29,7 @@ type ContextValue = {
     setCurrentTodoIndex: SetCurrentTodoIndexHandler;
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
+    removeTodo: RemoveTodoHandler;
 };
 
 const initialValue: ContextValue = {
@@ -42,6 +45,7 @@ const initialValue: ContextValue = {
     setCurrentTodoIndex: () => {},
     addTodo: async () => false,
     updateTodo: async () => false,
+    removeTodo: async () => false,
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -65,6 +69,7 @@ export const TodoListItemContextProvider: React.FC<{
         addTodo,
         updateTodo,
         postponeTodoToTomorrow,
+        removeTodo,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
 
     const { currentTodoIndex, setCurrentTodoIndex } = useManageCurrentTodo(
@@ -72,12 +77,11 @@ export const TodoListItemContextProvider: React.FC<{
         currentDate,
     );
 
-    useKeyboardEventListeners(
-        postponeTodoToTomorrow,
-        itemsPerDate,
-        currentDate,
-        currentTodoIndex,
-    );
+    const itemsForCurrentDate = itemsPerDate[createDateKey(currentDate)] || [];
+
+    const currentTodo = itemsForCurrentDate[currentTodoIndex] || null;
+
+    useKeyboardEventListeners(postponeTodoToTomorrow, currentTodo, removeTodo);
 
     const value: ContextValue = {
         noOfDaysDisplayed,
@@ -92,6 +96,7 @@ export const TodoListItemContextProvider: React.FC<{
         setCurrentTodoIndex,
         addTodo,
         updateTodo,
+        removeTodo,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -105,6 +110,7 @@ export const useTodoListItems = () => {
         isFetching,
         addTodo,
         updateTodo,
+        removeTodo,
     } = useContext(Context);
 
     return {
@@ -114,6 +120,7 @@ export const useTodoListItems = () => {
         isFetching,
         addTodo,
         updateTodo,
+        removeTodo,
     };
 };
 

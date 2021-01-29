@@ -1,18 +1,22 @@
 import { useEffect } from 'react';
-import { PostponeTodoToTomorrowHandler } from './useModifyTodoCollection';
+import {
+    PostponeTodoToTomorrowHandler,
+    RemoveTodoHandler,
+} from './useModifyTodoCollection';
 import { TodoListItem } from '../../../model/todoListItem';
-import { createDateKey } from '../../../utility/dateTimeUtilities';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
-import { postponeTillTomorrowDefinition } from '../../../constants/keyboardDefinitions';
+import {
+    postponeTillTomorrowDefinition,
+    removeTodoDefinition,
+} from '../../../constants/keyboardDefinitions';
 
 export default function useKeyboardEventListeners(
     postponeTodoToTomorrow: PostponeTodoToTomorrowHandler,
-    itemsPerDate: Record<string, TodoListItem[]>,
-    currentDate: Date,
-    currentTodoIndex: number,
+    currentTodo: TodoListItem | null,
+    removeTodo: RemoveTodoHandler,
 ) {
     useEffect(() => {
-        if (!itemsPerDate) {
+        if (!currentTodo) {
             return;
         }
 
@@ -23,17 +27,15 @@ export default function useKeyboardEventListeners(
                     event,
                 )
             ) {
-                const itemsForCurrentDate =
-                    itemsPerDate[createDateKey(currentDate)] || [];
-
-                const currentTodo = itemsForCurrentDate[currentTodoIndex];
-
-                if (!currentTodo) {
-                    return;
-                }
-
                 // noinspection JSIgnoredPromiseFromCall
                 postponeTodoToTomorrow(currentTodo.id);
+
+                return;
+            }
+
+            if (checkKeyDefinitionIsPressed(removeTodoDefinition, event)) {
+                // noinspection JSIgnoredPromiseFromCall
+                removeTodo(currentTodo.id);
 
                 return;
             }
@@ -42,5 +44,5 @@ export default function useKeyboardEventListeners(
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [itemsPerDate, currentTodoIndex]);
+    }, [currentTodo, postponeTodoToTomorrow, removeTodo]);
 }

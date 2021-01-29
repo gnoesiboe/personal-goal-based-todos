@@ -26,6 +26,22 @@ export const fetchAllForUserForUpcomingDates = async (
     return snapshot.docs.map((doc) => doc.data());
 };
 
+export const removeTodoFromServer = async (id: string): Promise<boolean> => {
+    try {
+        await firebase
+            .firestore()
+            .collection(todosCollectionName)
+            .doc(id)
+            .delete();
+
+        return true;
+    } catch (error) {
+        console.error('Could not persist new todo', error);
+
+        return false;
+    }
+};
+
 export const persistNewTodo = async (item: TodoListItem): Promise<boolean> => {
     try {
         await firebase

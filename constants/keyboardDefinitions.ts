@@ -38,3 +38,8 @@ export const submitFormDefinition: Partial<KeyDefinition> = {
     key: 'Enter',
     ctrlKey: true,
 };
+
+export const removeTodoDefinition: Partial<KeyDefinition> = {
+    key: 'Backspace',
+    altKey: true,
+};
