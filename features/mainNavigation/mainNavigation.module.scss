@@ -23,7 +23,6 @@ $item-padding: $layout-default-side-gap / 2;
 .item {
     display: block;
     padding: $item-padding;
-    transition: 0.2s;
     color: #fff;
 
     &:hover {
@@ -31,10 +30,14 @@ $item-padding: $layout-default-side-gap / 2;
     }
 }
 
-.currentItem {
-    $-border-thickness: 5px;
+$-border-thickness: 5px;
 
-    color: colors.$fifth;
+.currentItem {
     padding-bottom: $item-padding - $-border-thickness;
-    border-bottom: $-border-thickness solid #fff;
+    color: colors.$fifth;
+}
+
+.linkUnderline {
+    background: colors.$fifth;
+    height: $-border-thickness;
 }
