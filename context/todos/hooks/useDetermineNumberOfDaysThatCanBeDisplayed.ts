@@ -7,7 +7,7 @@ const dayWidth = 400; // keep inline with sizes.scss
 export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
     const [noOfRows, setNoOfRows] = useState<number>(0);
 
-    const recaculatePossibleNoOfRows = useCallback(() => {
+    const recalculatePossibleNoOfRows = useCallback(() => {
         setNoOfRows(Math.floor(window.innerWidth / (dayWidth + gapWidth)));
     }, [setNoOfRows]);
 
@@ -16,14 +16,14 @@ export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
             return;
         }
 
-        recaculatePossibleNoOfRows();
+        recalculatePossibleNoOfRows();
 
-        const onWindowResize = () => recaculatePossibleNoOfRows();
+        const onWindowResize = () => recalculatePossibleNoOfRows();
 
         window.addEventListener('resize', onWindowResize);
 
         return () => window.removeEventListener('resize', onWindowResize);
-    }, [recaculatePossibleNoOfRows]);
+    }, [recalculatePossibleNoOfRows]);
 
     return noOfRows;
 }
