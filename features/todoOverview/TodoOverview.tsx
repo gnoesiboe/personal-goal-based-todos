@@ -20,6 +20,7 @@ import {
     useCurrentDate,
     useTodoListItems,
 } from '../../context/todos/TodoListItemsContext';
+import DayActions from './components/DayActions';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -89,15 +90,9 @@ const TodoOverview: React.FC = () => {
                                                 currentDate={isCurrent}
                                             />
                                         </div>
-                                        {isCurrent && (
-                                            <div
-                                                className={
-                                                    classNames.dayActions
-                                                }
-                                            >
-                                                <AddTodo date={date} />
-                                            </div>
-                                        )}
+                                        <DayActions isCurrentDate={isCurrent}>
+                                            <AddTodo date={date} />
+                                        </DayActions>
                                     </Day>
                                 );
                             })}
