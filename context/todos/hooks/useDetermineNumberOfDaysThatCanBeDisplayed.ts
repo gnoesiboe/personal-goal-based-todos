@@ -25,5 +25,6 @@ export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
         return () => window.removeEventListener('resize', onWindowResize);
     }, [recalculatePossibleNoOfRows]);
 
-    return noOfRows;
+    // ensure that at least one day is always shown
+    return noOfRows > 1 ? noOfRows : 1;
 }
