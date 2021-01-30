@@ -51,9 +51,9 @@ const DirectionIndicator: React.FC<Props> = ({ direction, currentDate }) => {
                     }}
                 >
                     {direction === 'forwards' ? (
-                        <ArrowRightIcon size="large" />
+                        <ArrowRightIcon size="medium" />
                     ) : (
-                        <ArrowLeftIcon size="large" />
+                        <ArrowLeftIcon size="medium" />
                     )}
                 </motion.div>
             )}

@@ -58,7 +58,7 @@
 
 .directionIndicator {
     position: absolute;
-    top: -10px;
+    top: 0;
     left: calc(50% - 30px);
     z-index: z-index.$z-index-todo-overview-direction-indicator;
     display: none;
