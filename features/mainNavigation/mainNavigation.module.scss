@@ -9,7 +9,6 @@ $item-padding: $layout-default-side-gap / 2;
 
 .list {
     display: flex;
-    padding: 0;
     padding: 0 $item-padding;
     max-width: $layout-container-max-width;
     margin: 0 auto;
