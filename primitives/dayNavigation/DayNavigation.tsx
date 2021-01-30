@@ -3,10 +3,10 @@ import {
     checkIsSameDay,
     createStartOfToday,
 } from '../../utility/dateTimeUtilities';
-import Island from '../island/Island';
 import Item from './components/Item';
 import ItemList from './components/ItemList';
 import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
+import classNames from './dayNavigation.module.scss';
 
 type Props = {
     onPreviousClick: MouseEventHandler<HTMLButtonElement>;
@@ -21,24 +21,22 @@ const DayNavigation: React.FC<Props> = ({
     onNextClick,
     currentDate,
 }) => (
-    <Island ghost>
-        <nav>
-            <ItemList>
-                <Item onClick={onPreviousClick}>
-                    <ArrowLeftIcon /> terug
-                </Item>
-                <Item
-                    onClick={onTodayClick}
-                    disabled={checkIsSameDay(currentDate, createStartOfToday())}
-                >
-                    vandaag
-                </Item>
-                <Item onClick={onNextClick}>
-                    verder <ArrowRightIcon />
-                </Item>
-            </ItemList>
-        </nav>
-    </Island>
+    <nav className={classNames.container}>
+        <ItemList>
+            <Item onClick={onPreviousClick}>
+                <ArrowLeftIcon /> terug
+            </Item>
+            <Item
+                onClick={onTodayClick}
+                disabled={checkIsSameDay(currentDate, createStartOfToday())}
+            >
+                vandaag
+            </Item>
+            <Item onClick={onNextClick}>
+                verder <ArrowRightIcon />
+            </Item>
+        </ItemList>
+    </nav>
 );
 
 export default DayNavigation;

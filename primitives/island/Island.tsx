@@ -6,24 +6,27 @@ type Props = {
     children: React.ReactNode;
     className?: string;
     ghost?: boolean;
-    breakout?: boolean;
+    fullWidth?: boolean;
     deflated?: boolean;
+    deflatedTop?: boolean;
 };
 
 const Island: React.FC<Props> = ({
     children,
     className: additionalClassName,
     ghost = false,
-    breakout = false,
+    fullWidth = false,
     deflated = false,
+    deflatedTop = false,
 }) => {
     const className = createClassName(
         classNames.container,
         additionalClassName,
         {
             [classNames.isGhost]: ghost,
-            [classNames.isFullWidth]: breakout,
+            [classNames.isFullWidth]: fullWidth,
             [classNames.isDeflated]: deflated,
+            [classNames.isDeflatedTop]: deflatedTop,
         },
     );
 

@@ -41,7 +41,7 @@ const TodoOverview: React.FC = () => {
     return (
         <MainLayout.Body fullWidth>
             <MainLayout.ContentMain>
-                <Island breakout ghost>
+                <Island fullWidth ghost deflatedTop>
                     <DayNavigation
                         onNextClick={onNextDateClick}
                         onTodayClick={onTodayClick}

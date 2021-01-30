@@ -5,11 +5,15 @@
     background: colors.$first;
     margin-bottom: spacing.$spacing-large;
     border-radius: 7px;
-    padding: 20px;
+    padding: spacing.$spacing-medium;
 }
 
 .isGhost {
     background: none;
+}
+
+.isDeflatedTop {
+    padding-top: 0;
 }
 
 .isFullWidth {
