@@ -28,10 +28,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 63vh;
 
     @include mq($from: tablet) {
         flex: 0 0 sizes.$day-max-width;
         width: sizes.$day-max-width; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
+        min-height: 70vh;
     }
 }
 
