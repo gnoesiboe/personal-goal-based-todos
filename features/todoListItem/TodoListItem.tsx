@@ -7,6 +7,7 @@ import useToggleDoneStatus from './hooks/useToggleDoneStatus';
 import ActionButtonList from './components/ActionButtonList';
 import ActionButton from './components/ActionButton';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
+import CurrentContentContainer from './components/CurrentContentContainer';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -48,7 +49,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                     <div className={classNames.summary}>{item.summary}</div>
                 </div>
             </div>
-            {current && (
+            <CurrentContentContainer current={current}>
                 <ActionButtonList>
                     <ActionButton onClick={() => removeTodo(item.id)}>
                         delete
@@ -59,7 +60,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                         tomorrow
                     </ActionButton>
                 </ActionButtonList>
-            )}
+            </CurrentContentContainer>
         </div>
     );
 };
