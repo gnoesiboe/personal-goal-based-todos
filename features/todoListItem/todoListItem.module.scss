@@ -1,6 +1,9 @@
 @use '../../styles/settings/spacing';
 @use '../../styles/settings/sizes';
 
+$left-column-width: 23px;
+$column-gap-width: spacing.$spacing-small;
+
 .container {
     margin-bottom: spacing.$spacing-small;
     padding: spacing.$spacing-small;
@@ -14,7 +17,7 @@
 .header {
     display: flex;
     justify-content: flex-start;
-    gap: spacing.$spacing-small;
+    gap: $column-gap-width;
     align-items: flex-start;
 }
 
@@ -46,13 +49,14 @@
     }
 }
 
-.checkbox {
+.checkboxContainer {
     display: block;
-    margin-top: 5px;
+    margin-top: 3px;
+    width: $left-column-width;
 }
 
-.checkboxHasBreadcrumb {
-    margin-top: 30px;
+.checkboxContainerHasBreadcrumb {
+    margin-top: 15px;
 }
 
 .actionButtonList {
@@ -60,7 +64,7 @@
     list-style: none;
     justify-content: flex-start;
     padding: 0;
-    margin: 0 0 0 23px;
+    margin: 0 0 0 ($left-column-width + $column-gap-width);
     gap: 10px;
 
     li {
@@ -80,4 +84,9 @@
 
 .currentContentContainer {
     overflow: hidden;
+}
+
+.description {
+    margin: 10px 0 10px ($left-column-width + $column-gap-width);
+    color: rgba(0, 0, 0, 0.5);
 }

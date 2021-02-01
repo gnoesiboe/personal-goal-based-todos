@@ -1,4 +1,4 @@
-import { createFirestoreTimestampFromDate } from './../../utility/dateTimeUtilities';
+import { createFirestoreTimestampFromDate } from '../../utility/dateTimeUtilities';
 import { TodoListItemFirebaseData } from '../model/todoListItem';
 
 export const normalizeTodoListItemFirebaseData = (
@@ -15,6 +15,7 @@ export const normalizeTodoListItemFirebaseData = (
         goalTitle: null,
         roleRef: null,
         roleTitle: null,
+        description: null,
         ...partialData,
     };
 };

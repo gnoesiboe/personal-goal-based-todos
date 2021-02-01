@@ -10,11 +10,15 @@ type Props = Omit<
 };
 
 const CheckboxInput: React.FC<Props> = ({ hasBreadcrumb, ...otherProps }) => {
-    const className = createClassName(classNames.checkbox, {
-        [classNames.checkboxHasBreadcrumb]: hasBreadcrumb,
+    const className = createClassName(classNames.checkboxContainer, {
+        [classNames.checkboxContainerHasBreadcrumb]: hasBreadcrumb,
     });
 
-    return <input type="checkbox" className={className} {...otherProps} />;
+    return (
+        <div className={className}>
+            <input type="checkbox" className={className} {...otherProps} />
+        </div>
+    );
 };
 
 export default CheckboxInput;

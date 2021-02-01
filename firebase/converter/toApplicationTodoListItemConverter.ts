@@ -1,4 +1,4 @@
-import { normalizeTodoListItemFirebaseData } from './../normalizer/todoListItemDataNormalizer';
+import { normalizeTodoListItemFirebaseData } from '../normalizer/todoListItemDataNormalizer';
 import { TodoListItem } from '../../model/todoListItem';
 import firebase from 'firebase/app';
 import { TodoListItemFirebaseData } from '../model/todoListItem';

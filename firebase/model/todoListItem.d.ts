@@ -5,6 +5,7 @@ export interface TodoListItemFirebaseData
     extends firebase.firestore.DocumentData {
     date: firebase.firestore.Timestamp;
     summary: string;
+    description: string | null;
     done: boolean;
     urgent: boolean;
     userUid: string;
