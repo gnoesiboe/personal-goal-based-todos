@@ -10,6 +10,7 @@ import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 import CurrentContentContainer from './components/CurrentContentContainer';
 import Description from './components/Description';
 import EditTodo from '../editTodo/EditTodo';
+import Summary from './components/Summary';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -24,6 +25,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
 
     const containerClassName = createClassName(classNames.container, {
         [classNames.containerIsCurrent]: current,
+        [classNames.containerIsDone]: item.done,
     });
 
     const { onInputChange } = useToggleDoneStatus(item, current);
@@ -48,7 +50,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                             <li title={item.goalTitle}>{item.goalTitle}</li>
                         </ul>
                     )}
-                    <div className={classNames.summary}>{item.summary}</div>
+                    <Summary item={item} />
                 </div>
             </div>
             <CurrentContentContainer current={current}>
