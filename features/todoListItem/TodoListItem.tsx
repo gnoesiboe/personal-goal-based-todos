@@ -32,19 +32,13 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
 
     const { onInputChange } = useToggleDoneStatus(item, current);
 
-    const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
-
     return (
         <div className={containerClassName}>
             <div
                 className={classNames.header}
                 onClick={() => onContainerClick(item.id)}
             >
-                <CheckboxInput
-                    hasBreadcrumb={hasBreadcrumb}
-                    checked={item.done}
-                    onChange={onInputChange}
-                />
+                <CheckboxInput item={item} onChange={onInputChange} />
                 <div className={classNames.content}>
                     <Breadcrumb item={item} />
                     <Summary item={item} />
@@ -67,7 +61,6 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                             </ActionButton>
                         )}
                     </RemoveTodo>
-
                     <ActionButton
                         onClick={() => postponeTodoToTomorrow(item.id)}
                     >
