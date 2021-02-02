@@ -92,6 +92,15 @@ $column-gap-width: spacing.$spacing-small;
 
 .summary {
     display: block;
+    font-weight: 444;
+
+    * {
+        margin: 0;
+    }
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 .summaryIsDone {
@@ -101,5 +110,9 @@ $column-gap-width: spacing.$spacing-small;
 
 .description {
     margin: 10px 0 10px ($left-column-width + $column-gap-width);
-    color: rgba(0, 0, 0, 0.5);
+
+    * {
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 0.8rem;
+    }
 }

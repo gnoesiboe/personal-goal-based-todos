@@ -1,0 +1,50 @@
+@use '../../styles/settings/spacing';
+
+.container {
+    ul {
+        padding-left: spacing.$spacing-medium;
+        margin: 0 0 spacing.$spacing-small;
+
+        ul {
+            margin: 0;
+        }
+    }
+
+    li {
+        list-style-type: disc;
+        margin: 0;
+        padding: 0 0 0 0;
+        position: relative;
+
+        input[type=checkbox] {
+            margin: 0 spacing.$spacing-extra-small 0 0;
+            padding: 0;
+            position: absolute;
+            top: 5px;
+        }
+
+        input[type='checkbox'] + * {
+            display: block;
+            margin-left: 23px;
+        }
+
+        input[type='checkbox']:checked + * {
+            text-decoration: line-through;
+            opacity: 0.3;
+        }
+    }
+
+    hr {
+        border-color: rgba(255, 255, 255, 0.3);
+        margin: spacing.$spacing-large 0;
+    }
+
+    h1, h2, h3 {
+        font-size: 1.2rem;
+        margin: spacing.$spacing-small 0 spacing.$spacing-medium;
+    }
+
+    p {
+        margin: 0 0 spacing.$spacing-small;
+    }
+}

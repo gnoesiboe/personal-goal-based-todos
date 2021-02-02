@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from '../todoListItem.module.scss';
 import createClassName from 'classnames';
 import { TodoListItem } from '../../../model/todoListItem';
+import { parseMarkdown } from '../../../utility/markdownUtilities';
 
 type Props = {
     item: TodoListItem;
@@ -12,7 +13,14 @@ const Summary: React.FC<Props> = ({ item }) => {
         [classNames.summaryIsDone]: item.done,
     });
 
-    return <div className={className}>{item.summary}</div>;
+    const title = parseMarkdown(item.summary);
+
+    return (
+        <div
+            className={className}
+            dangerouslySetInnerHTML={{ __html: title }}
+        />
+    );
 };
 
 export default Summary;
