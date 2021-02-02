@@ -11,6 +11,7 @@ import CurrentContentContainer from './components/CurrentContentContainer';
 import Description from './components/Description';
 import EditTodo from '../editTodo/EditTodo';
 import Summary from './components/Summary';
+import RemoveTodo from '../removeTodo/RemoveTodo';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -21,7 +22,7 @@ type Props = {
 };
 
 const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
-    const { removeTodo, postponeTodoToTomorrow } = useTodoListItems();
+    const { postponeTodoToTomorrow } = useTodoListItems();
 
     const containerClassName = createClassName(classNames.container, {
         [classNames.containerIsCurrent]: current,
@@ -63,9 +64,14 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                             <ActionButton onClick={onClick}>edit</ActionButton>
                         )}
                     </EditTodo>
-                    <ActionButton onClick={() => removeTodo(item.id)}>
-                        delete
-                    </ActionButton>
+                    <RemoveTodo todo={item}>
+                        {(onClick) => (
+                            <ActionButton onClick={onClick}>
+                                delete
+                            </ActionButton>
+                        )}
+                    </RemoveTodo>
+
                     <ActionButton
                         onClick={() => postponeTodoToTomorrow(item.id)}
                     >
