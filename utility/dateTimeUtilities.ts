@@ -73,7 +73,11 @@ export const parseFirebaseTimestamp = (
 ) => {
     const asTimestamp = firestoreTimestamp.seconds;
 
-    return parse(asTimestamp.toString(), 't', new Date(), {
+    return convertTimestampToDate(asTimestamp);
+};
+
+export const convertTimestampToDate = (timestamp: number): Date => {
+    return parse(timestamp.toString(), 't', new Date(), {
         locale: nl,
     });
 };
@@ -82,3 +86,6 @@ export const createFirestoreTimestampFromDate = (
     date: Date,
 ): firebase.firestore.Timestamp =>
     new firebase.firestore.Timestamp(date.getTime() / 1000, 0);
+
+export const createFirestoreTimestampForNow = (): firebase.firestore.Timestamp =>
+    createFirestoreTimestampFromDate(new Date());

@@ -4,7 +4,7 @@ export interface Role {
     uid: string;
     title: string;
     userUid: string;
-    timestamp: number;
+    timestamp: Date;
 }
 
 export interface RoleWithGoals extends Role {

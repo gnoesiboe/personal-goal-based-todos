@@ -3,7 +3,7 @@ import firebase from 'firebase/app';
 export interface RoleDocumentData extends firebase.firestore.DocumentData {
     title: string;
     user_uid: string;
-    timestamp: number;
+    timestamp: firebase.firestore.Timestamp;
 }
 
 export interface GoalDocumentData extends firebase.firestore.DocumentData {

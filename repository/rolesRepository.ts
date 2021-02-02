@@ -1,9 +1,10 @@
-import { createTimestamp } from './../utility/dateTimeUtilities';
-import { Role, RoleWithGoals } from './../model/role';
+import { createTimestamp } from '../utility/dateTimeUtilities';
+import { Role, RoleWithGoals } from '../model/role';
 import firebase from 'firebase/app';
 import firebaseToApplicationRoleConverter from '../firebase/converter/toApplicationRoleConverter';
 import { Goal, GoalCollection } from '../model/goal';
 import firebaseToApplicationGoalConverter from '../firebase/converter/toApplicationGoalConverter';
+import toApplicationRoleConverter from '../firebase/converter/toApplicationRoleConverter';
 
 export const roleCollectionName = 'roles';
 export const goalsSubCollectionName = 'goals';
@@ -19,7 +20,7 @@ export const fetchAllRolesWithGoalsForUserOrderedByTimestamp = async (
         .orderBy('timestamp', 'asc')
         .get();
 
-    const results: RoleWithGoals[] = await Promise.all(
+    return await Promise.all(
         snapshot.docs.map(async (result) => {
             const role = result.data();
 
@@ -36,21 +37,15 @@ export const fetchAllRolesWithGoalsForUserOrderedByTimestamp = async (
             return { ...role, goals };
         }),
     );
-
-    return results;
 };
 
-export const persistNewRole = async (
-    title: string,
-    userUid: string,
-): Promise<boolean> => {
+export const persistNewRole = async (newRole: Role): Promise<boolean> => {
     try {
-        // @todo use converter instead?
-        await firebase.firestore().collection(roleCollectionName).add({
-            title,
-            user_uid: userUid,
-            timestamp: createTimestamp(),
-        });
+        await firebase
+            .firestore()
+            .collection(roleCollectionName)
+            .withConverter(toApplicationRoleConverter)
+            .add(newRole);
 
         return true;
     } catch (error) {

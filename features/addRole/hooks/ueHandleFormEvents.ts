@@ -1,6 +1,6 @@
-import { useNotifications } from './../../../context/notification/NotificationContext';
-import { useLoggedInUser } from './../../../context/authentication/AuthenticationContext';
-import { persistNewRole } from './../../../repository/rolesRepository';
+import { useNotifications } from '../../../context/notification/NotificationContext';
+import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
+import { persistNewRole } from '../../../repository/rolesRepository';
 import useFormState, {
     FormErrors,
     InputValidator,
@@ -8,6 +8,7 @@ import useFormState, {
 } from '../../../hooks/useFormState';
 import { FormValues } from '../../roleForm/RoleForm';
 import { NotificationType } from '../../../model/notification';
+import { generateId } from '../../../utility/idUtilities';
 
 export default function useHandleFormEvents(onDone: () => void) {
     const user = useLoggedInUser();
@@ -29,7 +30,12 @@ export default function useHandleFormEvents(onDone: () => void) {
             throw new Error('Expecting user to be available at this point');
         }
 
-        const success = await persistNewRole(values.title, user.uid);
+        const success = await persistNewRole({
+            title: values.title,
+            userUid: user.uid,
+            uid: generateId(),
+            timestamp: new Date(),
+        });
 
         if (success) {
             onDone();
