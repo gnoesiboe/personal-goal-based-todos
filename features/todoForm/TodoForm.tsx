@@ -9,6 +9,7 @@ import useFetchUserRolesWithGoals from '../../hooks/useFetchUserRolesWithGoals';
 import { FormErrors, FormTouched } from '../../hooks/useFormState';
 import Button from '../../primitives/button/Button';
 import Form from '../../primitives/form/Form';
+import { generateComposedKey } from '../../utility/idUtilities';
 
 export type FormValues = {
     summary: string;
@@ -94,7 +95,10 @@ const TodoForm: React.FC<Props> = ({
                                     {role.goals.map((goal) => (
                                         <option
                                             key={goal.uid}
-                                            value={[role.uid, goal.uid]}
+                                            value={generateComposedKey(
+                                                role.uid,
+                                                goal.uid,
+                                            )}
                                         >
                                             {role.title} » {goal.title}
                                         </option>

@@ -9,6 +9,7 @@ import ActionButton from './components/ActionButton';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 import CurrentContentContainer from './components/CurrentContentContainer';
 import Description from './components/Description';
+import EditTodo from '../editTodo/EditTodo';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -55,6 +56,11 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                     <Description>{item.description}</Description>
                 )}
                 <ActionButtonList>
+                    <EditTodo todo={item}>
+                        {(onClick) => (
+                            <ActionButton onClick={onClick}>edit</ActionButton>
+                        )}
+                    </EditTodo>
                     <ActionButton onClick={() => removeTodo(item.id)}>
                         delete
                     </ActionButton>

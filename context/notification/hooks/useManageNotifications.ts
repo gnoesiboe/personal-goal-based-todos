@@ -1,4 +1,4 @@
-import { generateId } from './../../../utility/idGenerator';
+import { generateId } from '../../../utility/idUtilities';
 import { Notification, NotificationType } from './../../../model/notification';
 import { useState } from 'react';
 

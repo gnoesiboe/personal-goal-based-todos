@@ -13,7 +13,7 @@ import {
     fetchRole,
     roleCollectionName,
 } from '../../repository/rolesRepository';
-import { generateId } from '../../utility/idGenerator';
+import { generateId, splitComposedKey } from '../../utility/idUtilities';
 import { createFirestoreTimestampFromDate } from '../../utility/dateTimeUtilities';
 import firebase from 'firebase/app';
 
@@ -22,7 +22,7 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
     user: User,
     date: Date,
 ): Promise<TodoListItem> => {
-    const [roleUid, goalUid] = values.roleWithGoal.split(',');
+    const [roleUid, goalUid] = splitComposedKey(values.roleWithGoal);
 
     let role = null;
 

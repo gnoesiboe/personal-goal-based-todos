@@ -29,6 +29,10 @@ export const startAddTodoDefinition: Partial<KeyDefinition> = {
     key: 'a',
 };
 
+export const startEditTodoDefinition: Partial<KeyDefinition> = {
+    key: 'e',
+};
+
 export const toggleDoneStatusDefinition: Partial<KeyDefinition> = {
     key: ' ',
     ctrlKey: true,
