@@ -12,6 +12,7 @@ import Description from './components/Description';
 import EditTodo from '../editTodo/EditTodo';
 import Summary from './components/Summary';
 import RemoveTodo from '../removeTodo/RemoveTodo';
+import Breadcrumb from './components/Breadcrumb';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -45,12 +46,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                     onChange={onInputChange}
                 />
                 <div className={classNames.content}>
-                    {item.roleTitle && item.goalTitle && (
-                        <ul className={classNames.breadcrumb}>
-                            <li title={item.roleTitle}>{item.roleTitle}</li>
-                            <li title={item.goalTitle}>{item.goalTitle}</li>
-                        </ul>
-                    )}
+                    <Breadcrumb item={item} />
                     <Summary item={item} />
                 </div>
             </div>
