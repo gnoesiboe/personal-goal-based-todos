@@ -12,10 +12,13 @@ export default function useManageTodoListItems(
     currentDate: Date,
     noOfDaysDisplayed: number,
 ) {
-    const { items, fetchTodos, isFetching, setItems } = useFetchTodoListItems(
-        currentDate,
-        noOfDaysDisplayed,
-    );
+    const {
+        items,
+        fetchTodos,
+        isFetching,
+        setItems,
+        refetchTodos,
+    } = useFetchTodoListItems(currentDate, noOfDaysDisplayed);
 
     const {
         addTodo,
@@ -47,5 +50,6 @@ export default function useManageTodoListItems(
         updateTodo,
         postponeTodoToTomorrow,
         removeTodo,
+        refetchTodos,
     };
 }

@@ -16,6 +16,7 @@ import {
 } from './hooks/useModifyTodoCollection';
 import useKeyboardEventListeners from './hooks/useKeyboardEventListeners';
 import { createDateKey } from '../../utility/dateTimeUtilities';
+import useMoveNotDoneItemsInThePastToToday from './hooks/useMoveNotDoneItemsInThePastToToday';
 
 type ContextValue = {
     noOfDaysDisplayed: number;
@@ -73,6 +74,7 @@ export const TodoListItemContextProvider: React.FC<{
         updateTodo,
         postponeTodoToTomorrow,
         removeTodo,
+        refetchTodos,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
 
     const { currentTodoIndex, setCurrentTodoIndex } = useManageCurrentTodo(
@@ -85,6 +87,8 @@ export const TodoListItemContextProvider: React.FC<{
     const currentTodo = itemsForCurrentDate[currentTodoIndex] || null;
 
     useKeyboardEventListeners(postponeTodoToTomorrow, currentTodo, removeTodo);
+
+    useMoveNotDoneItemsInThePastToToday(refetchTodos);
 
     const value: ContextValue = {
         noOfDaysDisplayed,

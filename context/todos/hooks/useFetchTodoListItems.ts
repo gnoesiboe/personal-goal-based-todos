@@ -65,5 +65,14 @@ export default function useFetchTodoListItems(
         fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
     }, [currentDate, setIsFetching, noOfDaysDisplayed]);
 
-    return { items, isFetching, fetchTodos, setItems };
+    const refetchTodos = () => {
+        if (!user) {
+            return;
+        }
+
+        // noinspection JSIgnoredPromiseFromCall
+        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+    };
+
+    return { items, isFetching, fetchTodos, setItems, refetchTodos };
 }

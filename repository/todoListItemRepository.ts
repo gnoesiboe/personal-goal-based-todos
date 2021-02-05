@@ -1,4 +1,8 @@
-import { createEndOfDay } from './../utility/dateTimeUtilities';
+import {
+    createEndOfDay,
+    createFirestoreTimestampFromDate,
+    createStartOfToday,
+} from '../utility/dateTimeUtilities';
 import { TodoListItem } from '../model/todoListItem';
 import firebase from 'firebase/app';
 import firebaseToApplicationTodoListItemConverter from '../firebase/converter/toApplicationTodoListItemConverter';
@@ -18,9 +22,26 @@ export const fetchAllForUserForUpcomingDates = async (
         .collection(todosCollectionName)
         .withConverter(firebaseToApplicationTodoListItemConverter)
         .where('userUid', '==', userUid)
-        .where('date', '>=', currentDate)
-        .where('date', '<=', until)
+        .where('date', '>=', createFirestoreTimestampFromDate(currentDate))
+        .where('date', '<=', createFirestoreTimestampFromDate(until))
         .orderBy('date', 'asc')
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data());
+};
+
+export const fetchAllForUserNotDoneInPast = async (
+    userUid: string,
+): Promise<TodoListItem[]> => {
+    const startOfToday = createStartOfToday();
+
+    const snapshot = await firebase
+        .firestore()
+        .collection(todosCollectionName)
+        .withConverter(firebaseToApplicationTodoListItemConverter)
+        .where('userUid', '==', userUid)
+        .where('date', '<', createFirestoreTimestampFromDate(startOfToday))
+        .where('done', '==', false)
         .get();
 
     return snapshot.docs.map((doc) => doc.data());
