@@ -1,16 +1,17 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 import classNames from '../todoListItem.module.scss';
 import createClassName from 'classnames';
 import { TodoListItem } from '../../../model/todoListItem';
+import Checkbox, {
+    OnChangeHandler,
+} from '../../../primitives/checkbox/Checkbox';
 
-type Props = Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'type' | 'className'
-> & {
+type Props = {
     item: TodoListItem;
+    onChange: OnChangeHandler;
 };
 
-const CheckboxInput: React.FC<Props> = ({ item, ...otherProps }) => {
+const CheckboxInput: React.FC<Props> = ({ item, onChange }) => {
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
     const className = createClassName(classNames.checkboxContainer, {
@@ -18,14 +19,11 @@ const CheckboxInput: React.FC<Props> = ({ item, ...otherProps }) => {
     });
 
     return (
-        <div className={className}>
-            <input
-                {...otherProps}
-                type="checkbox"
-                className={className}
-                checked={item.done}
-            />
-        </div>
+        <Checkbox
+            checked={item.done}
+            onChange={onChange}
+            className={className}
+        />
     );
 };
 

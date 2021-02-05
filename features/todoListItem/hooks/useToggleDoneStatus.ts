@@ -1,8 +1,9 @@
 import { TodoListItem } from '../../../model/todoListItem';
-import { ChangeEventHandler, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import { toggleDoneStatusDefinition } from '../../../constants/keyboardDefinitions';
+import { OnChangeHandler } from '../../../primitives/checkbox/Checkbox';
 
 export default function useToggleDoneStatus(
     item: TodoListItem,
@@ -10,10 +11,10 @@ export default function useToggleDoneStatus(
 ) {
     const { updateTodo } = useTodoListItems();
 
-    const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const onInputChange: OnChangeHandler = (checked) => {
         // noinspection JSIgnoredPromiseFromCall
         updateTodo(item.id, {
-            done: event.target.checked,
+            done: checked,
         });
     };
 
