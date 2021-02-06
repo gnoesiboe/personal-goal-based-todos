@@ -73,6 +73,7 @@ export const TodoListItemContextProvider: React.FC<{
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
+        moveTodoOneDayBackwards,
         removeTodo,
         refetchTodos,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
@@ -86,7 +87,12 @@ export const TodoListItemContextProvider: React.FC<{
 
     const currentTodo = itemsForCurrentDate[currentTodoIndex] || null;
 
-    useKeyboardEventListeners(moveTodoOneDayForward, currentTodo, removeTodo);
+    useKeyboardEventListeners(
+        moveTodoOneDayForward,
+        moveTodoOneDayBackwards,
+        currentTodo,
+        removeTodo,
+    );
 
     useMoveNotDoneItemsInThePastToToday(refetchTodos);
 

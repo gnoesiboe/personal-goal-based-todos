@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import {
+    MoveTodoOneDayBackwardsHandler,
     MoveTodoOneDayForwardHandler,
     RemoveTodoHandler,
 } from './useModifyTodoCollection';
 import { TodoListItem } from '../../../model/todoListItem';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
+    moveTodoOneDayBackwardsDefinition,
     moveTodoOneDayForwardDefinition,
     removeTodoDefinition,
 } from '../../../constants/keyboardDefinitions';
 
 export default function useKeyboardEventListeners(
     moveTodoOneDayForward: MoveTodoOneDayForwardHandler,
+    moveTodoOneDayBackwards: MoveTodoOneDayBackwardsHandler,
     currentTodo: TodoListItem | null,
     removeTodo: RemoveTodoHandler,
 ) {
@@ -29,6 +32,18 @@ export default function useKeyboardEventListeners(
             ) {
                 // noinspection JSIgnoredPromiseFromCall
                 moveTodoOneDayForward(currentTodo.id);
+
+                return;
+            }
+
+            if (
+                checkKeyDefinitionIsPressed(
+                    moveTodoOneDayBackwardsDefinition,
+                    event,
+                )
+            ) {
+                // noinspection JSIgnoredPromiseFromCall
+                moveTodoOneDayBackwards(currentTodo.id);
 
                 return;
             }

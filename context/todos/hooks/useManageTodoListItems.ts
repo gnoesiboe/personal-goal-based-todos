@@ -24,6 +24,7 @@ export default function useManageTodoListItems(
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
+        moveTodoOneDayBackwards,
         removeTodo,
     } = useModifyTodoCollection(
         currentDate,
@@ -49,6 +50,7 @@ export default function useManageTodoListItems(
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
+        moveTodoOneDayBackwards,
         removeTodo,
         refetchTodos,
     };

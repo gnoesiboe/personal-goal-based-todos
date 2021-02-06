@@ -75,6 +75,12 @@ export const getRelativeDayDescription = (date: Date) => {
     });
 };
 
+export const checkDateIsBeforeToday = (date: Date): boolean => {
+    const today = startOfToday();
+
+    return isBefore(date, today);
+};
+
 export const checkDateIsBefore = (date: Date, dateToCompare: Date) =>
     isBefore(date, dateToCompare);
 

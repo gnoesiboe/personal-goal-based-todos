@@ -2,7 +2,14 @@ import { KeyDefinition } from '../utility/keyboardUtilities';
 
 export const moveTodoOneDayForwardDefinition: Partial<KeyDefinition> = {
     shiftKey: true,
+    ctrlKey: true,
     key: 'ArrowRight',
+};
+
+export const moveTodoOneDayBackwardsDefinition: Partial<KeyDefinition> = {
+    shiftKey: true,
+    ctrlKey: true,
+    key: 'ArrowLeft',
 };
 
 export const moveToNextDateDefinition: Partial<KeyDefinition> = {

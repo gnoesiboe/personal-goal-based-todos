@@ -10,9 +10,13 @@ import { FetchTodoHandler } from './useFetchTodoListItems';
 import { Dispatch, SetStateAction } from 'react';
 import {
     addNumberOfDays,
+    checkDateIsBeforeToday,
     createFirestoreTimestampFromDate,
     parseFirebaseTimestamp,
+    subtractNumberOfDays,
 } from '../../../utility/dateTimeUtilities';
+import { useNotifications } from '../../notification/NotificationContext';
+import { NotificationType } from '../../../model/notification';
 
 export type AddTodoHandler = (todoListItem: TodoListItem) => Promise<boolean>;
 
@@ -22,6 +26,8 @@ export type UpdateTodoHandler = (
 ) => Promise<boolean>;
 
 export type MoveTodoOneDayForwardHandler = (id: string) => Promise<boolean>;
+
+export type MoveTodoOneDayBackwardsHandler = (id: string) => Promise<boolean>;
 
 export type RemoveTodoHandler = (id: string) => Promise<boolean>;
 
@@ -43,6 +49,8 @@ export default function useModifyTodoCollection(
     setItems: Dispatch<SetStateAction<TodoListItem[] | null>>,
 ) {
     const user = useLoggedInUser();
+
+    const { notify } = useNotifications();
 
     const addTodo: AddTodoHandler = async (newItem) => {
         if (!user) {
@@ -105,6 +113,60 @@ export default function useModifyTodoCollection(
         return success;
     };
 
+    const moveTodoOneDayBackwards: MoveTodoOneDayBackwardsHandler = async (
+        id,
+    ) => {
+        if (!user) {
+            throw new Error('Expecting user to be available at this point');
+        }
+
+        if (!items) {
+            throw new Error(
+                'Expecting current items to be available at this point',
+            );
+        }
+
+        const todoToUpdate = items.find((cursorItem) => cursorItem.id === id);
+
+        if (!todoToUpdate) {
+            return false;
+        }
+
+        const possibleNewDate = subtractNumberOfDays(
+            parseFirebaseTimestamp(todoToUpdate.date),
+            1,
+        );
+
+        if (checkDateIsBeforeToday(possibleNewDate)) {
+            notify(
+                'Het is niet toegestaan om een todo verder terug te zetten dan vandaag',
+                NotificationType.Error,
+            );
+
+            return;
+        }
+
+        const updates: Partial<TodoListItem> = {
+            date: createFirestoreTimestampFromDate(possibleNewDate),
+        };
+
+        // optimistic updating
+        setItems(applyItemUpdate(items, id, updates));
+
+        // persist to server
+        const success = await persistUpdates(todoToUpdate, updates);
+
+        if (success) {
+            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
+            fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
+        } else {
+            // rewind optimistic update
+            setItems(applyItemUpdate(items, id, todoToUpdate));
+        }
+
+        return success;
+    };
+
     const moveTodoOneDayForward: MoveTodoOneDayForwardHandler = async (id) => {
         if (!user) {
             throw new Error('Expecting user to be available at this point');
@@ -147,5 +209,11 @@ export default function useModifyTodoCollection(
         return success;
     };
 
-    return { addTodo, updateTodo, moveTodoOneDayForward, removeTodo };
+    return {
+        addTodo,
+        updateTodo,
+        moveTodoOneDayForward,
+        moveTodoOneDayBackwards,
+        removeTodo,
+    };
 }
