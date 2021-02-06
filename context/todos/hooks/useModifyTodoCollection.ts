@@ -143,7 +143,7 @@ export default function useModifyTodoCollection(
                 NotificationType.Error,
             );
 
-            return;
+            return false;
         }
 
         const updates: Partial<TodoListItem> = {
