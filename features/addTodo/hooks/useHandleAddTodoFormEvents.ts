@@ -57,11 +57,8 @@ export default function useHandleAddTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'urgent', 'deadline'],
+        ['summary', 'description', 'roleWithGoal', 'deadline'],
         validateInput,
         onFormValid,
-        {
-            urgent: false,
-        },
     );
 }

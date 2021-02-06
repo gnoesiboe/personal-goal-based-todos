@@ -1,19 +1,32 @@
 import { TodoListItem } from '../todoListItem';
+import {
+    checkIsToday,
+    checkIsTomorrow,
+    parseFirebaseTimestamp,
+} from '../../utility/dateTimeUtilities';
 
-export const calculatePriorityScore = (item: TodoListItem): number => {
-    if (!!item.goalRef && item.urgent) {
-        return 4;
+export const determineUrgencyScore = (item: TodoListItem): number => {
+    if (!item.deadline) {
+        return 0;
     }
 
-    if (!!item.goalRef && !item.urgent) {
+    const deadline = parseFirebaseTimestamp(item.deadline);
+
+    if (checkIsToday(deadline)) {
         return 3;
     }
 
-    if (!item.goalRef && item.urgent) {
+    if (checkIsTomorrow(deadline)) {
         return 2;
     }
 
     return 1;
+};
+
+const calculatePriorityScore = (item: TodoListItem): number => {
+    const urgencyScore = determineUrgencyScore(item);
+
+    return item.goalRef ? 10 + urgencyScore : urgencyScore;
 };
 
 export const sortTodoListItemsByPriority = (items: TodoListItem[]) => {

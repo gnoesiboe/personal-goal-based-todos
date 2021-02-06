@@ -42,6 +42,10 @@ export const createStartOfTomorrow = () => startOfTomorrow();
 export const checkIsSameDay = (first: Date, second: Date) =>
     isSameDay(first, second);
 
+export const checkIsToday = (date: Date): boolean => isToday(date);
+
+export const checkIsTomorrow = (date: Date): boolean => isTomorrow(date);
+
 export const addNumberOfDays = (date: Date, amount: number) =>
     addDays(date, amount);
 

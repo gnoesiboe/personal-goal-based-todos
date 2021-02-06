@@ -9,7 +9,6 @@ export const normalizeTodoListItemFirebaseData = (
         summary: '',
         deadline: null,
         done: false,
-        urgent: false,
         important: false,
         userUid: '',
         goalRef: null,

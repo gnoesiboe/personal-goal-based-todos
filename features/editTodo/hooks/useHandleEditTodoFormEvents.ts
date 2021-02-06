@@ -80,7 +80,6 @@ export default function useHandleEditTodoFormEvents(
         const updates: Partial<TodoListItem> = {
             summary: values.summary,
             description: values.description,
-            urgent: values.urgent,
             deadline,
             goalRef:
                 role && goal
@@ -117,11 +116,10 @@ export default function useHandleEditTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'urgent', 'deadline'],
+        ['summary', 'description', 'roleWithGoal', 'deadline'],
         validateInput,
         onFormValid,
         {
-            urgent: todo.urgent,
             summary: todo.summary,
             description: todo.description || '',
             roleWithGoal:

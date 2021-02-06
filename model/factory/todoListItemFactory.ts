@@ -49,7 +49,6 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
         deadline,
         description: values.description,
         done: false,
-        urgent: values.urgent,
         userUid: user.uid,
         goalRef:
             role && goal

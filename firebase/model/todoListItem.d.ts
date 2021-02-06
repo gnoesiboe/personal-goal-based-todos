@@ -8,7 +8,6 @@ export interface TodoListItemFirebaseData
     description: string | null;
     deadline: firebase.firestore.Timestamp | null;
     done: boolean;
-    urgent: boolean;
     userUid: string;
     goalRef: firebase.firestore.DocumentReference<GoalDocumentData> | null;
     goalTitle: string | null;
