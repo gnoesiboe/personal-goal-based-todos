@@ -10,7 +10,7 @@ import useManageCurrentTodo, {
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import {
     AddTodoHandler,
-    PostponeTodoToTomorrowHandler,
+    MoveTodoOneDayForwardHandler,
     RemoveTodoHandler,
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
@@ -32,7 +32,7 @@ type ContextValue = {
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
-    postponeTodoToTomorrow: PostponeTodoToTomorrowHandler;
+    moveTodoOneDayForward: MoveTodoOneDayForwardHandler;
 };
 
 const initialValue: ContextValue = {
@@ -49,7 +49,7 @@ const initialValue: ContextValue = {
     addTodo: async () => false,
     updateTodo: async () => false,
     removeTodo: async () => false,
-    postponeTodoToTomorrow: async () => false,
+    moveTodoOneDayForward: async () => false,
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -72,7 +72,7 @@ export const TodoListItemContextProvider: React.FC<{
         isFetching,
         addTodo,
         updateTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
         removeTodo,
         refetchTodos,
     } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
@@ -86,7 +86,7 @@ export const TodoListItemContextProvider: React.FC<{
 
     const currentTodo = itemsForCurrentDate[currentTodoIndex] || null;
 
-    useKeyboardEventListeners(postponeTodoToTomorrow, currentTodo, removeTodo);
+    useKeyboardEventListeners(moveTodoOneDayForward, currentTodo, removeTodo);
 
     useMoveNotDoneItemsInThePastToToday(refetchTodos);
 
@@ -104,7 +104,7 @@ export const TodoListItemContextProvider: React.FC<{
         addTodo,
         updateTodo,
         removeTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -119,7 +119,7 @@ export const useTodoListItems = () => {
         addTodo,
         updateTodo,
         removeTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
     } = useContext(Context);
 
     return {
@@ -130,7 +130,7 @@ export const useTodoListItems = () => {
         addTodo,
         updateTodo,
         removeTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
     };
 };
 

@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import {
-    PostponeTodoToTomorrowHandler,
+    MoveTodoOneDayForwardHandler,
     RemoveTodoHandler,
 } from './useModifyTodoCollection';
 import { TodoListItem } from '../../../model/todoListItem';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
-    postponeTillTomorrowDefinition,
+    moveTodoOneDayForwardDefinition,
     removeTodoDefinition,
 } from '../../../constants/keyboardDefinitions';
 
 export default function useKeyboardEventListeners(
-    postponeTodoToTomorrow: PostponeTodoToTomorrowHandler,
+    moveTodoOneDayForward: MoveTodoOneDayForwardHandler,
     currentTodo: TodoListItem | null,
     removeTodo: RemoveTodoHandler,
 ) {
@@ -23,12 +23,12 @@ export default function useKeyboardEventListeners(
         const onKeyDown = (event: WindowEventMap['keydown']) => {
             if (
                 checkKeyDefinitionIsPressed(
-                    postponeTillTomorrowDefinition,
+                    moveTodoOneDayForwardDefinition,
                     event,
                 )
             ) {
                 // noinspection JSIgnoredPromiseFromCall
-                postponeTodoToTomorrow(currentTodo.id);
+                moveTodoOneDayForward(currentTodo.id);
 
                 return;
             }
@@ -44,5 +44,5 @@ export default function useKeyboardEventListeners(
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [currentTodo, postponeTodoToTomorrow, removeTodo]);
+    }, [currentTodo, moveTodoOneDayForward, removeTodo]);
 }

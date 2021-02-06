@@ -28,7 +28,7 @@ type Props = {
 };
 
 const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
-    const { postponeTodoToTomorrow } = useTodoListItems();
+    const { moveTodoOneDayForward } = useTodoListItems();
 
     const urgencyScore = determineUrgencyScore(item);
 
@@ -75,7 +75,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                         )}
                     </RemoveTodo>
                     <ActionButton
-                        onClick={() => postponeTodoToTomorrow(item.id)}
+                        onClick={() => moveTodoOneDayForward(item.id)}
                     >
                         tomorrow
                     </ActionButton>

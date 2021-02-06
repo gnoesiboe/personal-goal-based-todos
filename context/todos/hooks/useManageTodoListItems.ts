@@ -23,7 +23,7 @@ export default function useManageTodoListItems(
     const {
         addTodo,
         updateTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
         removeTodo,
     } = useModifyTodoCollection(
         currentDate,
@@ -48,7 +48,7 @@ export default function useManageTodoListItems(
         isFetching,
         addTodo,
         updateTodo,
-        postponeTodoToTomorrow,
+        moveTodoOneDayForward,
         removeTodo,
         refetchTodos,
     };

@@ -21,7 +21,7 @@ export type UpdateTodoHandler = (
     updates: Partial<TodoListItem>,
 ) => Promise<boolean>;
 
-export type PostponeTodoToTomorrowHandler = (id: string) => Promise<boolean>;
+export type MoveTodoOneDayForwardHandler = (id: string) => Promise<boolean>;
 
 export type RemoveTodoHandler = (id: string) => Promise<boolean>;
 
@@ -105,9 +105,7 @@ export default function useModifyTodoCollection(
         return success;
     };
 
-    const postponeTodoToTomorrow: PostponeTodoToTomorrowHandler = async (
-        id,
-    ) => {
+    const moveTodoOneDayForward: MoveTodoOneDayForwardHandler = async (id) => {
         if (!user) {
             throw new Error('Expecting user to be available at this point');
         }
@@ -149,5 +147,5 @@ export default function useModifyTodoCollection(
         return success;
     };
 
-    return { addTodo, updateTodo, postponeTodoToTomorrow, removeTodo };
+    return { addTodo, updateTodo, moveTodoOneDayForward, removeTodo };
 }

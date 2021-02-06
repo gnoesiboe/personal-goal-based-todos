@@ -1,7 +1,7 @@
 import { KeyDefinition } from '../utility/keyboardUtilities';
 
-export const postponeTillTomorrowDefinition: Partial<KeyDefinition> = {
-    altKey: true,
+export const moveTodoOneDayForwardDefinition: Partial<KeyDefinition> = {
+    shiftKey: true,
     key: 'ArrowRight',
 };
 
