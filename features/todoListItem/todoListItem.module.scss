@@ -1,5 +1,6 @@
 @use '../../styles/settings/spacing';
 @use '../../styles/settings/sizes';
+@use '../../styles/settings/colors';
 
 $left-column-width: 23px;
 $column-gap-width: spacing.$spacing-small;
@@ -18,11 +19,41 @@ $column-gap-width: spacing.$spacing-small;
     opacity: 0.3;
 }
 
+.deadlineDescription {
+    margin-left: $left-column-width + $column-gap-width;
+    padding: 0 spacing.$spacing-small;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: spacing.$spacing-extra-small;
+
+    // force small size of octicon to match content
+    svg  {
+        $-dimension: 10px;
+
+        height: $-dimension !important;
+        width: $-dimension !important;
+    }
+
+    .containerIsExtremelyUrgent & {
+        background: colors.$error;
+    }
+
+    .containerIsUrgent & {
+        background: colors.$warning;
+    }
+
+    .containerIsMildlyUrgent & {
+        background: rgba(255, 255, 255, 0.5);
+    }
+}
+
 .header {
     display: flex;
     justify-content: flex-start;
     gap: $column-gap-width;
     align-items: flex-start;
+    margin: 0 0 spacing.$spacing-extra-small;
 }
 
 .content {

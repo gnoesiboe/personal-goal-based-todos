@@ -5,22 +5,29 @@ import {
     parseFirebaseTimestamp,
 } from '../../utility/dateTimeUtilities';
 
-export const determineUrgencyScore = (item: TodoListItem): number => {
+export enum UrgencyScore {
+    ExtremelyUrgent = 3,
+    Urgent = 2,
+    MildlyUrgent = 1,
+    NotUrgent = 0,
+}
+
+export const determineUrgencyScore = (item: TodoListItem): UrgencyScore => {
     if (!item.deadline) {
-        return 0;
+        return UrgencyScore.NotUrgent;
     }
 
     const deadline = parseFirebaseTimestamp(item.deadline);
 
     if (checkIsToday(deadline)) {
-        return 3;
+        return UrgencyScore.ExtremelyUrgent;
     }
 
     if (checkIsTomorrow(deadline)) {
-        return 2;
+        return UrgencyScore.Urgent;
     }
 
-    return 1;
+    return UrgencyScore.MildlyUrgent;
 };
 
 const calculatePriorityScore = (item: TodoListItem): number => {

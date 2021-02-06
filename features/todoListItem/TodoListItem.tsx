@@ -13,6 +13,11 @@ import EditTodo from '../editTodo/EditTodo';
 import Summary from './components/Summary';
 import RemoveTodo from '../removeTodo/RemoveTodo';
 import Breadcrumb from './components/Breadcrumb';
+import {
+    determineUrgencyScore,
+    UrgencyScore,
+} from '../../model/selector/todoListItemSelectors';
+import DeadlineDescription from './components/DeadlineDescription';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -25,9 +30,16 @@ type Props = {
 const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     const { postponeTodoToTomorrow } = useTodoListItems();
 
+    const urgencyScore = determineUrgencyScore(item);
+
     const containerClassName = createClassName(classNames.container, {
         [classNames.containerIsCurrent]: current,
         [classNames.containerIsDone]: item.done,
+        [classNames.containerIsExtremelyUrgent]:
+            urgencyScore === UrgencyScore.ExtremelyUrgent,
+        [classNames.containerIsUrgent]: urgencyScore === UrgencyScore.Urgent,
+        [classNames.containerIsMildlyUrgent]:
+            urgencyScore === UrgencyScore.MildlyUrgent,
     });
 
     const { onInputChange } = useToggleDoneStatus(item, current);
@@ -44,6 +56,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                     <Summary item={item} />
                 </div>
             </div>
+            <DeadlineDescription item={item} />
             <CurrentContentContainer current={current}>
                 {item.description && (
                     <Description>{item.description}</Description>

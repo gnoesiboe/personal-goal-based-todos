@@ -11,6 +11,7 @@ import {
     parse,
     startOfTomorrow,
     endOfDay,
+    isThisYear,
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import firebase from 'firebase/app';
@@ -52,6 +53,10 @@ export const addNumberOfDays = (date: Date, amount: number) =>
 export const subtractNumberOfDays = (date: Date, amount: number) =>
     subDays(date, amount);
 
+export const checkIsThisYear = (date: Date): boolean => {
+    return isThisYear(date);
+};
+
 export const getRelativeDayDescription = (date: Date) => {
     if (isToday(date)) {
         return 'vandaag';
@@ -61,7 +66,9 @@ export const getRelativeDayDescription = (date: Date) => {
         return 'morgen';
     }
 
-    return format(date, 'd LLLL, yyyy', {
+    const dateFormat = checkIsThisYear(date) ? 'd LLLL' : 'd LLLL, yyyy';
+
+    return format(date, dateFormat, {
         locale: nl,
     });
 };

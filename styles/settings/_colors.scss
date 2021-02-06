@@ -7,5 +7,5 @@ $fourth: #81b29a; // green sheen
 $fifth: #f2cc8f; // deep champagne (yelllow meets orange)
 
 $error: $second;
-$warning: $fifth;
+$warning: darken($fifth, 10);
 $success: #7fca7f;
