@@ -28,6 +28,7 @@ const EditTodo: React.FC<Props> = ({ children, todo }) => {
         onFieldBlur,
         inputIsValid,
         disabled,
+        setFieldValue,
     } = useHandleEditTodoFormEvents(todo, hideForm);
 
     if (visible) {
@@ -46,6 +47,7 @@ const EditTodo: React.FC<Props> = ({ children, todo }) => {
                         disabled={disabled}
                         inputIsValid={inputIsValid}
                         onFieldKeyDown={onFieldKeyDown}
+                        setFieldValue={setFieldValue}
                     />
                 </Island>
             </Modal>

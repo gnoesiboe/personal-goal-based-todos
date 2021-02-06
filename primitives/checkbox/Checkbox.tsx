@@ -25,7 +25,7 @@ const Checkbox: React.FC<Props> = ({
         <div className={className}>
             <input
                 type="checkbox"
-                onChange={() => {}}
+                onChange={() => onChange(!checked)}
                 checked={checked}
                 className={classNames.input}
             />

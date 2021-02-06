@@ -25,6 +25,11 @@ export type OnFormValidHandler<FormValues> = (
     values: FormValues,
 ) => Promise<boolean>;
 
+export type SetFieldValueHandler<FormValues> = (
+    field: keyof FormValues,
+    value: any,
+) => void;
+
 const determineValues = <FormValues,>(
     keys: Array<keyof FormValues>,
     initialValues: Partial<FormValues> = {},
@@ -53,9 +58,7 @@ const createTouched = <FormValues,>(
     return touched as FormTouched<FormValues>;
 };
 
-export default function useFormState<
-    FormValues extends Record<string, string | null | boolean>
->(
+export default function useFormState<FormValues extends Record<string, any>>(
     keys: Array<keyof FormValues>,
     validateInput: InputValidator<FormValues>,
     onFormValid: OnFormValidHandler<FormValues>,
@@ -123,6 +126,13 @@ export default function useFormState<
         submitForm();
     };
 
+    const setFieldValue: SetFieldValueHandler<FormValues> = (field, value) => {
+        setValues((currentValues) => ({
+            ...currentValues,
+            [field]: value,
+        }));
+    };
+
     const onFieldChange: ChangeEventHandler<HTMLElement> = (event) => {
         const target = event.target;
 
@@ -140,10 +150,7 @@ export default function useFormState<
                 ? target.checked
                 : target.value;
 
-        setValues((currentValues) => ({
-            ...currentValues,
-            [field]: newValue,
-        }));
+        setFieldValue(field, newValue);
     };
 
     const onFieldBlur: FocusEventHandler<
@@ -171,6 +178,7 @@ export default function useFormState<
         values,
         errors,
         onFieldChange,
+        setFieldValue,
         touched,
         onFieldBlur,
         inputIsValid,

@@ -7,6 +7,7 @@ export const normalizeTodoListItemFirebaseData = (
     return {
         date: createFirestoreTimestampFromDate(new Date()),
         summary: '',
+        deadline: null,
         done: false,
         urgent: false,
         important: false,

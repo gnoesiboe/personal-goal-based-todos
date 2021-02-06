@@ -6,6 +6,7 @@ export interface TodoListItemFirebaseData
     date: firebase.firestore.Timestamp;
     summary: string;
     description: string | null;
+    deadline: firebase.firestore.Timestamp | null;
     done: boolean;
     urgent: boolean;
     userUid: string;

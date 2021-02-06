@@ -28,6 +28,7 @@ const AddTodo: React.FC<Props> = ({ date }) => {
         onFieldBlur,
         inputIsValid,
         disabled,
+        setFieldValue,
     } = useHandleAddTodoFormEvents(date, hideForm);
 
     if (visible) {
@@ -46,6 +47,7 @@ const AddTodo: React.FC<Props> = ({ date }) => {
                         disabled={disabled}
                         inputIsValid={inputIsValid}
                         onFieldKeyDown={onFieldKeyDown}
+                        setFieldValue={setFieldValue}
                     />
                 </Island>
             </Modal>

@@ -26,6 +26,10 @@ import { useNotifications } from '../../../context/notification/NotificationCont
 import { NotificationType } from '../../../model/notification';
 import { Role } from '../../../model/role';
 import { Goal } from '../../../model/goal';
+import {
+    createFirestoreTimestampFromDate,
+    parseFirebaseTimestamp,
+} from '../../../utility/dateTimeUtilities';
 
 export default function useHandleEditTodoFormEvents(
     todo: TodoListItem,
@@ -67,10 +71,17 @@ export default function useHandleEditTodoFormEvents(
             }
         }
 
+        let deadline: firebase.firestore.Timestamp | null = null;
+
+        if (values.deadline) {
+            deadline = createFirestoreTimestampFromDate(values.deadline);
+        }
+
         const updates: Partial<TodoListItem> = {
             summary: values.summary,
             description: values.description,
             urgent: values.urgent,
+            deadline,
             goalRef:
                 role && goal
                     ? (firebase
@@ -106,7 +117,7 @@ export default function useHandleEditTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'urgent'],
+        ['summary', 'description', 'roleWithGoal', 'urgent', 'deadline'],
         validateInput,
         onFormValid,
         {
@@ -117,6 +128,9 @@ export default function useHandleEditTodoFormEvents(
                 todo.roleRef && todo.goalRef
                     ? generateComposedKey(todo.roleRef.id, todo.goalRef.id)
                     : undefined,
+            deadline: todo.deadline
+                ? parseFirebaseTimestamp(todo.deadline)
+                : null,
         },
     );
 }

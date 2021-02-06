@@ -7,7 +7,11 @@
     margin-bottom: spacing.$spacing-small;
 }
 
-.textWidget {
+.group {
+    margin-bottom: spacing.$spacing-small;
+}
+
+.widget {
     @include default-widget-props;
 
     padding: 10px;
@@ -29,9 +33,15 @@
 
 .label {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
+
+    .groupIsHorizontal & {
+        flex-direction: row;
+        align-items: center;
+    }
 }
 
 .actionButtons {

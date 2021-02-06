@@ -36,10 +36,17 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
         goal = await fetchGoal(role.uid, goalUid);
     }
 
+    let deadline: firebase.firestore.Timestamp | null = null;
+
+    if (values.deadline) {
+        deadline = createFirestoreTimestampFromDate(values.deadline);
+    }
+
     return {
         id: generateId(),
         date: createFirestoreTimestampFromDate(date),
         summary: values.summary,
+        deadline,
         description: values.description,
         done: false,
         urgent: values.urgent,
