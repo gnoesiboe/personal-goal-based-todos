@@ -66,7 +66,9 @@ export const getRelativeDayDescription = (date: Date) => {
         return 'morgen';
     }
 
-    const dateFormat = checkIsThisYear(date) ? 'd LLLL' : 'd LLLL, yyyy';
+    const dateFormat = checkIsThisYear(date)
+        ? 'EEEEEE, d LLLL'
+        : 'EEEEEE, d LLLL, yyyy';
 
     return format(date, dateFormat, {
         locale: nl,

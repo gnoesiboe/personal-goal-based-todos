@@ -8,19 +8,18 @@ import {
     createDateKey,
     createDateRange,
     createStartOfToday,
-    getRelativeDayDescription,
 } from '../../utility/dateTimeUtilities';
 import DayNavigation from '../../primitives/dayNavigation/DayNavigation';
 import DirectionIndicator from './components/DirectionIndicator';
 import classNames from './todoOverview.module.scss';
 import TodoList from './components/TodoList';
 import AddTodo from '../addTodo/AddTodo';
-import Heading from '../../primitives/heading/Heading';
 import {
     useCurrentDate,
     useTodoListItems,
 } from '../../context/todos/TodoListItemsContext';
 import DayActions from './components/DayActions';
+import DayHeading from './components/DayHeading';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -73,16 +72,7 @@ const TodoOverview: React.FC = () => {
                                         }
                                     >
                                         <div className={classNames.dayHeader}>
-                                            <Heading
-                                                tag="h2"
-                                                style="secondary"
-                                                centered
-                                                flattened
-                                            >
-                                                {getRelativeDayDescription(
-                                                    date,
-                                                )}
-                                            </Heading>
+                                            <DayHeading date={date} />
                                         </div>
                                         <div className={classNames.dayContent}>
                                             <TodoList
