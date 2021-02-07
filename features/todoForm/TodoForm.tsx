@@ -155,6 +155,7 @@ const TodoForm: React.FC<Props> = ({
                 <Button
                     type="submit"
                     disabled={!inputIsValid || disabled || !rolesWithGoals}
+                    style="primary"
                 >
                     Save
                 </Button>
