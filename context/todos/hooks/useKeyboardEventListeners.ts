@@ -10,6 +10,7 @@ import {
     moveTodoOneDayBackwardsDefinition,
     moveTodoOneDayForwardDefinition,
     removeTodoDefinition,
+    resetCurrentTodoDefinition,
 } from '../../../constants/keyboardDefinitions';
 
 export default function useKeyboardEventListeners(
@@ -17,6 +18,7 @@ export default function useKeyboardEventListeners(
     moveTodoOneDayBackwards: MoveTodoOneDayBackwardsHandler,
     currentTodo: TodoListItem | null,
     removeTodo: RemoveTodoHandler,
+    resetCurrentTodoIndex: () => void,
 ) {
     useEffect(() => {
         if (!currentTodo) {
@@ -53,6 +55,12 @@ export default function useKeyboardEventListeners(
                 removeTodo(currentTodo.id);
 
                 return;
+            }
+
+            if (
+                checkKeyDefinitionIsPressed(resetCurrentTodoDefinition, event)
+            ) {
+                resetCurrentTodoIndex();
             }
         };
 

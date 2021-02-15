@@ -76,5 +76,7 @@ export default function useManageCurrentTodo(
         setCurrentTodoIndexState(index);
     };
 
-    return { currentTodoIndex, setCurrentTodoIndex };
+    const resetCurrentTodoIndex = () => setCurrentTodoIndexState(null);
+
+    return { currentTodoIndex, setCurrentTodoIndex, resetCurrentTodoIndex };
 }

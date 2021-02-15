@@ -54,3 +54,7 @@ export const removeTodoDefinition: Partial<KeyDefinition> = {
     key: 'Backspace',
     altKey: true,
 };
+
+export const resetCurrentTodoDefinition: Partial<KeyDefinition> = {
+    key: 'Escape',
+};
