@@ -1,16 +1,22 @@
 import { createDateKey } from '../../../utility/dateTimeUtilities';
 import { TodoListItem } from '../../../model/todoListItem';
+import { CurrentTodoIndexState } from '../../../context/todos/hooks/useManageCurrentTodo';
 
 export const resolveNextCurrentTodoIndex = (
     itemsPerDate: Record<string, TodoListItem[]>,
     currentDate: Date,
-    currentTodoIndex: number,
-): number => {
-    const possibleNextIndex = currentTodoIndex + 1;
-
+    currentTodoIndex: CurrentTodoIndexState,
+): CurrentTodoIndexState => {
     const dateKey = createDateKey(currentDate);
 
     const todosForCurrentDate = itemsPerDate[dateKey] || [];
+
+    if (todosForCurrentDate.length === 0) {
+        return null;
+    }
+
+    const possibleNextIndex =
+        currentTodoIndex === null ? 0 : currentTodoIndex + 1;
 
     return typeof todosForCurrentDate[possibleNextIndex] !== 'undefined'
         ? possibleNextIndex
@@ -20,31 +26,23 @@ export const resolveNextCurrentTodoIndex = (
 export const resolvePreviousCurrentTodoIndex = (
     itemsPerDate: Record<string, TodoListItem[]>,
     currentDate: Date,
-    currentTodoIndex: number,
-): number => {
-    const possiblePreviousIndex = currentTodoIndex - 1;
+    currentTodoIndex: CurrentTodoIndexState,
+): CurrentTodoIndexState => {
+    const dateKey = createDateKey(currentDate);
 
-    if (possiblePreviousIndex >= 0) {
-        return possiblePreviousIndex;
+    const todosForCurrentDate = itemsPerDate[dateKey] || [];
+
+    if (todosForCurrentDate.length === 0) {
+        return null;
     }
 
-    const dateKey = createDateKey(currentDate);
+    if (currentTodoIndex === null) {
+        return todosForCurrentDate.length - 1;
+    }
 
-    const todosForCurrentDate = itemsPerDate[dateKey] || [];
+    const possiblePreviousIndex = currentTodoIndex - 1;
 
-    return todosForCurrentDate.length - 1;
-};
-
-export const resolvePossibleSameTodoIndex = (
-    itemsPerDate: Record<string, TodoListItem[]>,
-    currentDate: Date,
-    currentTodoIndex: number,
-): number => {
-    const dateKey = createDateKey(currentDate);
-
-    const todosForCurrentDate = itemsPerDate[dateKey] || [];
-
-    return typeof todosForCurrentDate[currentTodoIndex] !== 'undefined'
-        ? currentTodoIndex
-        : 0;
+    return possiblePreviousIndex >= 0
+        ? possiblePreviousIndex
+        : todosForCurrentDate.length - 1;
 };

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
 import {
     resolveNextCurrentTodoIndex,
-    resolvePossibleSameTodoIndex,
     resolvePreviousCurrentTodoIndex,
 } from '../../../features/todoOverview/utility/currentTodoIndexResolver';
 import { createDateKey } from '../../../utility/dateTimeUtilities';
@@ -14,21 +13,20 @@ import {
 
 export type SetCurrentTodoIndexHandler = (index: number) => void;
 
+export type CurrentTodoIndexState = number | null;
+
 export default function useManageCurrentTodo(
     itemsPerDate: Record<string, TodoListItem[]>,
     currentDate: Date,
 ) {
-    const [currentTodoIndex, setCurrentTodoIndexState] = useState<number>(0);
+    const [
+        currentTodoIndex,
+        setCurrentTodoIndexState,
+    ] = useState<CurrentTodoIndexState>(null);
 
     useEffect(() => {
-        setCurrentTodoIndexState((currentTodoIndex) => {
-            return resolvePossibleSameTodoIndex(
-                itemsPerDate,
-                currentDate,
-                currentTodoIndex,
-            );
-        });
-    }, [currentDate, itemsPerDate]);
+        setCurrentTodoIndexState(null);
+    }, [currentDate]);
 
     useEffect(() => {
         const moveToNext = () => {
