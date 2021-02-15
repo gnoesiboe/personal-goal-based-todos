@@ -57,7 +57,7 @@ export const removeTodoFromServer = async (id: string): Promise<boolean> => {
 
         return true;
     } catch (error) {
-        console.error('Could not persist new todo', error);
+        console.error('Could not remove todo', error);
 
         return false;
     }

@@ -1,5 +1,6 @@
 import { TodoListItem } from '../todoListItem';
 import {
+    checkDayIsInThePast,
     checkIsToday,
     checkIsTomorrow,
     parseFirebaseTimestamp,
@@ -19,7 +20,7 @@ export const determineUrgencyScore = (item: TodoListItem): UrgencyScore => {
 
     const deadline = parseFirebaseTimestamp(item.deadline);
 
-    if (checkIsToday(deadline)) {
+    if (checkDayIsInThePast(deadline) || checkIsToday(deadline)) {
         return UrgencyScore.ExtremelyUrgent;
     }
 

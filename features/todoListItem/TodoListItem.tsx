@@ -47,40 +47,42 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     return (
         <div className={containerClassName}>
             <div
-                className={classNames.header}
+                className={classNames.checkboxContainer}
                 onClick={() => onContainerClick(item.id)}
             >
                 <CheckboxInput item={item} onChange={onInputChange} />
-                <div className={classNames.content}>
-                    <Breadcrumb item={item} />
-                    <Summary item={item} />
-                </div>
             </div>
-            <DeadlineDescription item={item} />
-            <CurrentContentContainer current={current}>
-                {item.description && (
-                    <Description>{item.description}</Description>
-                )}
-                <ActionButtonList>
-                    <EditTodo todo={item}>
-                        {(onClick) => (
-                            <ActionButton onClick={onClick}>edit</ActionButton>
-                        )}
-                    </EditTodo>
-                    <RemoveTodo todo={item}>
-                        {(onClick) => (
-                            <ActionButton onClick={onClick}>
-                                delete
-                            </ActionButton>
-                        )}
-                    </RemoveTodo>
-                    <ActionButton
-                        onClick={() => moveTodoOneDayForward(item.id)}
-                    >
-                        tomorrow
-                    </ActionButton>
-                </ActionButtonList>
-            </CurrentContentContainer>
+            <div className={classNames.content}>
+                <Breadcrumb item={item} />
+                <Summary item={item} />
+                <DeadlineDescription item={item} />
+                <CurrentContentContainer current={current}>
+                    {item.description && (
+                        <Description>{item.description}</Description>
+                    )}
+                    <ActionButtonList>
+                        <EditTodo todo={item}>
+                            {(onClick) => (
+                                <ActionButton onClick={onClick}>
+                                    edit
+                                </ActionButton>
+                            )}
+                        </EditTodo>
+                        <RemoveTodo todo={item}>
+                            {(onClick) => (
+                                <ActionButton onClick={onClick}>
+                                    delete
+                                </ActionButton>
+                            )}
+                        </RemoveTodo>
+                        <ActionButton
+                            onClick={() => moveTodoOneDayForward(item.id)}
+                        >
+                            tomorrow
+                        </ActionButton>
+                    </ActionButtonList>
+                </CurrentContentContainer>
+            </div>
         </div>
     );
 };

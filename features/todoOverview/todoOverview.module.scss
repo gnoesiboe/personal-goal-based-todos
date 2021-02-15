@@ -14,10 +14,10 @@
     padding: 0;
     margin: 0;
     list-style: none;
-    height: 'auto';
     gap: 20px; // keep inline with 'useDetermineNumberOfDaysThatCanBeDisplayed'!
     justify-content: center;
     overflow: hidden;
+    flex-grow: 0;
 }
 
 .day {
