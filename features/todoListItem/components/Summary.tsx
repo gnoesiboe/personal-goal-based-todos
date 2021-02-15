@@ -13,7 +13,7 @@ const Summary: React.FC<Props> = ({ item }) => {
         [classNames.summaryIsDone]: item.done,
     });
 
-    const title = parseMarkdown(item.summary);
+    const title = parseMarkdown(item.summary, true);
 
     return (
         <div
