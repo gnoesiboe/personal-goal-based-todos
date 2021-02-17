@@ -48,7 +48,6 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
             urgencyScore === UrgencyScore.MildlyUrgent,
     });
 
-    // ensure that the current todo list item is always scrolled into view if active
     const { onInputChange } = useToggleDoneStatus(item, current);
 
     useScrollIntoView(
