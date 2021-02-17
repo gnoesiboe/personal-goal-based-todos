@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { TodoListItem as TodoListItemModel } from '../../model/todoListItem';
 import classNames from './todoListItem.module.scss';
 import createClassName from 'classnames';
@@ -18,6 +18,7 @@ import {
     UrgencyScore,
 } from '../../model/selector/todoListItemSelectors';
 import DeadlineDescription from './components/DeadlineDescription';
+import useScrollIntoView from '../../hooks/useScrollIntoView';
 
 export type OnContainerClickHandler = (id: string) => void;
 
@@ -27,7 +28,12 @@ type Props = {
     onContainerClick: OnContainerClickHandler;
 };
 
+const scrollIntoViewTopOffset = 50;
+const scrollIntoViewTopTimeout = 400; // takes into account that items need to animate
+
 const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const { moveTodoOneDayForward } = useTodoListItems();
 
     const urgencyScore = determineUrgencyScore(item);
@@ -42,12 +48,21 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
             urgencyScore === UrgencyScore.MildlyUrgent,
     });
 
+    // ensure that the current todo list item is always scrolled into view if active
     const { onInputChange } = useToggleDoneStatus(item, current);
+
+    useScrollIntoView(
+        containerRef,
+        current,
+        scrollIntoViewTopOffset,
+        scrollIntoViewTopTimeout,
+    );
 
     return (
         <div
             className={containerClassName}
             onClick={() => onContainerClick(item.id)}
+            ref={containerRef}
         >
             <div className={classNames.checkboxContainer}>
                 <CheckboxInput item={item} onChange={onInputChange} />
