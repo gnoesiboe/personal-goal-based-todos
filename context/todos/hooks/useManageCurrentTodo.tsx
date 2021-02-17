@@ -24,11 +24,23 @@ export default function useManageCurrentTodo(dispatch: Dispatch<Action>) {
     useEffect(() => {
         const onKeyDown = (event: WindowEventMap['keydown']) => {
             if (checkKeyDefinitionIsPressed(moveToNextTodoDefinition, event)) {
+                // prevent Arrow keys to also scroll the page
+                event.preventDefault();
+
                 moveToNext();
-            } else if (
+
+                return;
+            }
+
+            if (
                 checkKeyDefinitionIsPressed(moveToPreviousTodoDefinition, event)
             ) {
+                // prevent Arrow keys to also scroll the page
+                event.preventDefault();
+
                 moveToPrevious();
+
+                return;
             }
         };
 
