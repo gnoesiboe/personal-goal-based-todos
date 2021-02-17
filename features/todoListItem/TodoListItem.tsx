@@ -45,11 +45,11 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     const { onInputChange } = useToggleDoneStatus(item, current);
 
     return (
-        <div className={containerClassName}>
-            <div
-                className={classNames.checkboxContainer}
-                onClick={() => onContainerClick(item.id)}
-            >
+        <div
+            className={containerClassName}
+            onClick={() => onContainerClick(item.id)}
+        >
+            <div className={classNames.checkboxContainer}>
                 <CheckboxInput item={item} onChange={onInputChange} />
             </div>
             <div className={classNames.content}>

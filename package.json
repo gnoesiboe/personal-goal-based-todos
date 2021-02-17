@@ -3,9 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev:build:serve:watch": "next dev",
-        "dev:typescript:validate": "tsc --noEmit",
-        "dev:typescript:validate:watch": "tsc --noEmit --watch",
+        "dev:build:watch": "next dev",
+        "typescript:validate": "tsc --noEmit",
+        "typescript:validate:watch": "tsc --noEmit --watch",
         "prod:build": "next build",
         "prod:start": "next start"
     },

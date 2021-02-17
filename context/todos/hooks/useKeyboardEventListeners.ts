@@ -21,10 +21,6 @@ export default function useKeyboardEventListeners(
     resetCurrentTodoIndex: () => void,
 ) {
     useEffect(() => {
-        if (!currentTodo) {
-            return;
-        }
-
         const onKeyDown = (event: WindowEventMap['keydown']) => {
             if (
                 checkKeyDefinitionIsPressed(
@@ -32,6 +28,10 @@ export default function useKeyboardEventListeners(
                     event,
                 )
             ) {
+                if (!currentTodo) {
+                    return;
+                }
+
                 // noinspection JSIgnoredPromiseFromCall
                 moveTodoOneDayForward(currentTodo.id);
 
@@ -44,6 +44,10 @@ export default function useKeyboardEventListeners(
                     event,
                 )
             ) {
+                if (!currentTodo) {
+                    return;
+                }
+
                 // noinspection JSIgnoredPromiseFromCall
                 moveTodoOneDayBackwards(currentTodo.id);
 
@@ -51,6 +55,10 @@ export default function useKeyboardEventListeners(
             }
 
             if (checkKeyDefinitionIsPressed(removeTodoDefinition, event)) {
+                if (!currentTodo) {
+                    return;
+                }
+
                 // noinspection JSIgnoredPromiseFromCall
                 removeTodo(currentTodo.id);
 
@@ -67,5 +75,5 @@ export default function useKeyboardEventListeners(
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [currentTodo, moveTodoOneDayForward, removeTodo]);
+    }, [currentTodo]);
 }

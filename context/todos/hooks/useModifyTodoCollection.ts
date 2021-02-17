@@ -3,11 +3,10 @@ import {
     persistTodoUpdate,
     removeTodoFromServer,
 } from '../../../repository/todoListItemRepository';
-import { applyItemUpdate } from '../utility/todoListItemStateModifiers';
 import { TodoListItem } from '../../../model/todoListItem';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
 import { FetchTodoHandler } from './useFetchTodoListItems';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch } from 'react';
 import {
     addNumberOfDays,
     checkDateIsBeforeToday,
@@ -17,6 +16,9 @@ import {
 } from '../../../utility/dateTimeUtilities';
 import { useNotifications } from '../../notification/NotificationContext';
 import { NotificationType } from '../../../model/notification';
+import { Action, ActionType } from '../model/actionTypes';
+import { ItemsState } from '../reducers/todoReducer';
+import { resolveTodoFromItems } from '../resolver/todoResolver';
 
 export type AddTodoHandler = (todoListItem: TodoListItem) => Promise<boolean>;
 
@@ -43,10 +45,10 @@ const persistUpdates = async (
 
 export default function useModifyTodoCollection(
     currentDate: Date,
-    noOfDaysDisplayed: number,
+    numberOfDaysDisplayed: number,
     fetchTodos: FetchTodoHandler,
-    items: TodoListItem[] | null,
-    setItems: Dispatch<SetStateAction<TodoListItem[] | null>>,
+    items: ItemsState,
+    dispatch: Dispatch<Action>,
 ) {
     const user = useLoggedInUser();
 
@@ -57,10 +59,16 @@ export default function useModifyTodoCollection(
             throw new Error('Expecting a logged in user at this point');
         }
 
+        // optimistic updating
+        dispatch({
+            type: ActionType.AddTodo,
+            todo: newItem,
+        });
+
         const success = await persistNewTodo(newItem);
 
         // noinspection ES6MissingAwait
-        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
 
         return success;
     };
@@ -74,10 +82,15 @@ export default function useModifyTodoCollection(
             return true;
         }
 
+        dispatch({
+            type: ActionType.RemoveTodo,
+            id,
+        });
+
         const success = await removeTodoFromServer(id);
 
         // noinspection ES6MissingAwait
-        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
 
         return success;
     };
@@ -93,22 +106,23 @@ export default function useModifyTodoCollection(
             );
         }
 
-        const todoToUpdate = items.find((cursorItem) => cursorItem.id === id);
+        let itemToUpdate = resolveTodoFromItems(items, id);
 
-        if (!todoToUpdate) {
+        if (!itemToUpdate) {
             return false;
         }
 
-        // optimistic updating
-        setItems(applyItemUpdate(items, id, updates));
+        dispatch({
+            type: ActionType.UpdateTodo,
+            updates,
+            id,
+        });
 
         // persist to server
-        const success = await persistUpdates(todoToUpdate, updates);
+        const success = await persistUpdates(itemToUpdate, updates);
 
-        if (success) {
-            // noinspection ES6MissingAwait
-            fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
-        }
+        // noinspection ES6MissingAwait
+        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
 
         return success;
     };
@@ -126,7 +140,7 @@ export default function useModifyTodoCollection(
             );
         }
 
-        const todoToUpdate = items.find((cursorItem) => cursorItem.id === id);
+        const todoToUpdate = resolveTodoFromItems(items, id);
 
         if (!todoToUpdate) {
             return false;
@@ -151,17 +165,25 @@ export default function useModifyTodoCollection(
         };
 
         // optimistic updating
-        setItems(applyItemUpdate(items, id, updates));
+        dispatch({
+            type: ActionType.UpdateTodo,
+            updates,
+            id,
+        });
 
         // persist to server
         const success = await persistUpdates(todoToUpdate, updates);
 
         if (success) {
             // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
-            fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
+            fetchTodos(currentDate, numberOfDaysDisplayed, user?.uid);
         } else {
             // rewind optimistic update
-            setItems(applyItemUpdate(items, id, todoToUpdate));
+            dispatch({
+                type: ActionType.UpdateTodo,
+                updates: todoToUpdate,
+                id,
+            });
         }
 
         return success;
@@ -178,7 +200,7 @@ export default function useModifyTodoCollection(
             );
         }
 
-        const todoToUpdate = items.find((cursorItem) => cursorItem.id === id);
+        const todoToUpdate = resolveTodoFromItems(items, id);
 
         if (!todoToUpdate) {
             return false;
@@ -193,17 +215,25 @@ export default function useModifyTodoCollection(
         };
 
         // optimistic updating
-        setItems(applyItemUpdate(items, id, updates));
+        dispatch({
+            type: ActionType.UpdateTodo,
+            updates,
+            id,
+        });
 
         // persist to server
         const success = await persistUpdates(todoToUpdate, updates);
 
-        if (success) {
+        if (!success) {
             // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
-            fetchTodos(currentDate, noOfDaysDisplayed, user?.uid);
+            fetchTodos(currentDate, numberOfDaysDisplayed, user?.uid);
         } else {
             // rewind optimistic update
-            setItems(applyItemUpdate(items, id, todoToUpdate));
+            dispatch({
+                type: ActionType.UpdateTodo,
+                updates: todoToUpdate,
+                id,
+            });
         }
 
         return success;

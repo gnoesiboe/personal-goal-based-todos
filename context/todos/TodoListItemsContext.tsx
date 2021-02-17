@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
-import { TodoListItem } from '../../model/todoListItem';
 import useDetermineNumberOfDaysThatCanBeDisplayed from './hooks/useDetermineNumberOfDaysThatCanBeDisplayed';
-import useManageCurrentDate, {
-    DayNavigationDirection,
-} from './hooks/useManageCurrentDate';
+import useManageCurrentDate from './hooks/useManageCurrentDate';
 import useManageCurrentTodo, {
     SetCurrentTodoIndexHandler,
 } from './hooks/useManageCurrentTodo';
@@ -15,17 +12,22 @@ import {
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
 import useKeyboardEventListeners from './hooks/useKeyboardEventListeners';
-import { createDateKey } from '../../utility/dateTimeUtilities';
 import useMoveNotDoneItemsInThePastToToday from './hooks/useMoveNotDoneItemsInThePastToToday';
+import {
+    DayNavigationDirection,
+    ItemsState,
+    useTodoReducer,
+} from './reducers/todoReducer';
+import { resolveCurrentTodo } from './resolver/todoResolver';
 
 type ContextValue = {
-    noOfDaysDisplayed: number;
+    numberOfDaysDisplayed: number;
     currentDate: Date;
+    moveToPreviousDate: () => void;
+    moveToToday: () => void;
+    moveToNextDate: () => void;
     dayNavigationDirection: DayNavigationDirection;
-    onNextDateClick: () => void;
-    onTodayClick: () => void;
-    onPreviousDateClick: () => void;
-    itemsPerDate: Record<string, TodoListItem[]>;
+    items: ItemsState;
     isFetching: boolean;
     currentTodoIndex: number | null;
     setCurrentTodoIndex: SetCurrentTodoIndexHandler;
@@ -36,13 +38,13 @@ type ContextValue = {
 };
 
 const initialValue: ContextValue = {
-    noOfDaysDisplayed: 0,
+    numberOfDaysDisplayed: 0,
     currentDate: new Date(),
+    moveToPreviousDate: () => {},
+    moveToToday: () => {},
+    moveToNextDate: () => {},
     dayNavigationDirection: 'forwards',
-    onNextDateClick: () => {},
-    onTodayClick: () => {},
-    onPreviousDateClick: () => {},
-    itemsPerDate: {},
+    items: {},
     isFetching: false,
     currentTodoIndex: null,
     setCurrentTodoIndex: () => {},
@@ -57,38 +59,47 @@ const Context = React.createContext<ContextValue>(initialValue);
 export const TodoListItemContextProvider: React.FC<{
     children: React.ReactNode;
 }> = ({ children }) => {
-    const noOfDaysDisplayed = useDetermineNumberOfDaysThatCanBeDisplayed();
+    const [state, dispatch] = useTodoReducer();
+
+    useDetermineNumberOfDaysThatCanBeDisplayed(dispatch);
 
     const {
         currentDate,
-        dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
-    } = useManageCurrentDate();
+        numberOfDaysDisplayed,
+        currentTodoIndex,
+        items,
+        isFetching,
+    } = state;
 
     const {
-        itemsPerDate,
-        isFetching,
+        moveToPreviousDate,
+        moveToToday,
+        moveToNextDate,
+    } = useManageCurrentDate(dispatch);
+
+    const {
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
         moveTodoOneDayBackwards,
         removeTodo,
         refetchTodos,
-    } = useManageTodoListItems(currentDate, noOfDaysDisplayed);
+    } = useManageTodoListItems(
+        currentDate.date,
+        numberOfDaysDisplayed,
+        items,
+        dispatch,
+    );
 
-    const {
+    const { setCurrentTodoIndex, resetCurrentTodoIndex } = useManageCurrentTodo(
+        dispatch,
+    );
+
+    const currentTodo = resolveCurrentTodo(
+        items,
+        currentDate.date,
         currentTodoIndex,
-        setCurrentTodoIndex,
-        resetCurrentTodoIndex,
-    } = useManageCurrentTodo(itemsPerDate, currentDate);
-
-    const itemsForCurrentDate = itemsPerDate[createDateKey(currentDate)] || [];
-
-    const currentTodo = currentTodoIndex
-        ? itemsForCurrentDate[currentTodoIndex] || null
-        : null;
+    );
 
     useKeyboardEventListeners(
         moveTodoOneDayForward,
@@ -101,13 +112,13 @@ export const TodoListItemContextProvider: React.FC<{
     useMoveNotDoneItemsInThePastToToday(refetchTodos);
 
     const value: ContextValue = {
-        noOfDaysDisplayed,
-        currentDate,
-        dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
-        itemsPerDate,
+        numberOfDaysDisplayed,
+        currentDate: currentDate.date,
+        moveToPreviousDate,
+        moveToToday,
+        moveToNextDate,
+        dayNavigationDirection: currentDate.direction,
+        items,
         isFetching,
         currentTodoIndex,
         setCurrentTodoIndex,
@@ -124,7 +135,7 @@ export const useTodoListItems = () => {
     const {
         currentTodoIndex,
         setCurrentTodoIndex,
-        itemsPerDate,
+        items,
         isFetching,
         addTodo,
         updateTodo,
@@ -135,7 +146,7 @@ export const useTodoListItems = () => {
     return {
         currentTodoIndex,
         setCurrentTodoIndex,
-        itemsPerDate,
+        items,
         isFetching,
         addTodo,
         updateTodo,
@@ -146,20 +157,20 @@ export const useTodoListItems = () => {
 
 export const useCurrentDate = () => {
     const {
-        noOfDaysDisplayed,
+        numberOfDaysDisplayed,
         currentDate,
         dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
+        moveToPreviousDate,
+        moveToToday,
+        moveToNextDate,
     } = useContext(Context);
 
     return {
-        noOfDaysDisplayed,
+        numberOfDaysDisplayed,
         currentDate,
         dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
+        moveToPreviousDate,
+        moveToToday,
+        moveToNextDate,
     };
 };

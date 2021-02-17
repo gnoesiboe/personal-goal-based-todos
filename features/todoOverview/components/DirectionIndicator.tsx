@@ -1,9 +1,9 @@
 import React from 'react';
-import { DayNavigationDirection } from '../../../context/todos/hooks/useManageCurrentDate';
 import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 import classNames from '../todoOverview.module.scss';
 import useHideAfterTimeout from '../../../hooks/useHideAfterTimeout';
 import { motion } from 'framer-motion';
+import { DayNavigationDirection } from '../../../context/todos/reducers/todoReducer';
 
 type Props = {
     direction: DayNavigationDirection;

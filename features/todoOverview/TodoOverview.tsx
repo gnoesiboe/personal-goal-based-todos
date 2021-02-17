@@ -25,15 +25,15 @@ const TodoOverview: React.FC = () => {
     const {
         currentDate,
         dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
-        noOfDaysDisplayed,
+        moveToPreviousDate,
+        moveToToday,
+        moveToNextDate,
+        numberOfDaysDisplayed,
     } = useCurrentDate();
 
-    const { itemsPerDate } = useTodoListItems();
+    const { items } = useTodoListItems();
 
-    const dateRange = createDateRange(currentDate, noOfDaysDisplayed);
+    const dateRange = createDateRange(currentDate, numberOfDaysDisplayed);
 
     const today = createStartOfToday();
 
@@ -42,9 +42,9 @@ const TodoOverview: React.FC = () => {
             <MainLayout.ContentMain>
                 <Island fullWidth ghost deflatedTop>
                     <DayNavigation
-                        onNextClick={onNextDateClick}
-                        onTodayClick={onTodayClick}
-                        onPreviousClick={onPreviousDateClick}
+                        onNextClick={() => moveToNextDate()}
+                        onTodayClick={() => moveToToday()}
+                        onPreviousClick={() => moveToPreviousDate()}
                         currentDate={currentDate}
                     />
                     <DirectionIndicator
@@ -55,7 +55,9 @@ const TodoOverview: React.FC = () => {
                         <DayList>
                             {dateRange.map((date) => {
                                 const key = createDateKey(date);
-                                const items = itemsPerDate[key] || [];
+                                const itemsForDate = items
+                                    ? items[key] || []
+                                    : [];
                                 const isToday = checkIsSameDay(date, today);
                                 const isCurrent = checkIsSameDay(
                                     date,
@@ -76,7 +78,7 @@ const TodoOverview: React.FC = () => {
                                         </div>
                                         <div className={classNames.dayContent}>
                                             <TodoList
-                                                items={items}
+                                                items={itemsForDate}
                                                 currentDate={isCurrent}
                                             />
                                         </div>

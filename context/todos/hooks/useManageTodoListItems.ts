@@ -1,24 +1,20 @@
-import { sortTodoListItemsByPriority } from '../../../model/selector/todoListItemSelectors';
-import {
-    createDateKey,
-    parseFirebaseTimestamp,
-} from '../../../utility/dateTimeUtilities';
-import { groupItemsWithCallback } from '../../../utility/arrayUtilities';
-import { TodoListItem } from '../../../model/todoListItem';
 import useFetchTodoListItems from './useFetchTodoListItems';
 import useModifyTodoCollection from './useModifyTodoCollection';
+import { Dispatch } from 'react';
+import { Action } from '../model/actionTypes';
+import { ItemsState } from '../reducers/todoReducer';
 
 export default function useManageTodoListItems(
     currentDate: Date,
-    noOfDaysDisplayed: number,
+    numberOfDaysDisplayed: number,
+    items: ItemsState,
+    dispatch: Dispatch<Action>,
 ) {
-    const {
-        items,
-        fetchTodos,
-        isFetching,
-        setItems,
-        refetchTodos,
-    } = useFetchTodoListItems(currentDate, noOfDaysDisplayed);
+    const { fetchTodos, refetchTodos } = useFetchTodoListItems(
+        currentDate,
+        numberOfDaysDisplayed,
+        dispatch,
+    );
 
     const {
         addTodo,
@@ -28,25 +24,13 @@ export default function useManageTodoListItems(
         removeTodo,
     } = useModifyTodoCollection(
         currentDate,
-        noOfDaysDisplayed,
+        numberOfDaysDisplayed,
         fetchTodos,
         items,
-        setItems,
-    );
-
-    let sortedItems: TodoListItem[] = [...(items || [])];
-    if (sortedItems) {
-        sortTodoListItemsByPriority(sortedItems);
-    }
-
-    const itemsPerDate = groupItemsWithCallback<TodoListItem>(
-        sortedItems || [],
-        (item) => createDateKey(parseFirebaseTimestamp(item.date)),
+        dispatch,
     );
 
     return {
-        itemsPerDate,
-        isFetching,
         addTodo,
         updateTodo,
         moveTodoOneDayForward,

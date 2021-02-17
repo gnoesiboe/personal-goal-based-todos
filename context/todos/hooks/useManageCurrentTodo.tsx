@@ -1,54 +1,27 @@
-import { useEffect, useState } from 'react';
-import { TodoListItem } from '../../../model/todoListItem';
-import {
-    resolveNextCurrentTodoIndex,
-    resolvePreviousCurrentTodoIndex,
-} from '../../../features/todoOverview/utility/currentTodoIndexResolver';
-import { createDateKey } from '../../../utility/dateTimeUtilities';
+import { Dispatch, useCallback, useEffect } from 'react';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
     moveToNextTodoDefinition,
     moveToPreviousTodoDefinition,
 } from '../../../constants/keyboardDefinitions';
+import { Action, ActionType } from '../model/actionTypes';
 
 export type SetCurrentTodoIndexHandler = (index: number) => void;
 
-export type CurrentTodoIndexState = number | null;
+export default function useManageCurrentTodo(dispatch: Dispatch<Action>) {
+    const moveToNext = useCallback(() => {
+        dispatch({
+            type: ActionType.MoveToNextTodo,
+        });
+    }, [dispatch]);
 
-export default function useManageCurrentTodo(
-    itemsPerDate: Record<string, TodoListItem[]>,
-    currentDate: Date,
-) {
-    const [
-        currentTodoIndex,
-        setCurrentTodoIndexState,
-    ] = useState<CurrentTodoIndexState>(null);
-
-    useEffect(() => {
-        setCurrentTodoIndexState(null);
-    }, [currentDate]);
+    const moveToPrevious = useCallback(() => {
+        dispatch({
+            type: ActionType.MoveToPreviousTodo,
+        });
+    }, [dispatch]);
 
     useEffect(() => {
-        const moveToNext = () => {
-            setCurrentTodoIndexState((currentTodoIndex) => {
-                return resolveNextCurrentTodoIndex(
-                    itemsPerDate,
-                    currentDate,
-                    currentTodoIndex,
-                );
-            });
-        };
-
-        const moveToPrevious = () => {
-            setCurrentTodoIndexState((currentTodoIndex) => {
-                return resolvePreviousCurrentTodoIndex(
-                    itemsPerDate,
-                    currentDate,
-                    currentTodoIndex,
-                );
-            });
-        };
-
         const onKeyDown = (event: WindowEventMap['keydown']) => {
             if (checkKeyDefinitionIsPressed(moveToNextTodoDefinition, event)) {
                 moveToNext();
@@ -62,21 +35,23 @@ export default function useManageCurrentTodo(
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [itemsPerDate, currentDate]);
+    }, []);
 
-    const setCurrentTodoIndex: SetCurrentTodoIndexHandler = (index) => {
-        const items = itemsPerDate[createDateKey(currentDate)] || [];
+    const setCurrentTodoIndex: SetCurrentTodoIndexHandler = useCallback(
+        (index) => {
+            dispatch({
+                type: ActionType.SelectTodo,
+                index,
+            });
+        },
+        [],
+    );
 
-        const indexExists = typeof items[index] !== 'undefined';
-
-        if (!indexExists) {
-            return;
-        }
-
-        setCurrentTodoIndexState(index);
+    const resetCurrentTodoIndex = () => {
+        dispatch({
+            type: ActionType.ClearCurrentTodo,
+        });
     };
 
-    const resetCurrentTodoIndex = () => setCurrentTodoIndexState(null);
-
-    return { currentTodoIndex, setCurrentTodoIndex, resetCurrentTodoIndex };
+    return { setCurrentTodoIndex, resetCurrentTodoIndex };
 }

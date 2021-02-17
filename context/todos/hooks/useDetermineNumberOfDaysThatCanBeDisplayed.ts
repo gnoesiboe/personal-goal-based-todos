@@ -1,15 +1,25 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback, Dispatch } from 'react';
+import { Action, ActionType } from '../model/actionTypes';
 
 // keep inline with todoOverview.module.scss
 const gapWidth = 20;
 const dayWidth = 400; // keep inline with sizes.scss
 
-export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
-    const [noOfRows, setNoOfRows] = useState<number>(0);
+const calculateNumberOfDaysDisplayed = () => {
+    const amount = Math.floor(window.innerWidth / (dayWidth + gapWidth));
 
+    return amount === 0 ? 1 : amount;
+};
+
+export default function useDetermineNumberOfDaysThatCanBeDisplayed(
+    dispatch: Dispatch<Action>,
+) {
     const recalculatePossibleNoOfRows = useCallback(() => {
-        setNoOfRows(Math.floor(window.innerWidth / (dayWidth + gapWidth)));
-    }, [setNoOfRows]);
+        dispatch({
+            type: ActionType.ChangeNumberOfDaysDisplayed,
+            numberOfDaysDisplayed: calculateNumberOfDaysDisplayed(),
+        });
+    }, [dispatch]);
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -24,7 +34,4 @@ export default function useDetermineNumberOfDaysThatCanBeDisplayed() {
 
         return () => window.removeEventListener('resize', onWindowResize);
     }, [recalculatePossibleNoOfRows]);
-
-    // ensure that at least one day is always shown
-    return noOfRows > 1 ? noOfRows : 1;
 }

@@ -5,6 +5,8 @@ import {
     checkIsTomorrow,
     parseFirebaseTimestamp,
 } from '../../utility/dateTimeUtilities';
+import { ItemsState } from '../../context/todos/reducers/todoReducer';
+import produce from 'immer';
 
 export enum UrgencyScore {
     ExtremelyUrgent = 3,
@@ -37,15 +39,25 @@ const calculatePriorityScore = (item: TodoListItem): number => {
     return item.goalRef ? 10 + urgencyScore : urgencyScore;
 };
 
-export const sortTodoListItemsByPriority = (items: TodoListItem[]) => {
-    items.sort((first, second) => {
-        const firstScore = calculatePriorityScore(first);
-        const secondScore = calculatePriorityScore(second);
+export const sortTodoListItemsByPriority = (
+    items: NonNullable<ItemsState>,
+): NonNullable<ItemsState> => {
+    return produce<NonNullable<ItemsState>>(items, (nextItems) => {
+        for (const dateKey in nextItems) {
+            if (!nextItems.hasOwnProperty(dateKey)) {
+                continue;
+            }
 
-        if (firstScore === secondScore) {
-            return 0;
+            nextItems[dateKey].sort((first, second) => {
+                const firstScore = calculatePriorityScore(first);
+                const secondScore = calculatePriorityScore(second);
+
+                if (firstScore === secondScore) {
+                    return 0;
+                }
+
+                return firstScore > secondScore ? -1 : 1;
+            });
         }
-
-        return firstScore > secondScore ? -1 : 1;
     });
 };

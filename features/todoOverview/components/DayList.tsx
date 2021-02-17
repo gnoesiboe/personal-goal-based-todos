@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { ReactElement } from 'react';
-import { DayNavigationDirection } from '../../../context/todos/hooks/useManageCurrentDate';
 import classNames from '../todoOverview.module.scss';
+import { DayNavigationDirection } from '../../../context/todos/reducers/todoReducer';
 
 export const defaultDuration = 1;
 

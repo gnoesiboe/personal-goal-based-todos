@@ -1,77 +1,39 @@
-import {
-    createStartOfToday,
-    addNumberOfDays,
-    subtractNumberOfDays,
-    checkDateIsBefore,
-} from '../../../utility/dateTimeUtilities';
-import { useState, useEffect } from 'react';
+import { useEffect, Dispatch, useCallback } from 'react';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
     moveToNextDateDefinition,
     moveToPreviousDateDefinition,
     moveToTodayDefinition,
 } from '../../../constants/keyboardDefinitions';
+import { Action, ActionType } from '../model/actionTypes';
 
-export type DayNavigationDirection = 'forwards' | 'backwards';
-
-export type DateCursor = {
-    date: Date;
-    direction: DayNavigationDirection;
-};
-
-export default function useManageCurrentDate() {
-    const [
-        { date: currentDate, direction: dayNavigationDirection },
-        setCurrentDate,
-    ] = useState<DateCursor>({
-        date: createStartOfToday(),
-        direction: 'forwards',
-    });
-
-    const moveToPrevious = () =>
-        setCurrentDate((currentValue) => ({
-            date: subtractNumberOfDays(currentValue.date, 1),
-            direction: 'backwards',
-        }));
-
-    const moveToToday = () => {
-        setCurrentDate((currentValue) => {
-            const today = createStartOfToday();
-
-            const direction: DayNavigationDirection = checkDateIsBefore(
-                currentValue.date,
-                today,
-            )
-                ? 'forwards'
-                : 'backwards';
-
-            return {
-                date: today,
-                direction,
-            };
+export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
+    const moveToPreviousDate = useCallback(() => {
+        dispatch({
+            type: ActionType.MoveToPreviousDate,
         });
-    };
+    }, [dispatch]);
 
-    const moveToNext = () =>
-        setCurrentDate((currentValue) => ({
-            date: addNumberOfDays(currentValue.date, 1),
-            direction: 'forwards',
-        }));
+    const moveToToday = useCallback(() => {
+        dispatch({
+            type: ActionType.MoveToToday,
+        });
+    }, [dispatch]);
 
-    const onNextDateClick = () => moveToNext();
-
-    const onTodayClick = () => moveToToday();
-
-    const onPreviousDateClick = () => moveToPrevious();
+    const moveToNextDate = useCallback(() => {
+        dispatch({
+            type: ActionType.MoveToNextDate,
+        });
+    }, [dispatch]);
 
     useEffect(() => {
         const onKeyDown = (event: WindowEventMap['keydown']) => {
             if (checkKeyDefinitionIsPressed(moveToNextDateDefinition, event)) {
-                moveToNext();
+                moveToNextDate();
             } else if (
                 checkKeyDefinitionIsPressed(moveToPreviousDateDefinition, event)
             ) {
-                moveToPrevious();
+                moveToPreviousDate();
             } else if (
                 checkKeyDefinitionIsPressed(moveToTodayDefinition, event)
             ) {
@@ -84,11 +46,5 @@ export default function useManageCurrentDate() {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, []);
 
-    return {
-        currentDate,
-        dayNavigationDirection,
-        onNextDateClick,
-        onTodayClick,
-        onPreviousDateClick,
-    };
+    return { moveToToday, moveToNextDate, moveToPreviousDate };
 }

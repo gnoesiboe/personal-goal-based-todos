@@ -1,9 +1,9 @@
 import { fetchAllForUserForUpcomingDates } from '../../../repository/todoListItemRepository';
 import { NotificationType } from '../../../model/notification';
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect } from 'react';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
 import { useNotifications } from '../../notification/NotificationContext';
-import { TodoListItem } from '../../../model/todoListItem';
+import { Action, ActionType } from '../model/actionTypes';
 
 export type FetchTodoHandler = (
     date: Date,
@@ -13,29 +13,29 @@ export type FetchTodoHandler = (
 
 export default function useFetchTodoListItems(
     currentDate: Date,
-    noOfDaysDisplayed: number,
+    numberOfDaysDisplayed: number,
+    dispatch: Dispatch<Action>,
 ) {
-    const [items, setItems] = useState<TodoListItem[] | null>(null);
-
-    const [isFetching, setIsFetching] = useState<boolean>(false);
-
     const user = useLoggedInUser();
 
     const { notify } = useNotifications();
 
     const fetchTodos: FetchTodoHandler = async (date, noOfDays, userUid) => {
-        setIsFetching(true);
+        dispatch({
+            type: ActionType.StartFetchingItems,
+        });
 
         try {
-            const newItems = await fetchAllForUserForUpcomingDates(
+            const incomingItems = await fetchAllForUserForUpcomingDates(
                 date,
                 noOfDays,
                 userUid,
             );
 
-            setItems(newItems);
-
-            setIsFetching(false);
+            dispatch({
+                type: ActionType.LoadIncomingTodoListItems,
+                items: incomingItems,
+            });
 
             return true;
         } catch (error) {
@@ -50,29 +50,31 @@ export default function useFetchTodoListItems(
                 NotificationType.Error,
             );
 
-            setIsFetching(false);
+            dispatch({
+                type: ActionType.StopFetchingItems,
+            });
         }
 
         return false;
     };
 
     useEffect(() => {
-        if (!user || noOfDaysDisplayed === 0) {
+        if (!user || numberOfDaysDisplayed === 0) {
             return;
         }
 
         // noinspection JSIgnoredPromiseFromCall
-        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
-    }, [currentDate, setIsFetching, noOfDaysDisplayed]);
+        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
+    }, [currentDate, numberOfDaysDisplayed, user]);
 
     const refetchTodos = () => {
-        if (!user) {
+        if (!user || numberOfDaysDisplayed === 0) {
             return;
         }
 
         // noinspection JSIgnoredPromiseFromCall
-        fetchTodos(currentDate, noOfDaysDisplayed, user.uid);
+        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
     };
 
-    return { items, isFetching, fetchTodos, setItems, refetchTodos };
+    return { fetchTodos, refetchTodos };
 }
