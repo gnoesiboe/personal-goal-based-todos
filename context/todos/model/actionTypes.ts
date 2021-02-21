@@ -3,7 +3,7 @@ import { TodoListItem } from '../../../model/todoListItem';
 export enum ActionType {
     MoveToPreviousDate = 'MoveToPreviousDate',
     MoveToNextDate = 'MoveToNextDate',
-    MoveToToday = 'MoveToNextDate',
+    MoveToToday = 'MoveToToday',
     MoveToNextTodo = 'MoveToNextTodo',
     MoveToPreviousTodo = 'MoveToPreviousTodo',
     ClearCurrentTodo = 'ClearCurrentTodo',
