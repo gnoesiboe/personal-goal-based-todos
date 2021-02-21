@@ -33,10 +33,24 @@ export const determineUrgencyScore = (item: TodoListItem): UrgencyScore => {
     return UrgencyScore.MildlyUrgent;
 };
 
+const determineDeadlineSortingAdjustment = (item: TodoListItem): number => {
+    if (!item.deadline) {
+        return 0;
+    }
+
+    const deadline = parseFirebaseTimestamp(item.deadline);
+
+    return deadline.getTime() / 10000000000000;
+};
+
 const calculatePriorityScore = (item: TodoListItem): number => {
     const urgencyScore = determineUrgencyScore(item);
 
-    return item.goalRef ? 10 + urgencyScore : urgencyScore;
+    const deadlineAdjustment = determineDeadlineSortingAdjustment(item);
+
+    return (
+        (item.goalRef ? 10 + urgencyScore : urgencyScore) - deadlineAdjustment
+    );
 };
 
 export const sortTodoListItemsByPriority = (
