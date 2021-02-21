@@ -5,13 +5,15 @@ import { TodoListItem } from '../../../model/todoListItem';
 import Checkbox, {
     OnChangeHandler,
 } from '../../../primitives/checkbox/Checkbox';
+import { UrgencyScore } from '../../../model/selector/todoListItemSelectors';
 
 type Props = {
     item: TodoListItem;
     onChange: OnChangeHandler;
+    urgencyScore: UrgencyScore;
 };
 
-const CheckboxInput: React.FC<Props> = ({ item, onChange }) => {
+const CheckboxInput: React.FC<Props> = ({ item, onChange, urgencyScore }) => {
     const hasBreadcrumb = !!item.roleTitle && !!item.goalTitle;
 
     const className = createClassName(classNames.checkboxContainer, {
@@ -23,6 +25,7 @@ const CheckboxInput: React.FC<Props> = ({ item, onChange }) => {
             checked={item.done}
             onChange={onChange}
             className={className}
+            accented={urgencyScore === UrgencyScore.ExtremelyUrgent}
         />
     );
 };

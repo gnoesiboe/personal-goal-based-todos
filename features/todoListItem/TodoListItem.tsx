@@ -64,7 +64,11 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
             ref={containerRef}
         >
             <div className={classNames.checkboxContainer}>
-                <CheckboxInput item={item} onChange={onInputChange} />
+                <CheckboxInput
+                    item={item}
+                    onChange={onInputChange}
+                    urgencyScore={urgencyScore}
+                />
             </div>
             <div className={classNames.content}>
                 <Breadcrumb item={item} />

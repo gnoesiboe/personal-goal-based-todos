@@ -8,6 +8,7 @@ export type OnChangeHandler = (checked: boolean) => void;
 type Props = {
     checked: boolean;
     onChange: OnChangeHandler;
+    accented?: boolean;
     className?: string;
 };
 
@@ -15,10 +16,14 @@ const Checkbox: React.FC<Props> = ({
     checked,
     onChange,
     className: additionalClassName,
+    accented = false,
 }) => {
     const className = createClassName(
         classNames.container,
         additionalClassName,
+        {
+            [classNames.containerIsAccented]: accented,
+        },
     );
 
     return (
