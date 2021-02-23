@@ -7,6 +7,7 @@ import {
 import { State } from '../reducers/todoReducer';
 import produce from 'immer';
 import {
+    checkDateIsBefore,
     checkIsSameDay,
     createDateKey,
     parseFirebaseTimestamp,
@@ -112,12 +113,12 @@ export const applyUpdateTodoModifier = (
             ...action.updates,
         };
 
-        const existingDate = parseFirebaseTimestamp(itemToUpdate.date);
+        const currentDate = parseFirebaseTimestamp(itemToUpdate.date);
         const incomingDate = action.updates.date
             ? parseFirebaseTimestamp(action.updates.date)
             : null;
 
-        if (incomingDate && !checkIsSameDay(existingDate, incomingDate)) {
+        if (incomingDate && !checkIsSameDay(currentDate, incomingDate)) {
             // remove from old item
             itemsForCurrentDate.splice(indexToUpdate, 1);
 
@@ -126,12 +127,30 @@ export const applyUpdateTodoModifier = (
             // add to new date, if in current item range
             if (nextState.items[newDateKey] !== undefined) {
                 nextState.items[newDateKey].push(updatedItem);
+
+                // move the date cursor along with the todo
+                nextState.currentDate.date = incomingDate;
+                nextState.currentDate.direction = checkDateIsBefore(
+                    incomingDate,
+                    currentDate,
+                )
+                    ? 'backwards'
+                    : 'forwards';
             }
         } else {
             nextState.items[dateKey][indexToUpdate] = updatedItem;
         }
 
         nextState.items = sortTodoListItemsByPriority(nextState.items);
+
+        // set current item index to updated item
+        const newIndexOfUpdatedItem = nextState.items[
+            createDateKey(nextState.currentDate.date)
+        ].findIndex((cursorItem) => cursorItem.id === action.id);
+
+        if (newIndexOfUpdatedItem !== -1) {
+            nextState.currentTodoIndex = newIndexOfUpdatedItem;
+        }
     });
 };
 

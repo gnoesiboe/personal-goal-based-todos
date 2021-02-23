@@ -174,10 +174,7 @@ export default function useModifyTodoCollection(
         // persist to server
         const success = await persistUpdates(todoToUpdate, updates);
 
-        if (success) {
-            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
-            fetchTodos(currentDate, numberOfDaysDisplayed, user?.uid);
-        } else {
+        if (!success) {
             // rewind optimistic update
             dispatch({
                 type: ActionType.UpdateTodo,
@@ -225,9 +222,6 @@ export default function useModifyTodoCollection(
         const success = await persistUpdates(todoToUpdate, updates);
 
         if (!success) {
-            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
-            fetchTodos(currentDate, numberOfDaysDisplayed, user?.uid);
-        } else {
             // rewind optimistic update
             dispatch({
                 type: ActionType.UpdateTodo,
