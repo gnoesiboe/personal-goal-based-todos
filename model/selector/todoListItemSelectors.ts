@@ -16,7 +16,7 @@ export enum UrgencyScore {
 }
 
 export const determineUrgencyScore = (item: TodoListItem): UrgencyScore => {
-    if (!item.deadline) {
+    if (!item.deadline || item.done) {
         return UrgencyScore.NotUrgent;
     }
 
