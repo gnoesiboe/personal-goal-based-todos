@@ -113,15 +113,15 @@ export const applyUpdateTodoModifier = (
         };
 
         const existingDate = parseFirebaseTimestamp(itemToUpdate.date);
-        const newDate = action.updates.date
+        const incomingDate = action.updates.date
             ? parseFirebaseTimestamp(action.updates.date)
             : null;
 
-        if (newDate && !checkIsSameDay(existingDate, newDate)) {
+        if (incomingDate && !checkIsSameDay(existingDate, incomingDate)) {
             // remove from old item
             itemsForCurrentDate.splice(indexToUpdate, 1);
 
-            const newDateKey = createDateKey(newDate);
+            const newDateKey = createDateKey(incomingDate);
 
             // add to new date, if in current item range
             if (nextState.items[newDateKey] !== undefined) {
