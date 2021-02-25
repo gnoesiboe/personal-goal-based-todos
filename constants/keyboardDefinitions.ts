@@ -20,7 +20,7 @@ export const moveToPreviousDateDefinition: Partial<KeyDefinition> = {
     key: 'ArrowLeft',
 };
 
-export const moveToTodayDefinition: Partial<KeyDefinition> = {
+export const moveCurrentDateToTodayDefinition: Partial<KeyDefinition> = {
     key: 't',
 };
 

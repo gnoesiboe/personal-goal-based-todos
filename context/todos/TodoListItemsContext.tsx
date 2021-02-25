@@ -28,7 +28,7 @@ type ContextValue = {
     firstVisibleDate: Date;
     moveToPreviousDate: () => void;
     moveToDate: MoveToDateHandler;
-    moveToToday: () => void;
+    moveCurrentDateToToday: () => void;
     moveToNextDate: () => void;
     dayNavigationDirection: DayNavigationDirection;
     items: ItemsState;
@@ -46,7 +46,7 @@ const initialValue: ContextValue = {
     currentDate: new Date(),
     firstVisibleDate: new Date(),
     moveToPreviousDate: () => {},
-    moveToToday: () => {},
+    moveCurrentDateToToday: () => {},
     moveToDate: () => {},
     moveToNextDate: () => {},
     dayNavigationDirection: 'forwards',
@@ -79,7 +79,7 @@ export const TodoListItemContextProvider: React.FC<{
 
     const {
         moveToPreviousDate,
-        moveToToday,
+        moveCurrentDateToToday,
         moveToNextDate,
         moveToDate,
     } = useManageCurrentDate(dispatch);
@@ -125,7 +125,7 @@ export const TodoListItemContextProvider: React.FC<{
         firstVisibleDate: dateCursor.firstVisibleDate,
         moveToPreviousDate,
         moveToDate,
-        moveToToday,
+        moveCurrentDateToToday,
         moveToNextDate,
         dayNavigationDirection: dateCursor.direction,
         items,
@@ -172,7 +172,7 @@ export const useCurrentDate = () => {
         firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
-        moveToToday,
+        moveCurrentDateToToday,
         moveToDate,
         moveToNextDate,
     } = useContext(Context);
@@ -183,7 +183,7 @@ export const useCurrentDate = () => {
         firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
-        moveToToday,
+        moveCurrentDateToToday,
         moveToDate,
         moveToNextDate,
     };

@@ -1,9 +1,10 @@
 import { useEffect, Dispatch, useCallback } from 'react';
 import { checkKeyDefinitionIsPressed } from '../../../utility/keyboardUtilities';
 import {
+    moveToNextCurrentDate,
     moveToNextDateDefinition,
     moveToPreviousDateDefinition,
-    moveToTodayDefinition,
+    moveCurrentDateToTodayDefinition,
 } from '../../../constants/keyboardDefinitions';
 import { Action, ActionType } from '../model/actionTypes';
 
@@ -23,9 +24,9 @@ export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
         });
     };
 
-    const moveToToday = useCallback(() => {
+    const moveCurrentDateToToday = useCallback(() => {
         dispatch({
-            type: ActionType.MoveToToday,
+            type: ActionType.MoveCurrentDateToToday,
         });
     }, [dispatch]);
 
@@ -44,9 +45,12 @@ export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
             ) {
                 moveToPreviousDate();
             } else if (
-                checkKeyDefinitionIsPressed(moveToTodayDefinition, event)
+                checkKeyDefinitionIsPressed(
+                    moveCurrentDateToTodayDefinition,
+                    event,
+                )
             ) {
-                moveToToday();
+                moveCurrentDateToToday();
             }
         };
 
@@ -55,5 +59,10 @@ export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, []);
 
-    return { moveToToday, moveToNextDate, moveToDate, moveToPreviousDate };
+    return {
+        moveCurrentDateToToday,
+        moveToNextDate,
+        moveToDate,
+        moveToPreviousDate,
+    };
 }

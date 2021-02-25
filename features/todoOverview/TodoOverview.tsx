@@ -27,7 +27,7 @@ const TodoOverview: React.FC = () => {
         firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
-        moveToToday,
+        moveCurrentDateToToday,
         moveToDate,
         moveToNextDate,
         numberOfDaysDisplayed,
@@ -45,7 +45,7 @@ const TodoOverview: React.FC = () => {
                 <Island fullWidth ghost deflatedTop>
                     <DayNavigation
                         onNextClick={() => moveToNextDate()}
-                        onTodayClick={() => moveToToday()}
+                        onTodayClick={() => moveCurrentDateToToday()}
                         onPreviousClick={() => moveToPreviousDate()}
                         firstVisibleDate={firstVisibleDate}
                     />

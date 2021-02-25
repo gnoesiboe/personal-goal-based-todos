@@ -89,7 +89,9 @@ export const applyMoveToDateModifier = (
     });
 };
 
-export const applyMoveToTodayModifier = (currentState: State): State => {
+export const applyMoveCurrentDateToTodayModifier = (
+    currentState: State,
+): State => {
     const today = createStartOfToday();
 
     if (checkIsSameDay(currentState.dateCursor.currentDate, today)) {

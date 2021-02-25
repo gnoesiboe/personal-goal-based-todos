@@ -4,7 +4,7 @@ export enum ActionType {
     MoveToPreviousDate = 'MoveToPreviousDate',
     MoveToNextDate = 'MoveToNextDate',
     MoveToDate = 'MoveToDate',
-    MoveToToday = 'MoveToToday',
+    MoveCurrentDateToToday = 'MoveCurrentDateToToday',
     MoveToNextTodo = 'MoveToNextTodo',
     MoveToPreviousTodo = 'MoveToPreviousTodo',
     ClearCurrentTodo = 'ClearCurrentTodo',
@@ -31,8 +31,8 @@ export interface MoveToNextDateAction extends BaseAction {
     type: ActionType.MoveToNextDate;
 }
 
-export interface MoveToTodayAction extends BaseAction {
-    type: ActionType.MoveToToday;
+export interface MoveCurrentDateToTodayAction extends BaseAction {
+    type: ActionType.MoveCurrentDateToToday;
 }
 
 export interface MoveToNextTodoAction extends BaseAction {
@@ -98,7 +98,7 @@ export interface ChangeNumberOfDaysDisplayedAction extends BaseAction {
 export type Action =
     | MoveToPreviousDateAction
     | MoveToNextDateAction
-    | MoveToTodayAction
+    | MoveCurrentDateToTodayAction
     | MoveToDateAction
     | MoveToNextTodoAction
     | MoveToPreviousTodoAction
