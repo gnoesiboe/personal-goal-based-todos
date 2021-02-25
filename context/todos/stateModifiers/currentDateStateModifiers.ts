@@ -92,28 +92,31 @@ export const applyMoveToDateModifier = (
 export const applyMoveToTodayModifier = (currentState: State): State => {
     const today = createStartOfToday();
 
-    if (checkIsSameDay(currentState.dateCursor.firstVisibleDate, today)) {
+    if (checkIsSameDay(currentState.dateCursor.currentDate, today)) {
         return currentState;
     }
 
     return produce<State>(currentState, (nextState) => {
+        const nextCurentDate = today;
+
+        nextState.dateCursor.currentDate = nextCurentDate;
         nextState.dateCursor.direction = checkDateIsBefore(
-            currentState.dateCursor.firstVisibleDate,
-            today,
+            currentState.dateCursor.currentDate,
+            nextCurentDate,
         )
             ? 'forwards'
             : 'backwards';
-        nextState.dateCursor.firstVisibleDate = today;
 
         const currentDateIsWithinNewDateRange = checkDateIsWithinRange(
-            nextState.dateCursor.currentDate,
-            today,
+            nextCurentDate,
+            nextState.dateCursor.firstVisibleDate,
             nextState.numberOfDaysDisplayed,
         );
 
         if (!currentDateIsWithinNewDateRange) {
-            nextState.dateCursor.currentDate = today;
-            nextState.currentTodoIndex = null;
+            nextState.dateCursor.firstVisibleDate = nextCurentDate;
         }
+
+        nextState.currentTodoIndex = null;
     });
 };
