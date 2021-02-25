@@ -16,6 +16,16 @@
     }
 }
 
+.unstyled {
+    border: none;
+    background: none;
+}
+
+.block {
+    display: block;
+    width: 100%;
+}
+
 .isTransparent {
     margin: 0;
     padding: 0;

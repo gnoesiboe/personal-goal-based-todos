@@ -6,12 +6,13 @@ import { ItemsState } from '../reducers/todoReducer';
 
 export default function useManageTodoListItems(
     currentDate: Date,
+    firstVisibleDate: Date,
     numberOfDaysDisplayed: number,
     items: ItemsState,
     dispatch: Dispatch<Action>,
 ) {
     const { fetchTodos, refetchTodos } = useFetchTodoListItems(
-        currentDate,
+        firstVisibleDate,
         numberOfDaysDisplayed,
         dispatch,
     );

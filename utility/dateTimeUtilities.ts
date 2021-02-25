@@ -34,6 +34,16 @@ export const createDateRange = (start: Date, noOfDays: number): Date[] => {
     return out;
 };
 
+export const checkDateIsWithinRange = (
+    date: Date,
+    startDate: Date,
+    numberOfDays: number,
+): boolean => {
+    const range = createDateRange(startDate, numberOfDays);
+
+    return range.some((cursorDate) => isSameDay(cursorDate, date));
+};
+
 export const createEndOfDay = (date: Date) => endOfDay(date);
 
 export const createStartOfToday = () => startOfToday();

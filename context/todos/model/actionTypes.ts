@@ -3,6 +3,7 @@ import { TodoListItem } from '../../../model/todoListItem';
 export enum ActionType {
     MoveToPreviousDate = 'MoveToPreviousDate',
     MoveToNextDate = 'MoveToNextDate',
+    MoveToDate = 'MoveToDate',
     MoveToToday = 'MoveToToday',
     MoveToNextTodo = 'MoveToNextTodo',
     MoveToPreviousTodo = 'MoveToPreviousTodo',
@@ -40,6 +41,11 @@ export interface MoveToNextTodoAction extends BaseAction {
 
 export interface MoveToPreviousTodoAction extends BaseAction {
     type: ActionType.MoveToPreviousTodo;
+}
+
+export interface MoveToDateAction extends BaseAction {
+    type: ActionType.MoveToDate;
+    date: Date;
 }
 
 export interface ClearCurrentTodoAction extends BaseAction {
@@ -93,6 +99,7 @@ export type Action =
     | MoveToPreviousDateAction
     | MoveToNextDateAction
     | MoveToTodayAction
+    | MoveToDateAction
     | MoveToNextTodoAction
     | MoveToPreviousTodoAction
     | ClearCurrentTodoAction

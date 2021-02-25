@@ -3,6 +3,7 @@ import { Action, ActionType } from '../model/actionTypes';
 import { Dispatch, Reducer, useReducer } from 'react';
 import { createStartOfToday } from '../../../utility/dateTimeUtilities';
 import {
+    applyMoveToDateModifier,
     applyMoveToNextDateModifier,
     applyMoveToPreviousDateModifier,
     applyMoveToTodayModifier,
@@ -25,6 +26,7 @@ export type DayNavigationDirection = 'forwards' | 'backwards';
 
 export type DateCursor = {
     currentDate: Date;
+    firstVisibleDate: Date;
     direction: DayNavigationDirection;
 };
 
@@ -55,6 +57,9 @@ const reducer: ReducerType = (currentState, action) => {
 
         case ActionType.MoveToNextDate:
             return applyMoveToNextDateModifier(currentState);
+
+        case ActionType.MoveToDate:
+            return applyMoveToDateModifier(currentState, action);
 
         case ActionType.MoveToToday:
             return applyMoveToTodayModifier(currentState);
@@ -106,6 +111,7 @@ const reducer: ReducerType = (currentState, action) => {
 const initialState: State = {
     dateCursor: {
         currentDate: createStartOfToday(),
+        firstVisibleDate: createStartOfToday(),
         direction: 'forwards',
     },
     currentTodoIndex: null,

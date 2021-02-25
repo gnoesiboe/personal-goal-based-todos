@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import useDetermineNumberOfDaysThatCanBeDisplayed from './hooks/useDetermineNumberOfDaysThatCanBeDisplayed';
-import useManageCurrentDate from './hooks/useManageCurrentDate';
+import useManageCurrentDate, {
+    MoveToDateHandler,
+} from './hooks/useManageCurrentDate';
 import useManageCurrentTodo, {
     SetCurrentTodoIndexHandler,
 } from './hooks/useManageCurrentTodo';
@@ -23,7 +25,9 @@ import { resolveCurrentTodo } from './resolver/todoResolver';
 type ContextValue = {
     numberOfDaysDisplayed: number;
     currentDate: Date;
+    firstVisibleDate: Date;
     moveToPreviousDate: () => void;
+    moveToDate: MoveToDateHandler;
     moveToToday: () => void;
     moveToNextDate: () => void;
     dayNavigationDirection: DayNavigationDirection;
@@ -40,8 +44,10 @@ type ContextValue = {
 const initialValue: ContextValue = {
     numberOfDaysDisplayed: 0,
     currentDate: new Date(),
+    firstVisibleDate: new Date(),
     moveToPreviousDate: () => {},
     moveToToday: () => {},
+    moveToDate: () => {},
     moveToNextDate: () => {},
     dayNavigationDirection: 'forwards',
     items: {},
@@ -75,6 +81,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveToPreviousDate,
         moveToToday,
         moveToNextDate,
+        moveToDate,
     } = useManageCurrentDate(dispatch);
 
     const {
@@ -86,6 +93,7 @@ export const TodoListItemContextProvider: React.FC<{
         refetchTodos,
     } = useManageTodoListItems(
         dateCursor.currentDate,
+        dateCursor.firstVisibleDate,
         numberOfDaysDisplayed,
         items,
         dispatch,
@@ -114,7 +122,9 @@ export const TodoListItemContextProvider: React.FC<{
     const value: ContextValue = {
         numberOfDaysDisplayed,
         currentDate: dateCursor.currentDate,
+        firstVisibleDate: dateCursor.firstVisibleDate,
         moveToPreviousDate,
+        moveToDate,
         moveToToday,
         moveToNextDate,
         dayNavigationDirection: dateCursor.direction,
@@ -159,18 +169,22 @@ export const useCurrentDate = () => {
     const {
         numberOfDaysDisplayed,
         currentDate,
+        firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
         moveToToday,
+        moveToDate,
         moveToNextDate,
     } = useContext(Context);
 
     return {
         numberOfDaysDisplayed,
         currentDate,
+        firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
         moveToToday,
+        moveToDate,
         moveToNextDate,
     };
 };

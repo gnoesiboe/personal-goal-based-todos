@@ -7,12 +7,21 @@ import {
 } from '../../../constants/keyboardDefinitions';
 import { Action, ActionType } from '../model/actionTypes';
 
+export type MoveToDateHandler = (date: Date) => void;
+
 export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
     const moveToPreviousDate = useCallback(() => {
         dispatch({
             type: ActionType.MoveToPreviousDate,
         });
     }, [dispatch]);
+
+    const moveToDate: MoveToDateHandler = (date) => {
+        dispatch({
+            type: ActionType.MoveToDate,
+            date,
+        });
+    };
 
     const moveToToday = useCallback(() => {
         dispatch({
@@ -46,5 +55,5 @@ export default function useManageCurrentDate(dispatch: Dispatch<Action>) {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, []);
 
-    return { moveToToday, moveToNextDate, moveToPreviousDate };
+    return { moveToToday, moveToNextDate, moveToDate, moveToPreviousDate };
 }

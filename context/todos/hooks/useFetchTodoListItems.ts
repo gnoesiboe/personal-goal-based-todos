@@ -12,7 +12,7 @@ export type FetchTodoHandler = (
 ) => Promise<boolean>;
 
 export default function useFetchTodoListItems(
-    currentDate: Date,
+    firstVisibleDate: Date,
     numberOfDaysDisplayed: number,
     dispatch: Dispatch<Action>,
 ) {
@@ -64,8 +64,8 @@ export default function useFetchTodoListItems(
         }
 
         // noinspection JSIgnoredPromiseFromCall
-        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
-    }, [currentDate, numberOfDaysDisplayed, user]);
+        fetchTodos(firstVisibleDate, numberOfDaysDisplayed, user.uid);
+    }, [firstVisibleDate, numberOfDaysDisplayed, user]);
 
     const refetchTodos = () => {
         if (!user || numberOfDaysDisplayed === 0) {
@@ -73,7 +73,7 @@ export default function useFetchTodoListItems(
         }
 
         // noinspection JSIgnoredPromiseFromCall
-        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
+        fetchTodos(firstVisibleDate, numberOfDaysDisplayed, user.uid);
     };
 
     return { fetchTodos, refetchTodos };

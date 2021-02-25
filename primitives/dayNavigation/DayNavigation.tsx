@@ -12,14 +12,14 @@ type Props = {
     onPreviousClick: MouseEventHandler<HTMLButtonElement>;
     onNextClick: MouseEventHandler<HTMLButtonElement>;
     onTodayClick: MouseEventHandler<HTMLButtonElement>;
-    currentDate: Date;
+    firstVisibleDate: Date;
 };
 
 const DayNavigation: React.FC<Props> = ({
     onPreviousClick,
     onTodayClick,
     onNextClick,
-    currentDate,
+    firstVisibleDate,
 }) => (
     <nav className={classNames.container}>
         <ItemList>
@@ -28,7 +28,10 @@ const DayNavigation: React.FC<Props> = ({
             </Item>
             <Item
                 onClick={onTodayClick}
-                disabled={checkIsSameDay(currentDate, createStartOfToday())}
+                disabled={checkIsSameDay(
+                    firstVisibleDate,
+                    createStartOfToday(),
+                )}
             >
                 vandaag
             </Item>

@@ -8,10 +8,10 @@ import {
 
 export const groupTodosByDateKey = (
     items: TodoListItem[],
-    currentDate: Date,
+    firstVisibleDate: Date,
     numberOfDaysDisplayed: number,
 ): NonNullable<ItemsState> => {
-    const dateRange = createDateRange(currentDate, numberOfDaysDisplayed);
+    const dateRange = createDateRange(firstVisibleDate, numberOfDaysDisplayed);
 
     const groupedItems: NonNullable<ItemsState> = {};
 

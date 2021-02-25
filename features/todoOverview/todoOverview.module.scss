@@ -38,7 +38,11 @@
 }
 
 .dayIsToday {
-    background: colors.$fifth;
+    background: lighten(colors.$fifth, 7);
+}
+
+.dayIsCurrent {
+    border: 7px solid colors.$fifth;
 }
 
 .dayContent {

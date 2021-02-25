@@ -9,19 +9,23 @@ type Props = Omit<
     icon?: ReactElement;
     style?: 'link' | 'primary';
     size?: 'normal' | 'small';
-    transparent?: true;
-    deflated?: true;
+    transparent?: boolean;
+    deflated?: boolean;
     children: ReactNode;
     className?: string;
+    unstyled?: boolean;
+    block?: boolean;
 };
 
 const Button: React.FC<Props> = ({
     icon,
     style,
     size,
-    transparent,
-    deflated,
+    transparent = false,
+    deflated = false,
     children,
+    unstyled = false,
+    block = false,
     className: additionalClassName,
     ...otherProps
 }) => {
@@ -34,6 +38,8 @@ const Button: React.FC<Props> = ({
             [classNames.isStylePrimary]: style === 'primary',
             [classNames.isDeflated]: deflated,
             [classNames.isSizeSmall]: size === 'small',
+            [classNames.unstyled]: unstyled,
+            [classNames.block]: block,
         },
         additionalClassName,
     );

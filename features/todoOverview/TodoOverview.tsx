@@ -24,16 +24,18 @@ import DayHeading from './components/DayHeading';
 const TodoOverview: React.FC = () => {
     const {
         currentDate,
+        firstVisibleDate,
         dayNavigationDirection,
         moveToPreviousDate,
         moveToToday,
+        moveToDate,
         moveToNextDate,
         numberOfDaysDisplayed,
     } = useCurrentDate();
 
     const { items } = useTodoListItems();
 
-    const dateRange = createDateRange(currentDate, numberOfDaysDisplayed);
+    const dateRange = createDateRange(firstVisibleDate, numberOfDaysDisplayed);
 
     const today = createStartOfToday();
 
@@ -45,11 +47,11 @@ const TodoOverview: React.FC = () => {
                         onNextClick={() => moveToNextDate()}
                         onTodayClick={() => moveToToday()}
                         onPreviousClick={() => moveToPreviousDate()}
-                        currentDate={currentDate}
+                        firstVisibleDate={firstVisibleDate}
                     />
                     <DirectionIndicator
                         direction={dayNavigationDirection}
-                        currentDate={currentDate}
+                        firstVisibleDate={firstVisibleDate}
                     />
                     <div className={classNames.dayListContainer}>
                         <DayList>
@@ -69,12 +71,16 @@ const TodoOverview: React.FC = () => {
                                         key={date.getTime()}
                                         date={date}
                                         today={isToday}
+                                        current={isCurrent}
                                         navigationDirection={
                                             dayNavigationDirection
                                         }
                                     >
                                         <div className={classNames.dayHeader}>
-                                            <DayHeading date={date} />
+                                            <DayHeading
+                                                date={date}
+                                                onClick={() => moveToDate(date)}
+                                            />
                                         </div>
                                         <div className={classNames.dayContent}>
                                             <TodoList

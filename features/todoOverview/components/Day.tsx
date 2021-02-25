@@ -8,13 +8,20 @@ import { DayNavigationDirection } from '../../../context/todos/reducers/todoRedu
 type Props = {
     date: Date;
     today: boolean;
+    current: boolean;
     navigationDirection: DayNavigationDirection;
     children: ReactNode;
 };
 
-const Day: React.FC<Props> = ({ today, navigationDirection, children }) => {
+const Day: React.FC<Props> = ({
+    today,
+    current,
+    navigationDirection,
+    children,
+}) => {
     const className = createClassName(classNames.day, {
         [classNames.dayIsToday]: today,
+        [classNames.dayIsCurrent]: current,
     });
 
     return (

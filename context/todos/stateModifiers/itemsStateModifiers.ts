@@ -160,7 +160,7 @@ export const applyLoadIncomingTodoListItemsModifier = (
 ): State => {
     const itemsPerDate = groupTodosByDateKey(
         action.items,
-        currentState.dateCursor.currentDate,
+        currentState.dateCursor.firstVisibleDate,
         currentState.numberOfDaysDisplayed,
     );
 

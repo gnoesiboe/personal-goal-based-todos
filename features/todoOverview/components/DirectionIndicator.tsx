@@ -7,7 +7,7 @@ import { DayNavigationDirection } from '../../../context/todos/reducers/todoRedu
 
 type Props = {
     direction: DayNavigationDirection;
-    currentDate: Date;
+    firstVisibleDate: Date;
 };
 
 const variants = {
@@ -25,8 +25,11 @@ const variants = {
 
 const defaultDuration = 0.4;
 
-const DirectionIndicator: React.FC<Props> = ({ direction, currentDate }) => {
-    const visible = useHideAfterTimeout(1000, [direction, currentDate]);
+const DirectionIndicator: React.FC<Props> = ({
+    direction,
+    firstVisibleDate,
+}) => {
+    const visible = useHideAfterTimeout(1000, [direction, firstVisibleDate]);
 
     if (!visible) {
         return null;
