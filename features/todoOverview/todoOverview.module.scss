@@ -43,6 +43,7 @@
 
 .dayHeading {
     border-bottom: 5px solid transparent;
+    transition: border-bottom-color 0.5s;
 
     .dayIsCurrent & {
         border-bottom: 5px solid colors.$second;
