@@ -21,6 +21,7 @@ export type FormValues = {
     description: string;
     roleWithGoal: string;
     deadline: Date | null;
+    date: Date;
 };
 
 type Props = {
@@ -126,6 +127,28 @@ const TodoForm: React.FC<Props> = ({
                     )}
                 </Form.Group>
             )}
+            <Form.Group>
+                <Form.Label>
+                    Date:
+                    <Form.DatePicker
+                        name="date"
+                        selected={values.date}
+                        dateFormat="dd/MM/yyyy"
+                        onChange={(newValue) => setFieldValue('date', newValue)}
+                        onBlur={onFieldBlur}
+                        disabled={disabled}
+                        onKeyDown={onFieldKeyDown}
+                        minDate={createStartOfToday()}
+                        todayButton="Vandaag"
+                        closeOnScroll
+                        showWeekNumbers
+                        shouldCloseOnSelect
+                    />
+                </Form.Label>
+                {touched.date && errors.date && (
+                    <Form.Error>{errors.date}</Form.Error>
+                )}
+            </Form.Group>
             <Form.Group>
                 <Form.Label>
                     Deadline:

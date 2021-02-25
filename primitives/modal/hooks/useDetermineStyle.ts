@@ -12,7 +12,7 @@ const createStyle = (isTabletOrUp: boolean) => ({
         maxWidth: Breakpoints.Tablet,
         margin: 'auto',
         padding: '10px',
-        inset: '60px 10px auto',
+        inset: '60px 10px 10px',
         zIndex: 10000,
     },
 });

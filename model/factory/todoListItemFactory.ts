@@ -20,7 +20,6 @@ import firebase from 'firebase/app';
 export const createTodoListItemFromFormValuesForUserAndDate = async (
     values: FormValues,
     user: User,
-    date: Date,
 ): Promise<TodoListItem> => {
     const [roleUid, goalUid] = splitComposedKey(values.roleWithGoal);
 
@@ -44,7 +43,7 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
 
     return {
         id: generateId(),
-        date: createFirestoreTimestampFromDate(date),
+        date: createFirestoreTimestampFromDate(values.date),
         summary: values.summary,
         deadline,
         description: values.description,

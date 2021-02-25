@@ -48,6 +48,10 @@ export default function useHandleEditTodoFormEvents(
             newErrors.summary = 'Required';
         }
 
+        if (!values.date) {
+            newErrors.date = 'Required';
+        }
+
         return newErrors;
     };
 
@@ -77,6 +81,8 @@ export default function useHandleEditTodoFormEvents(
             deadline = createFirestoreTimestampFromDate(values.deadline);
         }
 
+        const date = createFirestoreTimestampFromDate(values.date);
+
         const updates: Partial<TodoListItem> = {
             summary: values.summary,
             description: values.description,
@@ -98,6 +104,7 @@ export default function useHandleEditTodoFormEvents(
                       ) as firebase.firestore.DocumentReference<RoleDocumentData>)
                 : null,
             roleTitle: role?.title || null,
+            date,
         };
 
         const success = await updateTodo(todo.id, updates);
@@ -116,7 +123,7 @@ export default function useHandleEditTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'deadline'],
+        ['summary', 'description', 'roleWithGoal', 'deadline', 'date'],
         validateInput,
         onFormValid,
         {
@@ -129,6 +136,7 @@ export default function useHandleEditTodoFormEvents(
             deadline: todo.deadline
                 ? parseFirebaseTimestamp(todo.deadline)
                 : null,
+            date: parseFirebaseTimestamp(todo.date),
         },
     );
 }

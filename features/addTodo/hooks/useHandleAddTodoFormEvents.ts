@@ -27,6 +27,10 @@ export default function useHandleAddTodoFormEvents(
             newErrors.summary = 'Required';
         }
 
+        if (!values.date) {
+            newErrors.date = 'Required';
+        }
+
         return newErrors;
     };
 
@@ -38,7 +42,6 @@ export default function useHandleAddTodoFormEvents(
         const newTodo = await createTodoListItemFromFormValuesForUserAndDate(
             values,
             user,
-            date,
         );
 
         const success = await addTodo(newTodo);
@@ -57,8 +60,11 @@ export default function useHandleAddTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'deadline'],
+        ['summary', 'description', 'roleWithGoal', 'deadline', 'date'],
         validateInput,
         onFormValid,
+        {
+            date,
+        },
     );
 }
