@@ -1,11 +1,17 @@
 @use '../../styles/settings/spacing';
 @use '../../styles/settings/colors';
+@use './../../styles/settings/breakpoints';
+@import '~sass-mq';
 
 .container {
     background: colors.$first;
     margin-bottom: spacing.$spacing-large;
     border-radius: 7px;
-    padding: spacing.$spacing-medium;
+    padding: spacing.$spacing-small;
+
+    @include mq($from: tablet) {
+        padding: spacing.$spacing-medium;
+    }
 }
 
 .isGhost {
