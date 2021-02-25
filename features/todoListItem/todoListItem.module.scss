@@ -11,6 +11,7 @@ $column-gap-width: spacing.$spacing-small;
     margin-bottom: spacing.$spacing-small;
     padding: spacing.$spacing-small;
     display: flex;
+    border: 1px solid transparent;
 }
 
 .containerIsCurrent {
