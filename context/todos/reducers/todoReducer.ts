@@ -7,6 +7,8 @@ import {
     applyMoveToNextDateModifier,
     applyMoveToPreviousDateModifier,
     applyMoveCurrentDateToTodayModifier,
+    applyMoveToNextCurrentDateModifier,
+    applyMoveToPreviousCurrentDateModifier,
 } from '../stateModifiers/currentDateStateModifiers';
 import {
     applyClearCurrentTodoModifier,
@@ -57,6 +59,12 @@ const reducer: ReducerType = (currentState, action) => {
 
         case ActionType.MoveToNextDate:
             return applyMoveToNextDateModifier(currentState);
+
+        case ActionType.MoveToNextCurrentDate:
+            return applyMoveToNextCurrentDateModifier(currentState);
+
+        case ActionType.MoveToPreviousCurrentDate:
+            return applyMoveToPreviousCurrentDateModifier(currentState);
 
         case ActionType.MoveToDate:
             return applyMoveToDateModifier(currentState, action);

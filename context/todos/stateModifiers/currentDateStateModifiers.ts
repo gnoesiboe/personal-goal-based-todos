@@ -27,7 +27,10 @@ export const applyMoveToPreviousDateModifier = (currentState: State): State => {
         );
 
         if (!currentDateIsWithinNewDateRange) {
-            nextState.dateCursor.currentDate = nextFirstVisibleDate;
+            nextState.dateCursor.currentDate = addNumberOfDays(
+                nextFirstVisibleDate,
+                nextState.numberOfDaysDisplayed - 1,
+            );
             nextState.currentTodoIndex = null;
         }
     });
@@ -83,6 +86,68 @@ export const applyMoveToDateModifier = (
 
         if (!currentDateIsWithinNewDateRange) {
             nextState.dateCursor.firstVisibleDate = nextCurentDate;
+        }
+
+        nextState.currentTodoIndex = null;
+    });
+};
+
+export const applyMoveToNextCurrentDateModifier = (
+    currentState: State,
+): State => {
+    return produce<State>(currentState, (nextState) => {
+        const nextCurrentDate = addNumberOfDays(
+            nextState.dateCursor.currentDate,
+            1,
+        );
+
+        nextState.dateCursor.currentDate = nextCurrentDate;
+        nextState.dateCursor.direction = checkDateIsBefore(
+            currentState.dateCursor.currentDate,
+            nextCurrentDate,
+        )
+            ? 'forwards'
+            : 'backwards';
+
+        const currentDateIsWithinNewDateRange = checkDateIsWithinRange(
+            nextCurrentDate,
+            nextState.dateCursor.firstVisibleDate,
+            nextState.numberOfDaysDisplayed,
+        );
+
+        if (!currentDateIsWithinNewDateRange) {
+            nextState.dateCursor.firstVisibleDate = nextCurrentDate;
+        }
+
+        nextState.currentTodoIndex = null;
+    });
+};
+
+export const applyMoveToPreviousCurrentDateModifier = (
+    currentState: State,
+): State => {
+    return produce<State>(currentState, (nextState) => {
+        const nextCurrentDate = subtractNumberOfDays(
+            nextState.dateCursor.currentDate,
+            1,
+        );
+
+        nextState.dateCursor.currentDate = nextCurrentDate;
+        nextState.dateCursor.direction = checkDateIsBefore(
+            currentState.dateCursor.currentDate,
+            nextCurrentDate,
+        )
+            ? 'forwards'
+            : 'backwards';
+
+        const currentDateIsWithinNewDateRange = checkDateIsWithinRange(
+            nextCurrentDate,
+            nextState.dateCursor.firstVisibleDate,
+            nextState.numberOfDaysDisplayed,
+        );
+
+        if (!currentDateIsWithinNewDateRange) {
+            nextState.dateCursor.firstVisibleDate = nextCurrentDate;
         }
 
         nextState.currentTodoIndex = null;

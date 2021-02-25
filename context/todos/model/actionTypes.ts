@@ -3,6 +3,8 @@ import { TodoListItem } from '../../../model/todoListItem';
 export enum ActionType {
     MoveToPreviousDate = 'MoveToPreviousDate',
     MoveToNextDate = 'MoveToNextDate',
+    MoveToNextCurrentDate = 'MoveToNextCurrentDate',
+    MoveToPreviousCurrentDate = 'MoveToPreviousCurrentDate',
     MoveToDate = 'MoveToDate',
     MoveCurrentDateToToday = 'MoveCurrentDateToToday',
     MoveToNextTodo = 'MoveToNextTodo',
@@ -29,6 +31,14 @@ export interface MoveToPreviousDateAction extends BaseAction {
 
 export interface MoveToNextDateAction extends BaseAction {
     type: ActionType.MoveToNextDate;
+}
+
+export interface MoveToNextCurrentDateAction extends BaseAction {
+    type: ActionType.MoveToNextCurrentDate;
+}
+
+export interface MoveToPreviousCurrentDateAction extends BaseAction {
+    type: ActionType.MoveToPreviousCurrentDate;
 }
 
 export interface MoveCurrentDateToTodayAction extends BaseAction {
@@ -111,4 +121,6 @@ export type Action =
     | StopFetchingItemsAction
     | LoadIncomingTodoListItemsAction
     | RemoveTodoAction
-    | ChangeNumberOfDaysDisplayedAction;
+    | ChangeNumberOfDaysDisplayedAction
+    | MoveToNextCurrentDateAction
+    | MoveToPreviousCurrentDateAction;
