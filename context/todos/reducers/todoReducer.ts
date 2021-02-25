@@ -33,7 +33,7 @@ export type TodoIndexCursor = number | null;
 export type ItemsState = Record<string, TodoListItem[]> | null;
 
 export type State = {
-    currentDate: DateCursor;
+    dateCursor: DateCursor;
     currentTodoIndex: TodoIndexCursor;
     numberOfDaysDisplayed: number;
     items: ItemsState;
@@ -104,7 +104,7 @@ const reducer: ReducerType = (currentState, action) => {
 };
 
 const initialState: State = {
-    currentDate: {
+    dateCursor: {
         date: createStartOfToday(),
         direction: 'forwards',
     },

@@ -43,7 +43,7 @@ export const applyRemoveCurrentTodoModifier = (currentState: State) => {
             return;
         }
 
-        const dateKey = createDateKey(nextState.currentDate.date);
+        const dateKey = createDateKey(nextState.dateCursor.date);
 
         const itemsForCurrentDate = nextState.items[dateKey];
 
@@ -94,7 +94,7 @@ export const applyUpdateTodoModifier = (
             return;
         }
 
-        const dateKey = createDateKey(nextState.currentDate.date);
+        const dateKey = createDateKey(nextState.dateCursor.date);
 
         const itemsForCurrentDate = nextState.items[dateKey];
 
@@ -129,8 +129,8 @@ export const applyUpdateTodoModifier = (
                 nextState.items[newDateKey].push(updatedItem);
 
                 // move the date cursor along with the todo
-                nextState.currentDate.date = incomingDate;
-                nextState.currentDate.direction = checkDateIsBefore(
+                nextState.dateCursor.date = incomingDate;
+                nextState.dateCursor.direction = checkDateIsBefore(
                     incomingDate,
                     currentDate,
                 )
@@ -145,7 +145,7 @@ export const applyUpdateTodoModifier = (
 
         // set current item index to updated item
         const newIndexOfUpdatedItem = nextState.items[
-            createDateKey(nextState.currentDate.date)
+            createDateKey(nextState.dateCursor.date)
         ].findIndex((cursorItem) => cursorItem.id === action.id);
 
         if (newIndexOfUpdatedItem !== -1) {
@@ -160,7 +160,7 @@ export const applyLoadIncomingTodoListItemsModifier = (
 ): State => {
     const itemsPerDate = groupTodosByDateKey(
         action.items,
-        currentState.currentDate.date,
+        currentState.dateCursor.date,
         currentState.numberOfDaysDisplayed,
     );
 

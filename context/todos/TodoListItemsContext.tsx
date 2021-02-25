@@ -64,7 +64,7 @@ export const TodoListItemContextProvider: React.FC<{
     useDetermineNumberOfDaysThatCanBeDisplayed(dispatch);
 
     const {
-        currentDate,
+        dateCursor,
         numberOfDaysDisplayed,
         currentTodoIndex,
         items,
@@ -85,7 +85,7 @@ export const TodoListItemContextProvider: React.FC<{
         removeTodo,
         refetchTodos,
     } = useManageTodoListItems(
-        currentDate.date,
+        dateCursor.date,
         numberOfDaysDisplayed,
         items,
         dispatch,
@@ -97,7 +97,7 @@ export const TodoListItemContextProvider: React.FC<{
 
     const currentTodo = resolveCurrentTodo(
         items,
-        currentDate.date,
+        dateCursor.date,
         currentTodoIndex,
     );
 
@@ -113,11 +113,11 @@ export const TodoListItemContextProvider: React.FC<{
 
     const value: ContextValue = {
         numberOfDaysDisplayed,
-        currentDate: currentDate.date,
+        currentDate: dateCursor.date,
         moveToPreviousDate,
         moveToToday,
         moveToNextDate,
-        dayNavigationDirection: currentDate.direction,
+        dayNavigationDirection: dateCursor.direction,
         items,
         isFetching,
         currentTodoIndex,
