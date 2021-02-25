@@ -19,6 +19,10 @@
 .unstyled {
     border: none;
     background: none;
+
+    &:focus {
+        outline:0;
+    }
 }
 
 .block {
