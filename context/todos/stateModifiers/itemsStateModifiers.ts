@@ -8,6 +8,7 @@ import { State } from '../reducers/todoReducer';
 import produce from 'immer';
 import {
     checkDateIsBefore,
+    checkDateIsWithinRange,
     checkIsSameDay,
     createDateKey,
     parseFirebaseTimestamp,
@@ -128,7 +129,7 @@ export const applyUpdateTodoModifier = (
             if (nextState.items[newDateKey] !== undefined) {
                 nextState.items[newDateKey].push(updatedItem);
 
-                // move the date cursor along with the todo
+                // move the date cursor along with the item
                 nextState.dateCursor.currentDate = incomingDate;
                 nextState.dateCursor.direction = checkDateIsBefore(
                     incomingDate,
@@ -136,6 +137,16 @@ export const applyUpdateTodoModifier = (
                 )
                     ? 'backwards'
                     : 'forwards';
+
+                if (
+                    !checkDateIsWithinRange(
+                        incomingDate,
+                        nextState.dateCursor.firstVisibleDate,
+                        nextState.numberOfDaysDisplayed,
+                    )
+                ) {
+                    nextState.dateCursor.firstVisibleDate = incomingDate;
+                }
             }
         } else {
             nextState.items[dateKey][indexToUpdate] = updatedItem;
