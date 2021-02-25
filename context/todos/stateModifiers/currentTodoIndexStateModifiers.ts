@@ -3,7 +3,7 @@ import { createDateKey } from '../../../utility/dateTimeUtilities';
 import { SelectTodoAction } from '../model/actionTypes';
 
 export const applyMoveToNextTodoModifier = (currentState: State): State => {
-    const currentDateKey = createDateKey(currentState.dateCursor.date);
+    const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
 
     if (!currentState.items) {
         return currentState;
@@ -31,7 +31,7 @@ export const applyMoveToNextTodoModifier = (currentState: State): State => {
 };
 
 export const applyMoveToPreviousTodoModifier = (currentState: State): State => {
-    const currentDateKey = createDateKey(currentState.dateCursor.date);
+    const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
 
     if (!currentState.items) {
         return currentState;
@@ -67,7 +67,7 @@ export const applySelectTodoModifier = (
     currentState: State,
     action: SelectTodoAction,
 ): State => {
-    const currentDateKey = createDateKey(currentState.dateCursor.date);
+    const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
 
     if (!currentState.items) {
         return currentState;

@@ -12,7 +12,10 @@ export const applyMoveToPreviousDateModifier = (
 ): State => ({
     ...currentState,
     dateCursor: {
-        date: subtractNumberOfDays(currentState.dateCursor.date, 1),
+        currentDate: subtractNumberOfDays(
+            currentState.dateCursor.currentDate,
+            1,
+        ),
         direction: 'backwards',
     },
     currentTodoIndex: null,
@@ -23,7 +26,7 @@ export const applyMoveToPreviousDateModifier = (
 export const applyMoveToNextDateModifier = (currentState: State): State => ({
     ...currentState,
     dateCursor: {
-        date: addNumberOfDays(currentState.dateCursor.date, 1),
+        currentDate: addNumberOfDays(currentState.dateCursor.currentDate, 1),
         direction: 'forwards',
     },
     currentTodoIndex: null,
@@ -32,12 +35,12 @@ export const applyMoveToNextDateModifier = (currentState: State): State => ({
 export const applyMoveToTodayModifier = (currentState: State): State => {
     const today = createStartOfToday();
 
-    if (checkIsSameDay(currentState.dateCursor.date, today)) {
+    if (checkIsSameDay(currentState.dateCursor.currentDate, today)) {
         return currentState;
     }
 
     const direction: DayNavigationDirection = checkDateIsBefore(
-        currentState.dateCursor.date,
+        currentState.dateCursor.currentDate,
         today,
     )
         ? 'forwards'
@@ -46,7 +49,7 @@ export const applyMoveToTodayModifier = (currentState: State): State => {
     return {
         ...currentState,
         dateCursor: {
-            date: today,
+            currentDate: today,
             direction,
         },
         currentTodoIndex: null,

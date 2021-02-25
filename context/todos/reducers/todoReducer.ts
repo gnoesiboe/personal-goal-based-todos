@@ -24,7 +24,7 @@ import {
 export type DayNavigationDirection = 'forwards' | 'backwards';
 
 export type DateCursor = {
-    date: Date;
+    currentDate: Date;
     direction: DayNavigationDirection;
 };
 
@@ -105,7 +105,7 @@ const reducer: ReducerType = (currentState, action) => {
 
 const initialState: State = {
     dateCursor: {
-        date: createStartOfToday(),
+        currentDate: createStartOfToday(),
         direction: 'forwards',
     },
     currentTodoIndex: null,
