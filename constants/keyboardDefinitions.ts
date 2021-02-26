@@ -7,7 +7,6 @@ export const moveTodoOneDayForwardDefinition: Partial<KeyDefinition> = {
 };
 
 export const moveToNextCurrentDateDefinition: Partial<KeyDefinition> = {
-    shiftKey: true,
     key: 'ArrowRight',
 };
 
@@ -18,15 +17,16 @@ export const moveTodoOneDayBackwardsDefinition: Partial<KeyDefinition> = {
 };
 
 export const moveToPreviousCurrentTodoDefinition: Partial<KeyDefinition> = {
-    shiftKey: true,
     key: 'ArrowLeft',
 };
 
 export const moveToNextDateDefinition: Partial<KeyDefinition> = {
+    shiftKey: true,
     key: 'ArrowRight',
 };
 
 export const moveToPreviousDateDefinition: Partial<KeyDefinition> = {
+    shiftKey: true,
     key: 'ArrowLeft',
 };
 
