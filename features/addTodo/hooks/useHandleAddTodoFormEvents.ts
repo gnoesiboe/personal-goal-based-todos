@@ -60,7 +60,14 @@ export default function useHandleAddTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'deadline', 'date'],
+        [
+            'summary',
+            'description',
+            'roleWithGoal',
+            'deadline',
+            'date',
+            'quickfix',
+        ],
         validateInput,
         onFormValid,
         {

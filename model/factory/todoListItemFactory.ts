@@ -66,5 +66,6 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
                   ) as firebase.firestore.DocumentReference<RoleDocumentData>)
             : null,
         roleTitle: role?.title || null,
+        quickfix: values.quickfix,
     };
 };

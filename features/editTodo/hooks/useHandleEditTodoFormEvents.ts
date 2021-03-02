@@ -105,6 +105,7 @@ export default function useHandleEditTodoFormEvents(
                 : null,
             roleTitle: role?.title || null,
             date,
+            quickfix: values.quickfix,
         };
 
         const success = await updateTodo(todo.id, updates);
@@ -123,7 +124,14 @@ export default function useHandleEditTodoFormEvents(
     };
 
     return useFormState(
-        ['summary', 'description', 'roleWithGoal', 'deadline', 'date'],
+        [
+            'summary',
+            'description',
+            'roleWithGoal',
+            'deadline',
+            'date',
+            'quickfix',
+        ],
         validateInput,
         onFormValid,
         {
@@ -137,6 +145,7 @@ export default function useHandleEditTodoFormEvents(
                 ? parseFirebaseTimestamp(todo.deadline)
                 : null,
             date: parseFirebaseTimestamp(todo.date),
+            quickfix: !!todo.quickfix,
         },
     );
 }

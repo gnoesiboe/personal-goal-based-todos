@@ -22,6 +22,7 @@ export type FormValues = {
     roleWithGoal: string;
     deadline: Date | null;
     date: Date;
+    quickfix: boolean;
 };
 
 type Props = {
@@ -172,6 +173,20 @@ const TodoForm: React.FC<Props> = ({
                 </Form.Label>
                 {touched.deadline && errors.deadline && (
                     <Form.Error>{errors.deadline}</Form.Error>
+                )}
+            </Form.Group>
+            <Form.Group horizontal>
+                <Form.Label>
+                    <Form.Input
+                        type="checkbox"
+                        checked={values.quickfix}
+                        onChange={onFieldChange}
+                        name="quickfix"
+                    />
+                    Quickfix
+                </Form.Label>
+                {touched.quickfix && errors.quickfix && (
+                    <Form.Error>{errors.quickfix}</Form.Error>
                 )}
             </Form.Group>
             <Form.ActionButtons>

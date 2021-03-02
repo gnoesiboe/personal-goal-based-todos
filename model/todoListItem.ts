@@ -4,6 +4,7 @@ export interface TodoListItem extends TodoListItemFirebaseData {
     id: string;
     goalTitle: string | null;
     roleTitle: string | null;
+    quickfix: boolean;
 }
 
 export enum PriorityLevel {

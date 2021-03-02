@@ -16,6 +16,7 @@ export const normalizeTodoListItemFirebaseData = (
         roleRef: null,
         roleTitle: null,
         description: null,
+        quickfix: false,
         ...partialData,
     };
 };
