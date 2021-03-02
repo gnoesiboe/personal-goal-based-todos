@@ -4,7 +4,7 @@ import useManageCurrentDate, {
     MoveToDateHandler,
 } from './hooks/useManageCurrentDate';
 import useManageCurrentTodo, {
-    SetCurrentTodoIndexHandler,
+    SetCurrentTodoHandler,
 } from './hooks/useManageCurrentTodo';
 import useManageTodoListItems from './hooks/useManageTodoListItems';
 import {
@@ -34,7 +34,7 @@ type ContextValue = {
     items: ItemsState;
     isFetching: boolean;
     currentTodoIndex: number | null;
-    setCurrentTodoIndex: SetCurrentTodoIndexHandler;
+    setCurrentTodo: SetCurrentTodoHandler;
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
@@ -53,7 +53,7 @@ const initialValue: ContextValue = {
     items: {},
     isFetching: false,
     currentTodoIndex: null,
-    setCurrentTodoIndex: () => {},
+    setCurrentTodo: () => {},
     addTodo: async () => false,
     updateTodo: async () => false,
     removeTodo: async () => false,
@@ -99,7 +99,7 @@ export const TodoListItemContextProvider: React.FC<{
         dispatch,
     );
 
-    const { setCurrentTodoIndex, resetCurrentTodoIndex } = useManageCurrentTodo(
+    const { setCurrentTodo, resetCurrentTodoIndex } = useManageCurrentTodo(
         dispatch,
     );
 
@@ -131,7 +131,7 @@ export const TodoListItemContextProvider: React.FC<{
         items,
         isFetching,
         currentTodoIndex,
-        setCurrentTodoIndex,
+        setCurrentTodo: setCurrentTodo,
         addTodo,
         updateTodo,
         removeTodo,
@@ -144,7 +144,7 @@ export const TodoListItemContextProvider: React.FC<{
 export const useTodoListItems = () => {
     const {
         currentTodoIndex,
-        setCurrentTodoIndex,
+        setCurrentTodo,
         items,
         isFetching,
         addTodo,
@@ -155,7 +155,7 @@ export const useTodoListItems = () => {
 
     return {
         currentTodoIndex,
-        setCurrentTodoIndex,
+        setCurrentTodo,
         items,
         isFetching,
         addTodo,

@@ -6,7 +6,7 @@ import {
 } from '../../../constants/keyboardDefinitions';
 import { Action, ActionType } from '../model/actionTypes';
 
-export type SetCurrentTodoIndexHandler = (index: number, date: Date) => void;
+export type SetCurrentTodoHandler = (id: string) => void;
 
 export default function useManageCurrentTodo(dispatch: Dispatch<Action>) {
     const moveToNext = useCallback(() => {
@@ -49,16 +49,12 @@ export default function useManageCurrentTodo(dispatch: Dispatch<Action>) {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, []);
 
-    const setCurrentTodoIndex: SetCurrentTodoIndexHandler = useCallback(
-        (index, date) => {
-            dispatch({
-                type: ActionType.SelectTodo,
-                index,
-                date,
-            });
-        },
-        [],
-    );
+    const setCurrentTodo: SetCurrentTodoHandler = useCallback((id) => {
+        dispatch({
+            type: ActionType.SelectTodo,
+            id,
+        });
+    }, []);
 
     const resetCurrentTodoIndex = () => {
         dispatch({
@@ -66,5 +62,5 @@ export default function useManageCurrentTodo(dispatch: Dispatch<Action>) {
         });
     };
 
-    return { setCurrentTodoIndex, resetCurrentTodoIndex };
+    return { setCurrentTodo, resetCurrentTodoIndex };
 }

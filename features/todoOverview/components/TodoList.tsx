@@ -12,11 +12,10 @@ import PriorityLevelDescription from './PriorityLevelDescription';
 type Props = {
     items: TodoListItemModel[];
     currentDate: boolean;
-    date: Date;
 };
 
-const TodoList: React.FC<Props> = ({ items, currentDate, date }) => {
-    const { currentTodoIndex, setCurrentTodoIndex } = useTodoListItems();
+const TodoList: React.FC<Props> = ({ items, currentDate }) => {
+    const { currentTodoIndex, setCurrentTodo } = useTodoListItems();
 
     const itemsGrouped = groupItemsByPriorityLevel(items);
 
@@ -39,13 +38,13 @@ const TodoList: React.FC<Props> = ({ items, currentDate, date }) => {
                 <li key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
                     <ul>
-                        {itemsGrouped[priorityLevel].map((item, index) => (
+                        {itemsGrouped[priorityLevel].map((item) => (
                             <li key={item.id}>
                                 <TodoListItem
                                     item={item}
                                     current={checkItemIsCurrent(item)}
                                     onContainerClick={() =>
-                                        setCurrentTodoIndex(index, date)
+                                        setCurrentTodo(item.id)
                                     }
                                 />
                             </li>

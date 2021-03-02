@@ -64,8 +64,7 @@ export interface ClearCurrentTodoAction extends BaseAction {
 
 export interface SelectTodoAction extends BaseAction {
     type: ActionType.SelectTodo;
-    index: number;
-    date: Date;
+    id: string;
 }
 
 export interface AddTodoAction extends BaseAction {

@@ -1,5 +1,8 @@
 import { State } from '../reducers/todoReducer';
-import { createDateKey } from '../../../utility/dateTimeUtilities';
+import {
+    createDateKey,
+    parseFirebaseTimestamp,
+} from '../../../utility/dateTimeUtilities';
 import { SelectTodoAction } from '../model/actionTypes';
 import produce from 'immer';
 
@@ -72,17 +75,32 @@ export const applySelectTodoModifier = (
         return currentState;
     }
 
-    const dateKey = createDateKey(action.date);
+    let newCurrentDate: Date | null = null;
+    let newCurrentIndex: number | null = null;
 
-    if (
-        currentState.items[dateKey] === undefined ||
-        currentState.items[dateKey][action.index] === undefined
-    ) {
-        return currentState;
-    }
+    Object.keys(currentState.items).forEach((cursorDateKey) => {
+        if (!currentState.items) {
+            return currentState;
+        }
+
+        const cursorItems = currentState.items[cursorDateKey];
+
+        const index = cursorItems.findIndex(
+            (cursorItem) => cursorItem.id === action.id,
+        );
+
+        if (index !== -1) {
+            newCurrentDate = parseFirebaseTimestamp(cursorItems[index].date);
+            newCurrentIndex = index;
+        }
+    });
 
     return produce<State>(currentState, (nextState) => {
-        nextState.currentTodoIndex = action.index;
-        nextState.dateCursor.currentDate = action.date;
+        if (newCurrentIndex === null || !newCurrentDate) {
+            return;
+        }
+
+        nextState.currentTodoIndex = newCurrentIndex;
+        nextState.dateCursor.currentDate = newCurrentDate;
     });
 };
