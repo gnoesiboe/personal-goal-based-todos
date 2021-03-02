@@ -8,22 +8,17 @@ import { groupItemsByPriorityLevel } from '../utility/itemGroupingUtilities';
 import TodoListItem from '../../todoListItem/TodoListItem';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import PriorityLevelDescription from './PriorityLevelDescription';
-import useSetCurrentItemOnContainerClick from '../hooks/useSetCurrentItemOnContainerClick';
 
 type Props = {
     items: TodoListItemModel[];
     currentDate: boolean;
+    date: Date;
 };
 
-const TodoList: React.FC<Props> = ({ items, currentDate }) => {
-    const { currentTodoIndex } = useTodoListItems();
+const TodoList: React.FC<Props> = ({ items, currentDate, date }) => {
+    const { currentTodoIndex, setCurrentTodoIndex } = useTodoListItems();
 
     const itemsGrouped = groupItemsByPriorityLevel(items);
-
-    const onContainerClick = useSetCurrentItemOnContainerClick(
-        items,
-        currentDate,
-    );
 
     const checkItemIsCurrent = (item: TodoListItemModel) => {
         if (!currentDate || currentTodoIndex === null) {
@@ -44,12 +39,14 @@ const TodoList: React.FC<Props> = ({ items, currentDate }) => {
                 <li key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
                     <ul>
-                        {itemsGrouped[priorityLevel].map((item) => (
+                        {itemsGrouped[priorityLevel].map((item, index) => (
                             <li key={item.id}>
                                 <TodoListItem
                                     item={item}
                                     current={checkItemIsCurrent(item)}
-                                    onContainerClick={onContainerClick}
+                                    onContainerClick={() =>
+                                        setCurrentTodoIndex(index, date)
+                                    }
                                 />
                             </li>
                         ))}

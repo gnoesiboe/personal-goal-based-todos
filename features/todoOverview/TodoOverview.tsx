@@ -86,6 +86,7 @@ const TodoOverview: React.FC = () => {
                                             <TodoList
                                                 items={itemsForDate}
                                                 currentDate={isCurrent}
+                                                date={date}
                                             />
                                         </div>
                                         <DayActions isCurrentDate={isCurrent}>

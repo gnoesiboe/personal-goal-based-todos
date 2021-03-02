@@ -1,6 +1,7 @@
 import { State } from '../reducers/todoReducer';
 import { createDateKey } from '../../../utility/dateTimeUtilities';
 import { SelectTodoAction } from '../model/actionTypes';
+import produce from 'immer';
 
 export const applyMoveToNextTodoModifier = (currentState: State): State => {
     const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
@@ -67,20 +68,21 @@ export const applySelectTodoModifier = (
     currentState: State,
     action: SelectTodoAction,
 ): State => {
-    const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
-
     if (!currentState.items) {
         return currentState;
     }
 
-    const todosForCurrentDate = currentState.items[currentDateKey] || [];
+    const dateKey = createDateKey(action.date);
 
-    if (todosForCurrentDate[action.index] === undefined) {
+    if (
+        currentState.items[dateKey] === undefined ||
+        currentState.items[dateKey][action.index] === undefined
+    ) {
         return currentState;
     }
 
-    return {
-        ...currentState,
-        currentTodoIndex: action.index,
-    };
+    return produce<State>(currentState, (nextState) => {
+        nextState.currentTodoIndex = action.index;
+        nextState.dateCursor.currentDate = action.date;
+    });
 };

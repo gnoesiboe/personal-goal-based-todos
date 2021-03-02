@@ -20,12 +20,10 @@ import {
 import DeadlineDescription from './components/DeadlineDescription';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
 
-export type OnContainerClickHandler = (id: string) => void;
-
 type Props = {
     item: TodoListItemModel;
     current: boolean;
-    onContainerClick: OnContainerClickHandler;
+    onContainerClick: () => void;
 };
 
 const scrollIntoViewTopOffset = 50;
@@ -60,7 +58,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     return (
         <div
             className={containerClassName}
-            onClick={() => onContainerClick(item.id)}
+            onClick={() => onContainerClick()}
             ref={containerRef}
         >
             <div className={classNames.checkboxContainer}>
