@@ -118,7 +118,6 @@ $column-gap-width: spacing.$spacing-small;
 }
 
 .summary {
-    display: block;
     font-weight: 444;
     white-space: pre-wrap;
 
@@ -138,5 +137,21 @@ $column-gap-width: spacing.$spacing-small;
     * {
         color: rgba(0, 0, 0, 0.7);
         font-size: 0.8rem;
+    }
+}
+
+.quickfixIndicator {
+    // ensure that the icon is inline with the text it is in
+    position: relative;
+    top: -0.22rem;
+    left: 0;
+    margin-right: 0.35rem;
+
+    // force small size of Octicon to match content
+    svg  {
+        $-dimension: 13px;
+
+        height: $-dimension !important;
+        width: $-dimension !important;
     }
 }

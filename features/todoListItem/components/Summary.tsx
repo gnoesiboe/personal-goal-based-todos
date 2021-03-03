@@ -3,6 +3,7 @@ import classNames from '../todoListItem.module.scss';
 import createClassName from 'classnames';
 import { TodoListItem } from '../../../model/todoListItem';
 import { parseMarkdown } from '../../../utility/markdownUtilities';
+import QuickfixIndicator from './QuickfixIndicator';
 
 type Props = {
     item: TodoListItem;
@@ -16,10 +17,10 @@ const Summary: React.FC<Props> = ({ item }) => {
     const title = parseMarkdown(item.summary, true);
 
     return (
-        <div
-            className={className}
-            dangerouslySetInnerHTML={{ __html: title }}
-        />
+        <div className={className}>
+            <QuickfixIndicator item={item} />
+            <span dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
     );
 };
 
