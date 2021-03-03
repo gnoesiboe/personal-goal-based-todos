@@ -43,13 +43,18 @@ const determineDeadlineSortingAdjustment = (item: TodoListItem): number => {
     return deadline.getTime() / 10000000000000;
 };
 
+const determineQuickfixAdjustment = (item: TodoListItem) =>
+    item.quickfix ? 1 : 0;
+
 const calculatePriorityScore = (item: TodoListItem): number => {
     const urgencyScore = determineUrgencyScore(item);
 
     const deadlineAdjustment = determineDeadlineSortingAdjustment(item);
 
     return (
-        (item.goalRef ? 10 + urgencyScore : urgencyScore) - deadlineAdjustment
+        (item.goalRef ? 10 + urgencyScore : urgencyScore) -
+        deadlineAdjustment +
+        determineQuickfixAdjustment(item)
     );
 };
 
