@@ -3,7 +3,7 @@
 .container {
     ul {
         padding-left: spacing.$spacing-medium;
-        margin: 0 0 spacing.$spacing-small;
+        margin: 0 0 spacing.$spacing-medium;
 
         ul {
             margin: 0;
@@ -40,11 +40,19 @@
     }
 
     h1, h2, h3 {
-        font-size: 1.2rem;
-        margin: spacing.$spacing-small 0 spacing.$spacing-medium;
+        font-size: 1rem;
+        margin: spacing.$spacing-medium 0 spacing.$spacing-small;
     }
 
     p {
-        margin: 0 0 spacing.$spacing-small;
+        margin: 0 0 spacing.$spacing-extra-small;
+    }
+
+    a {
+        text-decoration: underline;
+
+        &:hover {
+            color: #000;
+        }
     }
 }
