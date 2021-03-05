@@ -1,5 +1,4 @@
-import React from 'react';
-import classNames from '../todoOverview.module.scss';
+import React, { Fragment } from 'react';
 import {
     PriorityLevel,
     TodoListItem as TodoListItemModel,
@@ -8,6 +7,7 @@ import { groupItemsByPriorityLevel } from '../utility/itemGroupingUtilities';
 import TodoListItem from '../../todoListItem/TodoListItem';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import PriorityLevelDescription from './PriorityLevelDescription';
+import VerticalUnorderedList from '../../../primitives/verticalUnorderedList/VerticalUnorderedList';
 
 type Props = {
     items: TodoListItemModel[];
@@ -33,26 +33,23 @@ const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
     const keys = Object.keys(itemsGrouped) as PriorityLevel[];
 
     return (
-        <ul className={classNames.todoList}>
+        <VerticalUnorderedList>
             {keys.map((priorityLevel) => (
-                <li key={priorityLevel}>
+                <Fragment key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
-                    <ul>
+                    <VerticalUnorderedList>
                         {itemsGrouped[priorityLevel].map((item) => (
-                            <li key={item.id}>
-                                <TodoListItem
-                                    item={item}
-                                    current={checkItemIsCurrent(item)}
-                                    onContainerClick={() =>
-                                        setCurrentTodo(item.id)
-                                    }
-                                />
-                            </li>
+                            <TodoListItem
+                                key={item.id}
+                                item={item}
+                                current={checkItemIsCurrent(item)}
+                                onContainerClick={() => setCurrentTodo(item.id)}
+                            />
                         ))}
-                    </ul>
-                </li>
+                    </VerticalUnorderedList>
+                </Fragment>
             ))}
-        </ul>
+        </VerticalUnorderedList>
     );
 };
 
