@@ -56,144 +56,162 @@ const TodoForm: React.FC<Props> = ({
 
     return (
         <Form.Form onSubmit={onSubmit}>
-            <Form.Group>
-                <Form.Label>
-                    Samenvatting:
-                    <Form.Input
-                        type="text"
-                        name="summary"
-                        placeholder="Summary"
-                        value={values.summary}
-                        onChange={onFieldChange}
-                        onBlur={onFieldBlur}
-                        disabled={disabled}
-                        autoFocus
-                        onKeyDown={onFieldKeyDown}
-                    />
-                </Form.Label>
-                {touched.summary && errors.summary && (
-                    <Form.Error>{errors.summary}</Form.Error>
-                )}
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    Beschrijving:
-                    <Form.TextArea
-                        name="description"
-                        placeholder="Optional description"
-                        value={values.description}
-                        onChange={onFieldChange}
-                        onBlur={onFieldBlur}
-                        disabled={disabled}
-                        minRows={5}
-                        onKeyDown={onFieldKeyDown}
-                    />
-                </Form.Label>
-                {touched.description && errors.description && (
-                    <Form.Error>{errors.description}</Form.Error>
-                )}
-            </Form.Group>
-            {rolesWithGoals && (
+            <Form.Section>
                 <Form.Group>
                     <Form.Label>
-                        Draagt bij aan doel:
-                        <Form.Select
-                            name="roleWithGoal"
-                            value={values.roleWithGoal}
+                        Samenvatting
+                        <Form.Input
+                            type="text"
+                            name="summary"
+                            placeholder="Summary"
+                            value={values.summary}
                             onChange={onFieldChange}
                             onBlur={onFieldBlur}
                             disabled={disabled}
+                            autoFocus
                             onKeyDown={onFieldKeyDown}
-                        >
-                            <option value="">...</option>
-                            {rolesWithGoals.map((role) => (
-                                <optgroup key={role.uid} label={role.title}>
-                                    {role.goals.map((goal) => (
-                                        <option
-                                            key={goal.uid}
-                                            value={generateComposedKey(
-                                                role.uid,
-                                                goal.uid,
-                                            )}
-                                        >
-                                            {role.title} » {goal.title}
-                                        </option>
-                                    ))}
-                                </optgroup>
-                            ))}
-                        </Form.Select>
+                        />
                     </Form.Label>
-                    {touched.roleWithGoal && errors.roleWithGoal && (
-                        <Form.Error>{errors.roleWithGoal}</Form.Error>
+                    {touched.summary && errors.summary && (
+                        <Form.Error>{errors.summary}</Form.Error>
+                    )}
+                    <Form.Help>
+                        Tip! Gebruik Markdown om links of formatting toe te
+                        voegen.
+                    </Form.Help>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        Beschrijving
+                        <Form.TextArea
+                            name="description"
+                            placeholder="Optional description"
+                            value={values.description}
+                            onChange={onFieldChange}
+                            onBlur={onFieldBlur}
+                            disabled={disabled}
+                            minRows={5}
+                            onKeyDown={onFieldKeyDown}
+                        />
+                    </Form.Label>
+                    {touched.description && errors.description && (
+                        <Form.Error>{errors.description}</Form.Error>
+                    )}
+                    <Form.Help>
+                        Tip! Gebruik Markdown om links of formatting toe te
+                        voegen.
+                    </Form.Help>
+                </Form.Group>
+                {rolesWithGoals && (
+                    <Form.Group>
+                        <Form.Label>
+                            Draagt bij aan doel
+                            <Form.Select
+                                name="roleWithGoal"
+                                value={values.roleWithGoal}
+                                onChange={onFieldChange}
+                                onBlur={onFieldBlur}
+                                disabled={disabled}
+                                onKeyDown={onFieldKeyDown}
+                            >
+                                <option value="">...</option>
+                                {rolesWithGoals.map((role) => (
+                                    <optgroup key={role.uid} label={role.title}>
+                                        {role.goals.map((goal) => (
+                                            <option
+                                                key={goal.uid}
+                                                value={generateComposedKey(
+                                                    role.uid,
+                                                    goal.uid,
+                                                )}
+                                            >
+                                                {role.title} » {goal.title}
+                                            </option>
+                                        ))}
+                                    </optgroup>
+                                ))}
+                            </Form.Select>
+                        </Form.Label>
+                        {touched.roleWithGoal && errors.roleWithGoal && (
+                            <Form.Error>{errors.roleWithGoal}</Form.Error>
+                        )}
+                    </Form.Group>
+                )}
+            </Form.Section>
+            <Form.Section horizontal>
+                <Form.Group>
+                    <Form.Label preventClick>
+                        Start
+                        <Form.DatePicker
+                            name="date"
+                            selected={values.date}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(newValue) =>
+                                setFieldValue('date', newValue)
+                            }
+                            onBlur={onFieldBlur}
+                            disabled={disabled}
+                            onKeyDown={onFieldKeyDown}
+                            minDate={createStartOfToday()}
+                            todayButton="Vandaag"
+                            closeOnScroll
+                            showWeekNumbers
+                            isClearable
+                            clearButtonTitle="Geen datum"
+                            shouldCloseOnSelect
+                            placement="top"
+                        />
+                    </Form.Label>
+                    {touched.date && errors.date && (
+                        <Form.Error>{errors.date}</Form.Error>
                     )}
                 </Form.Group>
-            )}
-            <Form.Group>
-                <Form.Label>
-                    Date:
-                    <Form.DatePicker
-                        name="date"
-                        selected={values.date}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(newValue) => setFieldValue('date', newValue)}
-                        onBlur={onFieldBlur}
-                        disabled={disabled}
-                        onKeyDown={onFieldKeyDown}
-                        minDate={createStartOfToday()}
-                        todayButton="Vandaag"
-                        closeOnScroll
-                        showWeekNumbers
-                        isClearable
-                        clearButtonTitle="Geen datum"
-                        shouldCloseOnSelect
-                    />
-                </Form.Label>
-                {touched.date && errors.date && (
-                    <Form.Error>{errors.date}</Form.Error>
-                )}
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    Deadline:
-                    <Form.DatePicker
-                        name="deadline"
-                        selected={values.deadline}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(newValue) =>
-                            setFieldValue('deadline', newValue)
-                        }
-                        onBlur={onFieldBlur}
-                        disabled={disabled}
-                        onKeyDown={onFieldKeyDown}
-                        minDate={createStartOfToday()}
-                        todayButton="Vandaag"
-                        openToDate={createStartOfToday()}
-                        isClearable
-                        clearButtonTitle="Geen deadline"
-                        closeOnScroll
-                        showWeekNumbers
-                        shouldCloseOnSelect
-                    />
-                </Form.Label>
-                {touched.deadline && errors.deadline && (
-                    <Form.Error>{errors.deadline}</Form.Error>
-                )}
-            </Form.Group>
-            <Form.Group horizontal>
-                <Form.Label>
-                    <Form.Input
-                        type="checkbox"
-                        checked={values.quickfix}
-                        onChange={onFieldChange}
-                        name="quickfix"
-                    />
-                    Quickfix
-                </Form.Label>
-                {touched.quickfix && errors.quickfix && (
-                    <Form.Error>{errors.quickfix}</Form.Error>
-                )}
-            </Form.Group>
-            <Form.ActionButtons>
+                <Form.Group>
+                    <Form.Label preventClick>
+                        Deadline
+                        <Form.DatePicker
+                            name="deadline"
+                            selected={values.deadline}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(newValue) =>
+                                setFieldValue('deadline', newValue)
+                            }
+                            onBlur={onFieldBlur}
+                            disabled={disabled}
+                            onKeyDown={onFieldKeyDown}
+                            minDate={createStartOfToday()}
+                            todayButton="Vandaag"
+                            openToDate={createStartOfToday()}
+                            isClearable
+                            clearButtonTitle="Geen deadline"
+                            closeOnScroll
+                            showWeekNumbers
+                            shouldCloseOnSelect
+                            placement="top"
+                        />
+                    </Form.Label>
+                    {touched.deadline && errors.deadline && (
+                        <Form.Error>{errors.deadline}</Form.Error>
+                    )}
+                </Form.Group>
+            </Form.Section>
+            <Form.Section horizontal>
+                <Form.Group horizontal>
+                    <Form.Label>
+                        <Form.Input
+                            type="checkbox"
+                            checked={values.quickfix}
+                            onChange={onFieldChange}
+                            name="quickfix"
+                        />
+                        Quickfix
+                    </Form.Label>
+                    {touched.quickfix && errors.quickfix && (
+                        <Form.Error>{errors.quickfix}</Form.Error>
+                    )}
+                </Form.Group>
+            </Form.Section>
+            <Form.ActionButtons centered>
                 <Button
                     type="submit"
                     disabled={!inputIsValid || disabled || !rolesWithGoals}

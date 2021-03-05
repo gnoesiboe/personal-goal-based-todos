@@ -4,11 +4,24 @@
 @mixin default-widget-props {
     display: block;
     width: 100%;
-    margin-bottom: spacing.$spacing-small;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    color: #333;
+    transition: 0.4 s border-color;
+
+    &:focus {
+        outline: none;
+        border-color: rgba(0, 0, 0, 0.3);
+    }
+
+    &::placeholder {
+        color:rgba(0, 0, 0, 0.3);
+        opacity: 1; // fix for Firefox
+    }
 }
 
 .group {
-    margin-bottom: spacing.$spacing-small;
+    margin-bottom: spacing.$spacing-medium;
 }
 
 .widget {
@@ -16,13 +29,6 @@
 
     padding: 10px;
     background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.3);
-
-    &:focus {
-        outline: none;
-        border: 1px solid rgba(0, 0, 0, 0.6);
-        box-shadow: 0 0 10px #ddd;
-    }
 }
 
 .select {
@@ -51,7 +57,36 @@
     gap: spacing.$spacing-small;
 }
 
+.actionButtonsIsCentered {
+    justify-content: center;
+}
+
+.datePickerWrapper {
+    display: block;
+    width: 100%;
+}
+
 .error {
     color: colors.$error;
     margin-bottom: spacing.$spacing-medium;
+}
+
+.section {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sectionIsHorizontal {
+    display: flex;
+    gap: spacing.$spacing-medium;
+
+    > * {
+        flex: 1 1;
+    }
+}
+
+.help {
+    color: rgba(#000, 0.4);
+    font-size: 0.8rem;
 }

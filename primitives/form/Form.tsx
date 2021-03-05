@@ -8,6 +8,8 @@ import Select from './components/Select';
 import Label from './components/Label';
 import ActionButtons from './components/ActionButtons';
 import Error from './components/Error';
+import Section from './components/Section';
+import Help from './components/Help';
 
 export default {
     Form,
@@ -19,4 +21,6 @@ export default {
     Label,
     ActionButtons,
     Error,
+    Section,
+    Help,
 };
