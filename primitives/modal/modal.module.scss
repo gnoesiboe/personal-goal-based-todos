@@ -7,14 +7,13 @@
 
 $-background-color: #fff;
 $-padding: spacing.$spacing-medium;
-$-top-window-spacing: sizes.$header-height + spacing.$spacing-medium;
-$-spacing-from-window-borders: spacing.$spacing-small;
+$-top-window-spacing: sizes.$header-height;
 
 .container {
     position: absolute;
     max-width: calc(#{breakpoints.$breakpoint-tablet} - 10rem);
     max-height: calc(100vh - #{$-top-window-spacing});
-    inset: $-top-window-spacing $-spacing-from-window-borders auto;
+    inset: $-top-window-spacing spacing.$spacing-small auto;
     zIndex: z-index.$z-index-modal;
     padding: 0;
     margin: auto;
