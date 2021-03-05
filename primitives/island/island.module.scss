@@ -18,7 +18,7 @@
 }
 
 .isStyleSecondary {
-    background: colors.$second;
+    background: colors.$third;
     padding: spacing.$spacing-small;
 
     @include mq($from: tablet) {

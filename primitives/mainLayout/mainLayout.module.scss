@@ -2,6 +2,7 @@
 @use './../../styles/settings/breakpoints';
 @use './../../styles/settings/spacing';
 @use './../../styles/settings/z-index';
+@use './../../styles/settings/sizes';
 @import '~sass-mq';
 
 .container {
@@ -15,7 +16,7 @@
     position: sticky;
     z-index: z-index.$z-index-main-header;
     top: 0;
-    height: auto;
+    height: sizes.$header-height;
     margin-bottom: 30px;
 
     @include mq($from: tablet) {

@@ -16,7 +16,7 @@ const TodoBacklog: React.FC = () => {
 
     return (
         <>
-            <Heading tag="h2" centered className={classNames.header}>
+            <Heading tag="h2" centered className={classNames.heading}>
                 Backlog
             </Heading>
             <CardList>
