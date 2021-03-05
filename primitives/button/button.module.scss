@@ -5,6 +5,7 @@
     padding: 8px 12px;
     border-radius: 3px;
     cursor: pointer;
+    transition: 0.4s opacity;
 
     * {
         margin-right: 5px;
@@ -59,9 +60,14 @@
     background-color: colors.$second;
     color: white;
     border: none;
+    transition: 0.3s transform, 0.3s opacity;
 
     * {
         color: #fff;
+    }
+
+    &:hover {
+        transform: scale(1.05);
     }
 }
 
