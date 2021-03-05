@@ -36,7 +36,6 @@ type ContextValue = {
     isFetching: boolean;
     currentTodoIndex: number | null;
     setCurrentTodo: SetCurrentTodoHandler;
-    resetCurrentTodoIndex: () => void;
     addTodo: AddTodoHandler;
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
@@ -57,7 +56,6 @@ const initialValue: ContextValue = {
     isFetching: false,
     currentTodoIndex: null,
     setCurrentTodo: () => {},
-    resetCurrentTodoIndex: () => {},
     addTodo: async () => false,
     updateTodo: async () => false,
     removeTodo: async () => false,
@@ -148,7 +146,6 @@ export const TodoListItemContextProvider: React.FC<{
         isFetching,
         currentTodoIndex,
         setCurrentTodo,
-        resetCurrentTodoIndex,
         addTodo,
         updateTodo,
         removeTodo,
@@ -162,7 +159,6 @@ export const useTodoListItems = () => {
     const {
         currentTodoIndex,
         setCurrentTodo,
-        resetCurrentTodoIndex,
         items,
         backlogItems,
         isFetching,
@@ -175,7 +171,6 @@ export const useTodoListItems = () => {
     return {
         currentTodoIndex,
         setCurrentTodo,
-        resetCurrentTodoIndex,
         items,
         backlogItems,
         isFetching,

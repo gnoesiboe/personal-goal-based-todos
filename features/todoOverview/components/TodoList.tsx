@@ -15,11 +15,7 @@ type Props = {
 };
 
 const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
-    const {
-        currentTodoIndex,
-        setCurrentTodo,
-        resetCurrentTodoIndex,
-    } = useTodoListItems();
+    const { currentTodoIndex, setCurrentTodo } = useTodoListItems();
 
     const itemsGrouped = groupItemsByPriorityLevel(items);
 
@@ -42,24 +38,14 @@ const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
                 <Fragment key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
                     <VerticalUnorderedList>
-                        {itemsGrouped[priorityLevel].map((item) => {
-                            const current = checkItemIsCurrent(item);
-
-                            const onClick = () => {
-                                current
-                                    ? resetCurrentTodoIndex()
-                                    : setCurrentTodo(item.id);
-                            };
-
-                            return (
-                                <TodoListItem
-                                    key={item.id}
-                                    item={item}
-                                    current={current}
-                                    onContainerClick={onClick}
-                                />
-                            );
-                        })}
+                        {itemsGrouped[priorityLevel].map((item) => (
+                            <TodoListItem
+                                key={item.id}
+                                item={item}
+                                current={checkItemIsCurrent(item)}
+                                onContainerClick={() => setCurrentTodo(item.id)}
+                            />
+                        ))}
                     </VerticalUnorderedList>
                 </Fragment>
             ))}
