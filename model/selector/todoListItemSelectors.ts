@@ -58,7 +58,20 @@ const calculatePriorityScore = (item: TodoListItem): number => {
     );
 };
 
-export const sortTodoListItemsByPriority = (
+export const sortTodoListItemsByPriority = (items: TodoListItem[]) => {
+    items.sort((first, second) => {
+        const firstScore = calculatePriorityScore(first);
+        const secondScore = calculatePriorityScore(second);
+
+        if (firstScore === secondScore) {
+            return 0;
+        }
+
+        return firstScore > secondScore ? -1 : 1;
+    });
+};
+
+export const sortGroupedTodoListItemsByPriority = (
     items: NonNullable<ItemsState>,
 ): NonNullable<ItemsState> => {
     return produce<NonNullable<ItemsState>>(items, (nextItems) => {
@@ -67,16 +80,7 @@ export const sortTodoListItemsByPriority = (
                 continue;
             }
 
-            nextItems[dateKey].sort((first, second) => {
-                const firstScore = calculatePriorityScore(first);
-                const secondScore = calculatePriorityScore(second);
-
-                if (firstScore === secondScore) {
-                    return 0;
-                }
-
-                return firstScore > secondScore ? -1 : 1;
-            });
+            sortTodoListItemsByPriority(nextItems[dateKey]);
         }
     });
 };

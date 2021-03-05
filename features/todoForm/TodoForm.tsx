@@ -21,7 +21,7 @@ export type FormValues = {
     description: string;
     roleWithGoal: string;
     deadline: Date | null;
-    date: Date;
+    date: Date | null;
     quickfix: boolean;
 };
 
@@ -143,6 +143,8 @@ const TodoForm: React.FC<Props> = ({
                         todayButton="Vandaag"
                         closeOnScroll
                         showWeekNumbers
+                        isClearable
+                        clearButtonTitle="Geen datum"
                         shouldCloseOnSelect
                     />
                 </Form.Label>
@@ -166,6 +168,8 @@ const TodoForm: React.FC<Props> = ({
                         minDate={createStartOfToday()}
                         todayButton="Vandaag"
                         openToDate={createStartOfToday()}
+                        isClearable
+                        clearButtonTitle="Geen deadline"
                         closeOnScroll
                         showWeekNumbers
                         shouldCloseOnSelect

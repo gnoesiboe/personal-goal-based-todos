@@ -13,28 +13,55 @@ import {
     createDateKey,
     parseFirebaseTimestamp,
 } from '../../../utility/dateTimeUtilities';
-import { sortTodoListItemsByPriority } from '../../../model/selector/todoListItemSelectors';
+import { sortGroupedTodoListItemsByPriority } from '../../../model/selector/todoListItemSelectors';
 import { TodoListItem } from '../../../model/todoListItem';
-import { groupTodosByDateKey } from '../utility/todoGroupingUtilities';
+import {
+    createRoleKey,
+    groupTodosByDateKey,
+    groupTodosByRole,
+} from '../utility/todoGroupingUtilities';
+import { resolveTodoFromItems } from '../resolver/todoResolver';
 
 export const applyAddTodoModifier = (
     currentState: State,
     action: AddTodoAction,
 ): State => {
     return produce<State>(currentState, (nextState) => {
-        if (!nextState.items) {
-            return;
+        if (action.todo.date) {
+            if (!nextState.items) {
+                nextState.items = {};
+            }
+
+            const dateKey = createDateKey(
+                parseFirebaseTimestamp(action.todo.date),
+            );
+
+            if (nextState.items[dateKey] === undefined) {
+                return;
+            }
+
+            nextState.items[dateKey].push(action.todo);
+
+            nextState.items = sortGroupedTodoListItemsByPriority(
+                nextState.items,
+            );
+        } else {
+            if (!nextState.backlogItems) {
+                nextState.backlogItems = {};
+            }
+
+            if (
+                nextState.backlogItems[createRoleKey(action.todo)] === undefined
+            ) {
+                nextState.backlogItems[createRoleKey(action.todo)] = [];
+            }
+
+            nextState.backlogItems[createRoleKey(action.todo)].push(
+                action.todo,
+            );
+
+            sortGroupedTodoListItemsByPriority(nextState.backlogItems);
         }
-
-        const dateKey = createDateKey(parseFirebaseTimestamp(action.todo.date));
-
-        if (nextState.items[dateKey] === undefined) {
-            return;
-        }
-
-        nextState.items[dateKey].push(action.todo);
-
-        nextState.items = sortTodoListItemsByPriority(nextState.items);
     });
 };
 
@@ -55,7 +82,7 @@ export const applyRemoveCurrentTodoModifier = (currentState: State) => {
         nextState.items[dateKey].splice(nextState.currentTodoIndex, 1);
         nextState.currentTodoIndex = null;
 
-        nextState.items = sortTodoListItemsByPriority(nextState.items);
+        nextState.items = sortGroupedTodoListItemsByPriority(nextState.items);
     });
 };
 
@@ -89,10 +116,127 @@ export const applyRemoveTodoModifier = (
 export const applyUpdateTodoModifier = (
     currentState: State,
     action: UpdateTodoAction,
-) => {
+): State => {
+    const plannedTodo =
+        !!currentState.items &&
+        !!resolveTodoFromItems(currentState.items, action.id);
+
+    if (plannedTodo) {
+        return applyUpdateTodoFromItemsModifier(currentState, action);
+    }
+
+    const backlogTodo =
+        !!currentState.backlogItems &&
+        !!resolveTodoFromItems(currentState.backlogItems, action.id);
+
+    if (backlogTodo) {
+        return applyUpdateTodoFromBacklogItemsModifier(currentState, action);
+    }
+
+    return currentState;
+};
+
+const applyUpdateTodoFromBacklogItemsModifier = (
+    currentState: State,
+    action: UpdateTodoAction,
+): State => {
     return produce<State>(currentState, (nextState) => {
-        if (!nextState.items || nextState.currentTodoIndex === null) {
+        if (!nextState.backlogItems) {
+            throw new Error('Expecting there to exist items in state');
+        }
+
+        const roleKey = Object.keys(nextState.backlogItems).find(
+            (cursorRoleKey) => {
+                // @ts-ignore Don't know why Typescript thinks backlogItems might by null at this point :|
+                return nextState.backlogItems[cursorRoleKey].some(
+                    (cursorItem) => cursorItem.id === action.id,
+                );
+            },
+        );
+
+        if (!roleKey) {
             return;
+        }
+
+        const itemsForRole = nextState.backlogItems[roleKey];
+
+        const indexToUpdate = itemsForRole.findIndex(
+            (cursor) => cursor.id === action.id,
+        );
+
+        if (indexToUpdate === -1) {
+            return;
+        }
+
+        const itemToUpdate = itemsForRole[indexToUpdate];
+
+        const updatedItem: TodoListItem = {
+            ...itemToUpdate,
+            ...action.updates,
+        };
+
+        if (updatedItem.date) {
+            // remove from backlog items
+            itemsForRole.splice(indexToUpdate, 1);
+
+            // add to regular items
+            if (!nextState.items) {
+                nextState.items = {};
+            }
+
+            const dateKey = createDateKey(
+                parseFirebaseTimestamp(updatedItem.date),
+            );
+
+            if (!nextState.items[dateKey]) {
+                nextState.items[dateKey] = [];
+            }
+
+            nextState.items[dateKey].push(updatedItem);
+
+            nextState.items = sortGroupedTodoListItemsByPriority(
+                nextState.items,
+            );
+        } else {
+            const currentRole = updatedItem.roleTitle;
+            const nextRole = itemToUpdate.roleTitle;
+
+            if (currentRole !== nextRole) {
+                // remove from old role items
+                itemsForRole.splice(indexToUpdate, 1);
+
+                // add updated item to new date key
+                const newRoleKey = createRoleKey(itemToUpdate);
+
+                if (!nextState.backlogItems[newRoleKey]) {
+                    nextState.backlogItems[newRoleKey] = [];
+                }
+
+                nextState.backlogItems[newRoleKey].push(updatedItem);
+            } else {
+                itemsForRole[indexToUpdate] = updatedItem;
+            }
+        }
+
+        nextState.backlogItems = sortGroupedTodoListItemsByPriority(
+            nextState.backlogItems,
+        );
+    });
+};
+
+const applyUpdateTodoFromItemsModifier = (
+    currentState: State,
+    action: UpdateTodoAction,
+): State => {
+    return produce<State>(currentState, (nextState) => {
+        if (!nextState.items) {
+            throw new Error('Expecting there to exist items in state');
+        }
+
+        if (nextState.currentTodoIndex === null) {
+            throw new Error(
+                'Expecting there to exist a current todo index in state',
+            );
         }
 
         const dateKey = createDateKey(nextState.dateCursor.currentDate);
@@ -114,45 +258,71 @@ export const applyUpdateTodoModifier = (
             ...action.updates,
         };
 
-        const currentDate = parseFirebaseTimestamp(itemToUpdate.date);
+        const currentDate = itemToUpdate.date
+            ? parseFirebaseTimestamp(itemToUpdate.date)
+            : null;
+
+        if (!currentDate) {
+            throw new Error('Expecting current date todo to have a date set');
+        }
+
         const incomingDate = action.updates.date
             ? parseFirebaseTimestamp(action.updates.date)
             : null;
 
-        if (incomingDate && !checkIsSameDay(currentDate, incomingDate)) {
+        const dateHasChanged =
+            !incomingDate || !checkIsSameDay(currentDate, incomingDate);
+
+        if (dateHasChanged) {
             // remove from old item
             itemsForCurrentDate.splice(indexToUpdate, 1);
 
-            const newDateKey = createDateKey(incomingDate);
+            if (incomingDate) {
+                const newDateKey = createDateKey(incomingDate);
 
-            // add to new date, if in current item range
-            if (nextState.items[newDateKey] !== undefined) {
-                nextState.items[newDateKey].push(updatedItem);
+                // add to new date, if in current item range
+                if (nextState.items[newDateKey] !== undefined) {
+                    nextState.items[newDateKey].push(updatedItem);
 
-                // move the date cursor along with the item
-                nextState.dateCursor.currentDate = incomingDate;
-                nextState.dateCursor.direction = checkDateIsBefore(
-                    incomingDate,
-                    currentDate,
-                )
-                    ? 'backwards'
-                    : 'forwards';
-
-                if (
-                    !checkDateIsWithinRange(
+                    // move the date cursor along with the item
+                    nextState.dateCursor.currentDate = incomingDate;
+                    nextState.dateCursor.direction = checkDateIsBefore(
                         incomingDate,
-                        nextState.dateCursor.firstVisibleDate,
-                        nextState.numberOfDaysDisplayed,
+                        currentDate,
                     )
-                ) {
-                    nextState.dateCursor.firstVisibleDate = incomingDate;
+                        ? 'backwards'
+                        : 'forwards';
+
+                    if (
+                        !checkDateIsWithinRange(
+                            incomingDate,
+                            nextState.dateCursor.firstVisibleDate,
+                            nextState.numberOfDaysDisplayed,
+                        )
+                    ) {
+                        nextState.dateCursor.firstVisibleDate = incomingDate;
+                    }
                 }
+            } else {
+                // add to backlog items
+
+                if (!nextState.backlogItems) {
+                    nextState.backlogItems = {};
+                }
+
+                const roleKey = createRoleKey(updatedItem);
+
+                if (nextState.backlogItems[roleKey] === undefined) {
+                    nextState.backlogItems[roleKey] = [];
+                }
+
+                nextState.backlogItems[roleKey].push(updatedItem);
             }
         } else {
             nextState.items[dateKey][indexToUpdate] = updatedItem;
         }
 
-        nextState.items = sortTodoListItemsByPriority(nextState.items);
+        nextState.items = sortGroupedTodoListItemsByPriority(nextState.items);
 
         // set current item index to updated item
         const newIndexOfUpdatedItem = nextState.items[
@@ -169,17 +339,22 @@ export const applyLoadIncomingTodoListItemsModifier = (
     currentState: State,
     action: LoadIncomingTodoListItemsAction,
 ): State => {
-    const itemsPerDate = groupTodosByDateKey(
-        action.items,
-        currentState.dateCursor.firstVisibleDate,
-        currentState.numberOfDaysDisplayed,
+    const sortedItemsPerDate = sortGroupedTodoListItemsByPriority(
+        groupTodosByDateKey(
+            action.items,
+            currentState.dateCursor.firstVisibleDate,
+            currentState.numberOfDaysDisplayed,
+        ),
     );
 
-    const sortedItemsPerDate = sortTodoListItemsByPriority(itemsPerDate);
+    const sortedBacklogItemsPerRole = sortGroupedTodoListItemsByPriority(
+        groupTodosByRole(action.backlogItems),
+    );
 
     return {
         ...currentState,
         items: sortedItemsPerDate,
+        backlogItems: sortedBacklogItemsPerRole,
         isFetching: false,
     };
 };

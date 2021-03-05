@@ -43,7 +43,9 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
 
     return {
         id: generateId(),
-        date: createFirestoreTimestampFromDate(values.date),
+        date: values.date
+            ? createFirestoreTimestampFromDate(values.date)
+            : null,
         summary: values.summary,
         deadline,
         description: values.description,

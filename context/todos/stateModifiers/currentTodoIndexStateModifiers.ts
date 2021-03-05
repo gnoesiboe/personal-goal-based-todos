@@ -5,6 +5,7 @@ import {
 } from '../../../utility/dateTimeUtilities';
 import { SelectTodoAction } from '../model/actionTypes';
 import produce from 'immer';
+import { TodoListItem } from '../../../model/todoListItem';
 
 export const applyMoveToNextTodoModifier = (currentState: State): State => {
     const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
@@ -71,31 +72,35 @@ export const applySelectTodoModifier = (
     currentState: State,
     action: SelectTodoAction,
 ): State => {
-    if (!currentState.items) {
-        return currentState;
-    }
-
-    let newCurrentDate: Date | null = null;
-    let newCurrentIndex: number | null = null;
-
-    Object.keys(currentState.items).forEach((cursorDateKey) => {
+    return produce<State>(currentState, (nextState) => {
         if (!currentState.items) {
             return currentState;
         }
 
-        const cursorItems = currentState.items[cursorDateKey];
+        let newCurrentDate: Date | null = null;
+        let newCurrentIndex: number | null = null;
 
-        const index = cursorItems.findIndex(
-            (cursorItem) => cursorItem.id === action.id,
-        );
+        Object.keys(currentState.items).forEach((cursorDateKey) => {
+            const cursorItems: TodoListItem[] = currentState.items
+                ? currentState.items[cursorDateKey]
+                : [];
 
-        if (index !== -1) {
-            newCurrentDate = parseFirebaseTimestamp(cursorItems[index].date);
-            newCurrentIndex = index;
-        }
-    });
+            const index = cursorItems.findIndex(
+                (cursorItem) => cursorItem.id === action.id,
+            );
 
-    return produce<State>(currentState, (nextState) => {
+            if (index !== -1) {
+                const date = cursorItems[index].date;
+
+                if (!date) {
+                    throw new Error('Expecting item to have a date');
+                }
+
+                newCurrentDate = parseFirebaseTimestamp(date);
+                newCurrentIndex = index;
+            }
+        });
+
         if (newCurrentIndex === null || !newCurrentDate) {
             return;
         }

@@ -41,6 +41,7 @@ export type State = {
     currentTodoIndex: TodoIndexCursor;
     numberOfDaysDisplayed: number;
     items: ItemsState;
+    backlogItems: ItemsState;
     isFetching: boolean;
 };
 
@@ -125,6 +126,7 @@ const initialState: State = {
     currentTodoIndex: null,
     numberOfDaysDisplayed: 0,
     items: null,
+    backlogItems: null,
     isFetching: false,
 };
 

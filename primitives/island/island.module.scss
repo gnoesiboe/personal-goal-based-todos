@@ -4,18 +4,26 @@
 @import '~sass-mq';
 
 .container {
-    background: colors.$first;
     margin-bottom: spacing.$spacing-large;
-    border-radius: 7px;
+}
+
+.isStylePrimary {
+    background: colors.$first;
     padding: spacing.$spacing-small;
+    border-radius: 7px;
 
     @include mq($from: tablet) {
         padding: spacing.$spacing-medium;
     }
 }
 
-.isGhost {
-    background: none;
+.isStyleSecondary {
+    background: colors.$second;
+    padding: spacing.$spacing-small;
+
+    @include mq($from: tablet) {
+        padding: spacing.$spacing-large;
+    }
 }
 
 .isDeflatedTop {

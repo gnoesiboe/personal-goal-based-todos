@@ -3,7 +3,7 @@ import { GoalDocumentData, RoleDocumentData } from './roleDocumentData';
 
 export interface TodoListItemFirebaseData
     extends firebase.firestore.DocumentData {
-    date: firebase.firestore.Timestamp;
+    date: firebase.firestore.Timestamp | null;
     summary: string;
     description: string | null;
     deadline: firebase.firestore.Timestamp | null;

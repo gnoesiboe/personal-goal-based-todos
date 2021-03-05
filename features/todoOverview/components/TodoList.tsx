@@ -11,10 +11,10 @@ import PriorityLevelDescription from './PriorityLevelDescription';
 
 type Props = {
     items: TodoListItemModel[];
-    currentDate: boolean;
+    currentDate?: boolean;
 };
 
-const TodoList: React.FC<Props> = ({ items, currentDate }) => {
+const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
     const { currentTodoIndex, setCurrentTodo } = useTodoListItems();
 
     const itemsGrouped = groupItemsByPriorityLevel(items);

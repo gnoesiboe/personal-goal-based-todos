@@ -5,6 +5,7 @@ import {
     createDateRange,
     parseFirebaseTimestamp,
 } from '../../../utility/dateTimeUtilities';
+import { groupItemsWithCallback } from '../../../utility/arrayUtilities';
 
 export const groupTodosByDateKey = (
     items: TodoListItem[],
@@ -22,6 +23,10 @@ export const groupTodosByDateKey = (
     });
 
     items.forEach((cursorItem) => {
+        if (!cursorItem.date) {
+            return;
+        }
+
         const itemDateKey = createDateKey(
             parseFirebaseTimestamp(cursorItem.date),
         );
@@ -34,4 +39,15 @@ export const groupTodosByDateKey = (
     });
 
     return groupedItems;
+};
+
+export const createRoleKey = (item: TodoListItem): string =>
+    item.roleTitle || 'Overige';
+
+export const groupTodosByRole = (
+    items: TodoListItem[],
+): NonNullable<ItemsState> => {
+    return groupItemsWithCallback<TodoListItem, string>(items, (item) =>
+        createRoleKey(item),
+    );
 };

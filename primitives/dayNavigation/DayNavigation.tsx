@@ -12,34 +12,35 @@ type Props = {
     onPreviousClick: MouseEventHandler<HTMLButtonElement>;
     onNextClick: MouseEventHandler<HTMLButtonElement>;
     onTodayClick: MouseEventHandler<HTMLButtonElement>;
-    firstVisibleDate: Date;
+    currentDate: Date;
 };
 
 const DayNavigation: React.FC<Props> = ({
     onPreviousClick,
     onTodayClick,
     onNextClick,
-    firstVisibleDate,
-}) => (
-    <nav className={classNames.container}>
-        <ItemList>
-            <Item onClick={onPreviousClick}>
-                <ArrowLeftIcon /> terug
-            </Item>
-            <Item
-                onClick={onTodayClick}
-                disabled={checkIsSameDay(
-                    firstVisibleDate,
-                    createStartOfToday(),
-                )}
-            >
-                vandaag
-            </Item>
-            <Item onClick={onNextClick}>
-                verder <ArrowRightIcon />
-            </Item>
-        </ItemList>
-    </nav>
-);
+    currentDate,
+}) => {
+    const currentDateIsToday = checkIsSameDay(
+        currentDate,
+        createStartOfToday(),
+    );
+
+    return (
+        <nav className={classNames.container}>
+            <ItemList>
+                <Item onClick={onPreviousClick}>
+                    <ArrowLeftIcon /> terug
+                </Item>
+                <Item onClick={onTodayClick} disabled={currentDateIsToday}>
+                    vandaag
+                </Item>
+                <Item onClick={onNextClick}>
+                    verder <ArrowRightIcon />
+                </Item>
+            </ItemList>
+        </nav>
+    );
+};
 
 export default DayNavigation;

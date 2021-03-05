@@ -10,12 +10,12 @@ export const resolveTodoFromItems = (
         return null;
     }
 
-    for (const dateKey in items) {
-        if (!items.hasOwnProperty(dateKey)) {
+    for (const key in items) {
+        if (!items.hasOwnProperty(key)) {
             continue;
         }
 
-        const itemsForDate = items[dateKey];
+        const itemsForDate = items[key];
 
         const item = itemsForDate.find((cursor) => cursor.id === id);
 

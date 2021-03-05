@@ -6,8 +6,7 @@ import useManageCurrentDate, {
 import useManageCurrentTodo, {
     SetCurrentTodoHandler,
 } from './hooks/useManageCurrentTodo';
-import useManageTodoListItems from './hooks/useManageTodoListItems';
-import {
+import useModifyTodoCollection, {
     AddTodoHandler,
     MoveTodoOneDayForwardHandler,
     RemoveTodoHandler,
@@ -21,6 +20,7 @@ import {
     useTodoReducer,
 } from './reducers/todoReducer';
 import { resolveCurrentTodo } from './resolver/todoResolver';
+import useFetchTodoListItems from './hooks/useFetchTodoListItems';
 
 type ContextValue = {
     numberOfDaysDisplayed: number;
@@ -32,6 +32,7 @@ type ContextValue = {
     moveToNextDate: () => void;
     dayNavigationDirection: DayNavigationDirection;
     items: ItemsState;
+    backlogItems: ItemsState;
     isFetching: boolean;
     currentTodoIndex: number | null;
     setCurrentTodo: SetCurrentTodoHandler;
@@ -51,6 +52,7 @@ const initialValue: ContextValue = {
     moveToNextDate: () => {},
     dayNavigationDirection: 'forwards',
     items: {},
+    backlogItems: null,
     isFetching: false,
     currentTodoIndex: null,
     setCurrentTodo: () => {},
@@ -70,10 +72,15 @@ export const TodoListItemContextProvider: React.FC<{
     useDetermineNumberOfDaysThatCanBeDisplayed(dispatch);
 
     const {
-        dateCursor,
+        dateCursor: {
+            currentDate,
+            firstVisibleDate,
+            direction: dayNavigationDirection,
+        },
         numberOfDaysDisplayed,
         currentTodoIndex,
         items,
+        backlogItems,
         isFetching,
     } = state;
 
@@ -84,18 +91,24 @@ export const TodoListItemContextProvider: React.FC<{
         moveToDate,
     } = useManageCurrentDate(dispatch);
 
+    const { fetchTodos, refetchTodos } = useFetchTodoListItems(
+        firstVisibleDate,
+        numberOfDaysDisplayed,
+        dispatch,
+    );
+
     const {
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
         moveTodoOneDayBackwards,
         removeTodo,
-        refetchTodos,
-    } = useManageTodoListItems(
-        dateCursor.currentDate,
-        dateCursor.firstVisibleDate,
+    } = useModifyTodoCollection(
+        currentDate,
         numberOfDaysDisplayed,
+        fetchTodos,
         items,
+        backlogItems,
         dispatch,
     );
 
@@ -105,7 +118,7 @@ export const TodoListItemContextProvider: React.FC<{
 
     const currentTodo = resolveCurrentTodo(
         items,
-        dateCursor.currentDate,
+        currentDate,
         currentTodoIndex,
     );
 
@@ -121,17 +134,18 @@ export const TodoListItemContextProvider: React.FC<{
 
     const value: ContextValue = {
         numberOfDaysDisplayed,
-        currentDate: dateCursor.currentDate,
-        firstVisibleDate: dateCursor.firstVisibleDate,
+        currentDate,
+        firstVisibleDate,
         moveToPreviousDate,
         moveToDate,
         moveCurrentDateToToday,
         moveToNextDate,
-        dayNavigationDirection: dateCursor.direction,
+        dayNavigationDirection,
         items,
+        backlogItems,
         isFetching,
         currentTodoIndex,
-        setCurrentTodo: setCurrentTodo,
+        setCurrentTodo,
         addTodo,
         updateTodo,
         removeTodo,
@@ -146,6 +160,7 @@ export const useTodoListItems = () => {
         currentTodoIndex,
         setCurrentTodo,
         items,
+        backlogItems,
         isFetching,
         addTodo,
         updateTodo,
@@ -157,6 +172,7 @@ export const useTodoListItems = () => {
         currentTodoIndex,
         setCurrentTodo,
         items,
+        backlogItems,
         isFetching,
         addTodo,
         updateTodo,

@@ -48,10 +48,6 @@ export default function useHandleEditTodoFormEvents(
             newErrors.summary = 'Required';
         }
 
-        if (!values.date) {
-            newErrors.date = 'Required';
-        }
-
         return newErrors;
     };
 
@@ -81,7 +77,9 @@ export default function useHandleEditTodoFormEvents(
             deadline = createFirestoreTimestampFromDate(values.deadline);
         }
 
-        const date = createFirestoreTimestampFromDate(values.date);
+        const date = values.date
+            ? createFirestoreTimestampFromDate(values.date)
+            : null;
 
         const updates: Partial<TodoListItem> = {
             summary: values.summary,
@@ -144,7 +142,7 @@ export default function useHandleEditTodoFormEvents(
             deadline: todo.deadline
                 ? parseFirebaseTimestamp(todo.deadline)
                 : null,
-            date: parseFirebaseTimestamp(todo.date),
+            date: todo.date ? parseFirebaseTimestamp(todo.date) : null,
             quickfix: !!todo.quickfix,
         },
     );

@@ -48,6 +48,7 @@ export default function useModifyTodoCollection(
     numberOfDaysDisplayed: number,
     fetchTodos: FetchTodoHandler,
     items: ItemsState,
+    backlogItems: ItemsState,
     dispatch: Dispatch<Action>,
 ) {
     const user = useLoggedInUser();
@@ -106,7 +107,9 @@ export default function useModifyTodoCollection(
             );
         }
 
-        let itemToUpdate = resolveTodoFromItems(items, id);
+        let itemToUpdate =
+            resolveTodoFromItems(items, id) ||
+            resolveTodoFromItems(backlogItems, id);
 
         if (!itemToUpdate) {
             return false;
@@ -142,7 +145,7 @@ export default function useModifyTodoCollection(
 
         const todoToUpdate = resolveTodoFromItems(items, id);
 
-        if (!todoToUpdate) {
+        if (!todoToUpdate || !todoToUpdate.date) {
             return false;
         }
 
@@ -199,7 +202,7 @@ export default function useModifyTodoCollection(
 
         const todoToUpdate = resolveTodoFromItems(items, id);
 
-        if (!todoToUpdate) {
+        if (!todoToUpdate || !todoToUpdate.date) {
             return false;
         }
 

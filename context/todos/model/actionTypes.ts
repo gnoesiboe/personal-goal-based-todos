@@ -98,6 +98,7 @@ export interface StopFetchingItemsAction extends BaseAction {
 export interface LoadIncomingTodoListItemsAction extends BaseAction {
     type: ActionType.LoadIncomingTodoListItems;
     items: TodoListItem[];
+    backlogItems: TodoListItem[];
 }
 
 export interface ChangeNumberOfDaysDisplayedAction extends BaseAction {

@@ -1,0 +1,25 @@
+@use '../../styles/settings/spacing';
+@use '../../styles/settings/breakpoints';
+@import '~sass-mq';
+
+.container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: spacing.$spacing-small;
+    flex-wrap: wrap;
+
+    @include mq($from: tablet) {
+        gap: spacing.$spacing-medium;
+    }
+}
+
+.item {
+    $-min-width: breakpoints.$breakpoint-tablet / 2;
+    $-max-width: breakpoints.$breakpoint-mobile * 2;
+
+    flex: 1 $-min-width;
+    max-width: $-max-width;
+}

@@ -1,6 +1,4 @@
 import React from 'react';
-import Island from '../../primitives/island/Island';
-import MainLayout from '../../primitives/mainLayout/MainLayout';
 import DayList from './components/DayList';
 import Day from './components/Day';
 import {
@@ -40,65 +38,52 @@ const TodoOverview: React.FC = () => {
     const today = createStartOfToday();
 
     return (
-        <MainLayout.Body fullWidth>
-            <MainLayout.ContentMain>
-                <Island fullWidth ghost deflatedTop>
-                    <DayNavigation
-                        onNextClick={() => moveToNextDate()}
-                        onTodayClick={() => moveCurrentDateToToday()}
-                        onPreviousClick={() => moveToPreviousDate()}
-                        firstVisibleDate={firstVisibleDate}
-                    />
-                    <DirectionIndicator
-                        direction={dayNavigationDirection}
-                        firstVisibleDate={firstVisibleDate}
-                    />
-                    <div className={classNames.dayListContainer}>
-                        <DayList>
-                            {dateRange.map((date) => {
-                                const key = createDateKey(date);
-                                const itemsForDate = items
-                                    ? items[key] || []
-                                    : [];
-                                const isToday = checkIsSameDay(date, today);
-                                const isCurrent = checkIsSameDay(
-                                    date,
-                                    currentDate,
-                                );
+        <>
+            <DayNavigation
+                onNextClick={() => moveToNextDate()}
+                onTodayClick={() => moveCurrentDateToToday()}
+                onPreviousClick={() => moveToPreviousDate()}
+                currentDate={currentDate}
+            />
+            <DirectionIndicator
+                direction={dayNavigationDirection}
+                firstVisibleDate={firstVisibleDate}
+            />
+            <div className={classNames.dayListContainer}>
+                <DayList>
+                    {dateRange.map((date) => {
+                        const key = createDateKey(date);
+                        const itemsForDate = items ? items[key] || [] : [];
+                        const isToday = checkIsSameDay(date, today);
+                        const isCurrent = checkIsSameDay(date, currentDate);
 
-                                return (
-                                    <Day
-                                        key={date.getTime()}
-                                        date={date}
-                                        today={isToday}
-                                        current={isCurrent}
-                                        navigationDirection={
-                                            dayNavigationDirection
-                                        }
-                                    >
-                                        <div className={classNames.dayHeader}>
-                                            <DayHeading
-                                                date={date}
-                                                onClick={() => moveToDate(date)}
-                                            />
-                                        </div>
-                                        <div className={classNames.dayContent}>
-                                            <TodoList
-                                                items={itemsForDate}
-                                                currentDate={isCurrent}
-                                            />
-                                        </div>
-                                        <DayActions isCurrentDate={isCurrent}>
-                                            <AddTodo date={date} />
-                                        </DayActions>
-                                    </Day>
-                                );
-                            })}
-                        </DayList>
-                    </div>
-                </Island>
-            </MainLayout.ContentMain>
-        </MainLayout.Body>
+                        return (
+                            <Day
+                                key={date.getTime()}
+                                date={date}
+                                today={isToday}
+                                current={isCurrent}
+                                navigationDirection={dayNavigationDirection}
+                            >
+                                <DayHeading
+                                    date={date}
+                                    onClick={() => moveToDate(date)}
+                                />
+                                <div className={classNames.dayContent}>
+                                    <TodoList
+                                        items={itemsForDate}
+                                        currentDate={isCurrent}
+                                    />
+                                </div>
+                                <DayActions isCurrentDate={isCurrent}>
+                                    <AddTodo date={date} />
+                                </DayActions>
+                            </Day>
+                        );
+                    })}
+                </DayList>
+            </div>
+        </>
     );
 };
 

@@ -22,14 +22,20 @@ import useScrollIntoView from '../../hooks/useScrollIntoView';
 
 type Props = {
     item: TodoListItemModel;
-    current: boolean;
-    onContainerClick: () => void;
+    current?: boolean;
+    onContainerClick?: () => void;
+    expanded?: boolean;
 };
 
 const scrollIntoViewTopOffset = 50;
 const scrollIntoViewTopTimeout = 400; // takes into account that items need to animate
 
-const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
+const TodoListItem: React.FC<Props> = ({
+    item,
+    current = false,
+    expanded = false,
+    onContainerClick,
+}) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const { moveTodoOneDayForward } = useTodoListItems();
@@ -58,7 +64,7 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
     return (
         <div
             className={containerClassName}
-            onClick={() => onContainerClick()}
+            onClick={() => onContainerClick && onContainerClick()}
             ref={containerRef}
         >
             <div className={classNames.checkboxContainer}>
@@ -72,12 +78,12 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                 <Breadcrumb item={item} />
                 <Summary item={item} />
                 <DeadlineDescription item={item} />
-                <CurrentContentContainer current={current}>
+                <CurrentContentContainer visible={current || expanded}>
                     {item.description && (
                         <Description>{item.description}</Description>
                     )}
                     <ActionButtonList>
-                        <EditTodo todo={item}>
+                        <EditTodo todo={item} current={current}>
                             {(onClick) => (
                                 <ActionButton onClick={onClick}>
                                     edit
@@ -91,11 +97,13 @@ const TodoListItem: React.FC<Props> = ({ item, current, onContainerClick }) => {
                                 </ActionButton>
                             )}
                         </RemoveTodo>
-                        <ActionButton
-                            onClick={() => moveTodoOneDayForward(item.id)}
-                        >
-                            tomorrow
-                        </ActionButton>
+                        {item.date && (
+                            <ActionButton
+                                onClick={() => moveTodoOneDayForward(item.id)}
+                            >
+                                tomorrow
+                            </ActionButton>
+                        )}
                     </ActionButtonList>
                 </CurrentContentContainer>
             </div>

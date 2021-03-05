@@ -30,6 +30,18 @@ export const fetchAllForUserForUpcomingDates = async (
     return snapshot.docs.map((doc) => doc.data());
 };
 
+export const fetchAllForUserWithoutDate = async (userUid: string) => {
+    const snapshot = await firebase
+        .firestore()
+        .collection(todosCollectionName)
+        .withConverter(firebaseToApplicationTodoListItemConverter)
+        .where('userUid', '==', userUid)
+        .where('date', '==', null)
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data());
+};
+
 export const fetchAllForUserNotDoneInPast = async (
     userUid: string,
 ): Promise<TodoListItem[]> => {

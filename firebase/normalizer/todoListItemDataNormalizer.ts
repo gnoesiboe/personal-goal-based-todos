@@ -1,11 +1,10 @@
-import { createFirestoreTimestampFromDate } from '../../utility/dateTimeUtilities';
 import { TodoListItemFirebaseData } from '../model/todoListItem';
 
 export const normalizeTodoListItemFirebaseData = (
     partialData: Partial<TodoListItemFirebaseData>,
 ): TodoListItemFirebaseData => {
     return {
-        date: createFirestoreTimestampFromDate(new Date()),
+        date: null,
         summary: '',
         deadline: null,
         done: false,

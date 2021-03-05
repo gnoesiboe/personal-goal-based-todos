@@ -1,3 +1,4 @@
+import { fetchAllForUserWithoutDate } from './../../../repository/todoListItemRepository';
 import { fetchAllForUserForUpcomingDates } from '../../../repository/todoListItemRepository';
 import { NotificationType } from '../../../model/notification';
 import { Dispatch, useEffect } from 'react';
@@ -32,9 +33,14 @@ export default function useFetchTodoListItems(
                 userUid,
             );
 
+            const incomingBacklogItems = await fetchAllForUserWithoutDate(
+                userUid,
+            );
+
             dispatch({
                 type: ActionType.LoadIncomingTodoListItems,
                 items: incomingItems,
+                backlogItems: incomingBacklogItems,
             });
 
             return true;

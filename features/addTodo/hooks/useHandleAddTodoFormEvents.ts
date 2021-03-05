@@ -27,10 +27,6 @@ export default function useHandleAddTodoFormEvents(
             newErrors.summary = 'Required';
         }
 
-        if (!values.date) {
-            newErrors.date = 'Required';
-        }
-
         return newErrors;
     };
 

@@ -1,0 +1,20 @@
+@use './../../styles/settings/spacing';
+@use './../../styles/settings/colors';
+
+.container {
+    margin-bottom: spacing.$spacing-medium;
+    border-radius: 0.4rem;
+}
+
+.isStylePrimary {
+    background: colors.$first;
+}
+
+.header {
+    border-bottom: 1px solid rgba(#000, 0.2);
+    padding: spacing.$spacing-medium;
+}
+
+.body {
+    padding: spacing.$spacing-medium;
+}

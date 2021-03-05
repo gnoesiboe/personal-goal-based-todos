@@ -8,14 +8,15 @@ export const createDummyArray = (noOfRows: number) => {
     return out;
 };
 
-export const groupItemsWithCallback = <T>(
+export const groupItemsWithCallback = <T, I extends string>(
     items: T[],
     callback: (item: T) => string,
-): Record<string, T[]> => {
-    const result: Record<string, T[]> = {};
+): Record<I, T[]> => {
+    // @ts-ignore → don't know how to fix this
+    const result: Record<I, T[]> = {};
 
     items.forEach((item) => {
-        const key = callback(item);
+        const key = callback(item) as I;
 
         if (typeof result[key] === 'undefined') {
             result[key] = [];

@@ -11,12 +11,13 @@ import useShowFormWithKeyboardShortcut from './hooks/useShowFormWithKeyboardShor
 type Props = {
     children: (onClick: MouseEventHandler) => JSX.Element;
     todo: TodoListItem;
+    current: boolean;
 };
 
-const EditTodo: React.FC<Props> = ({ children, todo }) => {
+const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
     const { visible, show: showForm, hide: hideForm } = useShowHide(false);
 
-    useShowFormWithKeyboardShortcut(showForm);
+    useShowFormWithKeyboardShortcut(showForm, current);
 
     const {
         onSubmit,

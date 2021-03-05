@@ -4,12 +4,12 @@ import classNames from '../todoListItem.module.scss';
 
 type Props = {
     children: ReactNode;
-    current: boolean;
+    visible: boolean;
 };
 
-const CurrentContentContainer: React.FC<Props> = ({ children, current }) => (
+const CurrentContentContainer: React.FC<Props> = ({ children, visible }) => (
     <AnimatePresence>
-        {current && (
+        {visible && (
             <motion.div
                 initial={{ height: 0 }}
                 animate={{ height: 'auto' }}
