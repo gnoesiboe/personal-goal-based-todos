@@ -1,0 +1,60 @@
+@use '../../styles/settings/spacing';
+@use '../../styles/settings/colors';
+@use '../form/form.module' as form;
+
+.container {
+    @include form.default-widget-props;
+    padding: form.$default-widget-padding;
+}
+
+.valueContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contentContainer {
+    margin-top: 2rem;
+}
+
+.tabs {
+    margin: 0 0 spacing.$spacing-medium;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 100%;
+}
+
+.tab {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.groupButton {
+    background: colors.$first;
+}
+
+.groupButtonIsActive {
+    background: colors.$second;
+}
+
+.options {
+
+}
+
+.option {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.optionIsActive {
+    font-weight: bold;
+}
+
+.clearButton {
+    transform: rotate(45deg);
+}

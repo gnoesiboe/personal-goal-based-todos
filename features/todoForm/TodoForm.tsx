@@ -13,8 +13,9 @@ import {
 } from '../../hooks/useFormState';
 import Button from '../../primitives/button/Button';
 import Form from '../../primitives/form/Form';
-import { generateComposedKey } from '../../utility/idUtilities';
 import { createStartOfToday } from '../../utility/dateTimeUtilities';
+import GroupedSelect from '../../primitives/groupedSelect/GroupedSelect';
+import { generateOptionsForRolesWithGoals } from './utility/optionGenerator';
 
 export type FormValues = {
     summary: string;
@@ -106,31 +107,16 @@ const TodoForm: React.FC<Props> = ({
                     <Form.Group>
                         <Form.Label>
                             Draagt bij aan doel
-                            <Form.Select
-                                name="roleWithGoal"
+                            <GroupedSelect
+                                options={generateOptionsForRolesWithGoals(
+                                    rolesWithGoals,
+                                )}
                                 value={values.roleWithGoal}
-                                onChange={onFieldChange}
-                                onBlur={onFieldBlur}
-                                disabled={disabled}
-                                onKeyDown={onFieldKeyDown}
-                            >
-                                <option value="">...</option>
-                                {rolesWithGoals.map((role) => (
-                                    <optgroup key={role.uid} label={role.title}>
-                                        {role.goals.map((goal) => (
-                                            <option
-                                                key={goal.uid}
-                                                value={generateComposedKey(
-                                                    role.uid,
-                                                    goal.uid,
-                                                )}
-                                            >
-                                                {role.title} » {goal.title}
-                                            </option>
-                                        ))}
-                                    </optgroup>
-                                ))}
-                            </Form.Select>
+                                onChange={(newValue) =>
+                                    setFieldValue('roleWithGoal', newValue)
+                                }
+                                placeholder="Klik om een rol te kiezen"
+                            />
                         </Form.Label>
                         {touched.roleWithGoal && errors.roleWithGoal && (
                             <Form.Error>{errors.roleWithGoal}</Form.Error>

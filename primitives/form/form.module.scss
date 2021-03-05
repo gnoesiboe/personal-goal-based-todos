@@ -1,6 +1,8 @@
 @use '../../styles/settings/spacing';
 @use '../../styles/settings/colors';
 
+$default-widget-padding: 10px;
+
 @mixin default-widget-props {
     display: block;
     width: 100%;
@@ -27,7 +29,7 @@
 .widget {
     @include default-widget-props;
 
-    padding: 10px;
+    padding: $default-widget-padding;
     background: rgba(255, 255, 255, 0.5);
 }
 
