@@ -9,16 +9,6 @@
     display: grid;
     gap: 1rem;
     grid-template-rows: auto;
-    position: relative;
-
-    &::before {
-        content: '';
-        background: url('/images/background.jpg') no-repeat fixed;
-        background-size: cover;
-        opacity: 0.2;
-        position: absolute;
-        inset: 0 0 0 0;
-    }
 }
 
 .header {
