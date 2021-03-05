@@ -4,10 +4,13 @@
     "private": true,
     "scripts": {
         "dev:build:watch": "next dev",
+        "dev:format": "prettier --write \"**/*.{ts,tsx,json,md,css}\"",
+        "dev:pre-commit": "npm run typescript:validate",
         "typescript:validate": "tsc --noEmit",
         "typescript:validate:watch": "tsc --noEmit --watch",
         "prod:build": "next build",
-        "prod:start": "next start"
+        "prod:start": "next start",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.1",
@@ -41,8 +44,13 @@
         "@types/react-datepicker": "^3.1.3",
         "@types/react-modal": "^3.10.6",
         "@types/uuid": "^8.3.0",
+        "husky": "^5.1.3",
+        "lint-staged": "^10.5.4",
         "sass": "^1.32.0",
         "sass-mq": "^5.0.1",
         "typescript": "^4.1.3"
+    },
+    "lint-staged": {
+        "**/*.{ts,tsx,md,scss,css}": "prettier --write"
     }
 }

@@ -1,0 +1,7 @@
+/node-modules
+/.next
+/.idea
+/public
+/.git
+/package.json
+/package-lock.json
