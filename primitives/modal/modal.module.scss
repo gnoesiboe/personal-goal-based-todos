@@ -1,0 +1,52 @@
+@use '../../styles/settings/spacing';
+@use '../../styles/settings/breakpoints';
+@use '../../styles/settings/z-index';
+@use '../../styles/settings/colors';
+@use '../../styles/settings/sizes';
+@import "~sass-mq";
+
+$-background-color: #fff;
+$-padding: spacing.$spacing-medium;
+$-top-window-spacing: sizes.$header-height + spacing.$spacing-medium;
+$-spacing-from-window-borders: spacing.$spacing-small;
+
+.container {
+    position: absolute;
+    max-width: calc(#{breakpoints.$breakpoint-tablet} - 10rem);
+    max-height: calc(100vh - #{$-top-window-spacing});
+    inset: $-top-window-spacing $-spacing-from-window-borders auto;
+    zIndex: z-index.$z-index-modal;
+    padding: 0;
+    margin: auto;
+    background: $-background-color;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: 0.4s all;
+    overflow-y: scroll;
+
+    &:global(.ReactModal__Content--after-open) {
+        transform: translateY(0) !important;
+        opacity: 1;
+    }
+}
+
+.overlay {
+    position: fixed;
+    inset: 0 0 0 0;
+    background-color: rgba(colors.$third, 0.7);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: $-background-color;
+    padding: $-padding;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 spacing.$spacing-medium;
+}
+
+.content {
+    padding: $-padding;
+}

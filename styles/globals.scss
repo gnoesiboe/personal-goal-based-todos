@@ -11,6 +11,11 @@ body {
         Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 24px;
     background: lighten(colors.$first, 4);
+    overflow-y: auto;
+
+    &.modalIsOpen {
+        overflow: hidden;
+    }
 }
 
 a {

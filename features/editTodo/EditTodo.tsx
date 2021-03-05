@@ -1,8 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import useShowHide from '../../hooks/useShowHide';
 import Modal from '../../primitives/modal/Modal';
-import Island from '../../primitives/island/Island';
-import Heading from '../../primitives/heading/Heading';
 import TodoForm from '../todoForm/TodoForm';
 import useHandleEditTodoFormEvents from './hooks/useHandleEditTodoFormEvents';
 import { TodoListItem } from '../../model/todoListItem';
@@ -34,9 +32,9 @@ const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
 
     if (visible) {
         return (
-            <Modal onRequestClose={() => hideForm()}>
-                <Island ghost>
-                    <Heading tag="h1">Edit todo</Heading>
+            <Modal.Container onRequestClose={() => hideForm()}>
+                <Modal.Header title="Edit todo" />
+                <Modal.Content>
                     <TodoForm
                         onSubmit={onSubmit}
                         onFieldChange={onFieldChange}
@@ -50,8 +48,8 @@ const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
                         onFieldKeyDown={onFieldKeyDown}
                         setFieldValue={setFieldValue}
                     />
-                </Island>
-            </Modal>
+                </Modal.Content>
+            </Modal.Container>
         );
     }
 

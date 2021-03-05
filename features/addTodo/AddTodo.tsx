@@ -5,8 +5,6 @@ import useShowHide from '../../hooks/useShowHide';
 import Modal from '../../primitives/modal/Modal';
 import useShowModalWithKeyboardShortcut from './hooks/useShowModalWithKeyboardShortcut';
 import TodoForm from '../todoForm/TodoForm';
-import Island from '../../primitives/island/Island';
-import Heading from '../../primitives/heading/Heading';
 import useHandleAddTodoFormEvents from './hooks/useHandleAddTodoFormEvents';
 
 type Props = {
@@ -33,9 +31,9 @@ const AddTodo: React.FC<Props> = ({ date }) => {
 
     if (visible) {
         return (
-            <Modal onRequestClose={() => hideForm()}>
-                <Island ghost>
-                    <Heading tag="h1">Add todo</Heading>
+            <Modal.Container onRequestClose={() => hideForm()}>
+                <Modal.Header title="Add todo" />
+                <Modal.Content>
                     <TodoForm
                         onSubmit={onSubmit}
                         onFieldChange={onFieldChange}
@@ -49,8 +47,8 @@ const AddTodo: React.FC<Props> = ({ date }) => {
                         onFieldKeyDown={onFieldKeyDown}
                         setFieldValue={setFieldValue}
                     />
-                </Island>
-            </Modal>
+                </Modal.Content>
+            </Modal.Container>
         );
     }
 
