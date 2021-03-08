@@ -260,28 +260,28 @@ const applyUpdateTodoFromItemsModifier = (
             throw new Error('Expecting current date todo to have a date set');
         }
 
-        const incomingDate = action.updates.date
-            ? parseFirebaseTimestamp(action.updates.date)
+        const newDate = updatedItem.date
+            ? parseFirebaseTimestamp(updatedItem.date)
             : null;
 
         const dateHasChanged =
-            !incomingDate || !checkIsSameDay(currentDate, incomingDate);
+            !newDate || !checkIsSameDay(currentDate, newDate);
 
         if (dateHasChanged) {
             // remove from old item
             itemsForCurrentDate.splice(indexToUpdate, 1);
 
-            if (incomingDate) {
-                const newDateKey = createDateKey(incomingDate);
+            if (newDate) {
+                const newDateKey = createDateKey(newDate);
 
                 // add to new date, if in current item range
                 if (nextState.items[newDateKey] !== undefined) {
                     nextState.items[newDateKey].push(updatedItem);
 
                     // move the date cursor along with the item
-                    nextState.dateCursor.currentDate = incomingDate;
+                    nextState.dateCursor.currentDate = newDate;
                     nextState.dateCursor.direction = checkDateIsBefore(
-                        incomingDate,
+                        newDate,
                         currentDate,
                     )
                         ? 'backwards'
@@ -289,12 +289,12 @@ const applyUpdateTodoFromItemsModifier = (
 
                     if (
                         !checkDateIsWithinRange(
-                            incomingDate,
+                            newDate,
                             nextState.dateCursor.firstVisibleDate,
                             nextState.numberOfDaysDisplayed,
                         )
                     ) {
-                        nextState.dateCursor.firstVisibleDate = incomingDate;
+                        nextState.dateCursor.firstVisibleDate = newDate;
                     }
                 }
             } else {
