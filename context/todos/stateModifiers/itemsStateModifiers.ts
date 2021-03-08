@@ -233,12 +233,6 @@ const applyUpdateTodoFromItemsModifier = (
             throw new Error('Expecting there to exist items in state');
         }
 
-        if (nextState.currentTodoIndex === null) {
-            throw new Error(
-                'Expecting there to exist a current todo index in state',
-            );
-        }
-
         const dateKey = createDateKey(nextState.dateCursor.currentDate);
 
         const itemsForCurrentDate = nextState.items[dateKey];
