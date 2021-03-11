@@ -143,7 +143,7 @@ export default function useHandleEditTodoFormEvents(
                 ? parseFirebaseTimestamp(todo.deadline)
                 : null,
             date: todo.date ? parseFirebaseTimestamp(todo.date) : null,
-            quickfix: !!todo.quickfix,
+            quickfix: todo.quickfix,
         },
     );
 }
