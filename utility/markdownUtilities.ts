@@ -19,7 +19,7 @@ const renderer: Renderer = {
     checkbox: (checked: boolean): string => {
         const checkedValue = checked ? ' checked="checked"' : '';
 
-        return `<input type="checkbox"${checkedValue} disabled />`;
+        return `<input type="checkbox"${checkedValue} />`;
     },
 };
 

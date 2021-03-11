@@ -8,7 +8,7 @@ import ActionButtonList from './components/ActionButtonList';
 import ActionButton from './components/ActionButton';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 import CurrentContentContainer from './components/CurrentContentContainer';
-import Description from './components/Description';
+import TodoListItemDescription from '../todoListItemDescription/TodoListItemDescription';
 import EditTodo from '../editTodo/EditTodo';
 import Summary from './components/Summary';
 import RemoveTodo from '../removeTodo/RemoveTodo';
@@ -79,9 +79,7 @@ const TodoListItem: React.FC<Props> = ({
                 <Summary item={item} />
                 <DeadlineDescription item={item} />
                 <CurrentContentContainer visible={current || expanded}>
-                    {item.description && (
-                        <Description>{item.description}</Description>
-                    )}
+                    <TodoListItemDescription item={item} />
                     <ActionButtonList>
                         <EditTodo todo={item} current={current}>
                             {(onClick) => (
