@@ -164,24 +164,24 @@ export const applyMoveCurrentDateToTodayModifier = (
     }
 
     return produce<State>(currentState, (nextState) => {
-        const nextCurentDate = today;
+        const nextCurrentDate = today;
 
-        nextState.dateCursor.currentDate = nextCurentDate;
+        nextState.dateCursor.currentDate = nextCurrentDate;
         nextState.dateCursor.direction = checkDateIsBefore(
             currentState.dateCursor.currentDate,
-            nextCurentDate,
+            nextCurrentDate,
         )
             ? 'forwards'
             : 'backwards';
 
         const currentDateIsWithinNewDateRange = checkDateIsWithinRange(
-            nextCurentDate,
+            nextCurrentDate,
             nextState.dateCursor.firstVisibleDate,
             nextState.numberOfDaysDisplayed,
         );
 
         if (!currentDateIsWithinNewDateRange) {
-            nextState.dateCursor.firstVisibleDate = nextCurentDate;
+            nextState.dateCursor.firstVisibleDate = nextCurrentDate;
         }
 
         nextState.currentTodoIndex = null;
