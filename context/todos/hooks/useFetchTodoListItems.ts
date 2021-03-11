@@ -82,5 +82,14 @@ export default function useFetchTodoListItems(
         fetchTodos(firstVisibleDate, numberOfDaysDisplayed, user.uid);
     };
 
-    return { fetchTodos, refetchTodos };
+    // refetch on window focus
+    useEffect(() => {
+        const onFocus = () => refetchTodos();
+
+        window.addEventListener('focus', onFocus);
+
+        return () => window.removeEventListener('focus', onFocus);
+    }, []);
+
+    return { refetchTodos };
 }
