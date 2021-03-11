@@ -63,6 +63,14 @@ $default-widget-padding: 10px;
     justify-content: center;
 }
 
+.actionButtonsIsFixed {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0 spacing.$spacing-small;
+}
+
 .datePickerWrapper {
     display: block;
     width: 100%;

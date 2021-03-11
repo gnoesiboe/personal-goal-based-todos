@@ -199,7 +199,7 @@ const TodoForm: React.FC<Props> = ({
                     )}
                 </Form.Group>
             </Form.Section>
-            <Form.ActionButtons centered>
+            <Form.ActionButtons centered fixed>
                 <Button
                     type="submit"
                     disabled={!inputIsValid || disabled || !rolesWithGoals}

@@ -91,7 +91,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveToDate,
     } = useManageCurrentDate(dispatch);
 
-    const { fetchTodos, refetchTodos } = useFetchTodoListItems(
+    const { refetchTodos } = useFetchTodoListItems(
         firstVisibleDate,
         numberOfDaysDisplayed,
         dispatch,
@@ -103,14 +103,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveTodoOneDayForward,
         moveTodoOneDayBackwards,
         removeTodo,
-    } = useModifyTodoCollection(
-        currentDate,
-        numberOfDaysDisplayed,
-        fetchTodos,
-        items,
-        backlogItems,
-        dispatch,
-    );
+    } = useModifyTodoCollection(items, backlogItems, dispatch, refetchTodos);
 
     const { setCurrentTodo, resetCurrentTodoIndex } = useManageCurrentTodo(
         dispatch,

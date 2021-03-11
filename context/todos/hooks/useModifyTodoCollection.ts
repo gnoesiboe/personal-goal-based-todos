@@ -5,7 +5,6 @@ import {
 } from '../../../repository/todoListItemRepository';
 import { TodoListItem } from '../../../model/todoListItem';
 import { useLoggedInUser } from '../../authentication/AuthenticationContext';
-import { FetchTodoHandler } from './useFetchTodoListItems';
 import { Dispatch } from 'react';
 import {
     addNumberOfDays,
@@ -44,12 +43,10 @@ const persistUpdates = async (
 };
 
 export default function useModifyTodoCollection(
-    currentDate: Date,
-    numberOfDaysDisplayed: number,
-    fetchTodos: FetchTodoHandler,
     items: ItemsState,
     backlogItems: ItemsState,
     dispatch: Dispatch<Action>,
+    refetchTodos: () => void,
 ) {
     const user = useLoggedInUser();
 
@@ -69,7 +66,7 @@ export default function useModifyTodoCollection(
         const success = await persistNewTodo(newItem);
 
         // noinspection ES6MissingAwait
-        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
+        refetchTodos();
 
         return success;
     };
@@ -91,7 +88,7 @@ export default function useModifyTodoCollection(
         const success = await removeTodoFromServer(id);
 
         // noinspection ES6MissingAwait
-        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
+        refetchTodos();
 
         return success;
     };
@@ -125,7 +122,7 @@ export default function useModifyTodoCollection(
         const success = await persistUpdates(itemToUpdate, updates);
 
         // noinspection ES6MissingAwait
-        fetchTodos(currentDate, numberOfDaysDisplayed, user.uid);
+        refetchTodos();
 
         return success;
     };
