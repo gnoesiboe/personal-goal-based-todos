@@ -38,6 +38,7 @@ type Props = {
     disabled: boolean;
     inputIsValid: boolean;
     setFieldValue: SetFieldValueHandler<FormValues>;
+    isUpdate?: boolean;
 };
 
 const TodoForm: React.FC<Props> = ({
@@ -52,6 +53,7 @@ const TodoForm: React.FC<Props> = ({
     disabled,
     inputIsValid,
     setFieldValue,
+    isUpdate = false,
 }) => {
     const { rolesWithGoals } = useFetchUserRolesWithGoals();
 
@@ -69,7 +71,7 @@ const TodoForm: React.FC<Props> = ({
                             onChange={onFieldChange}
                             onBlur={onFieldBlur}
                             disabled={disabled}
-                            autoFocus
+                            autoFocus={!isUpdate}
                             onKeyDown={onFieldKeyDown}
                         />
                     </Form.Label>

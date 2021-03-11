@@ -60,7 +60,9 @@ export const applyAddTodoModifier = (
                 action.todo,
             );
 
-            sortGroupedTodoListItemsByPriority(nextState.backlogItems);
+            nextState.backlogItems = sortGroupedTodoListItemsByPriority(
+                nextState.backlogItems,
+            );
         }
     });
 };

@@ -47,6 +47,7 @@ const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
                         inputIsValid={inputIsValid}
                         onFieldKeyDown={onFieldKeyDown}
                         setFieldValue={setFieldValue}
+                        isUpdate
                     />
                 </Modal.Content>
             </Modal.Container>
