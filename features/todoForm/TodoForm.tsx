@@ -73,6 +73,7 @@ const TodoForm: React.FC<Props> = ({
                             disabled={disabled}
                             autoFocus={!isUpdate}
                             onKeyDown={onFieldKeyDown}
+                            autoComplete="off"
                         />
                     </Form.Label>
                     {touched.summary && errors.summary && (
@@ -95,6 +96,7 @@ const TodoForm: React.FC<Props> = ({
                             disabled={disabled}
                             minRows={5}
                             onKeyDown={onFieldKeyDown}
+                            autoComplete="off"
                         />
                     </Form.Label>
                     {touched.description && errors.description && (
@@ -148,6 +150,7 @@ const TodoForm: React.FC<Props> = ({
                             clearButtonTitle="Geen datum"
                             shouldCloseOnSelect
                             placement="top"
+                            autoComplete="off"
                         />
                     </Form.Label>
                     {touched.date && errors.date && (
@@ -176,6 +179,7 @@ const TodoForm: React.FC<Props> = ({
                             showWeekNumbers
                             shouldCloseOnSelect
                             placement="top"
+                            autoComplete="off"
                         />
                     </Form.Label>
                     {touched.deadline && errors.deadline && (
