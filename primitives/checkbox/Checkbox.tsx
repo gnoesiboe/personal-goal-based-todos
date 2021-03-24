@@ -7,7 +7,7 @@ export type OnChangeHandler = (checked: boolean) => void;
 
 type Props = {
     checked: boolean;
-    onChange: OnChangeHandler;
+    onChange?: OnChangeHandler;
     accented?: boolean;
     className?: string;
 };
@@ -30,7 +30,7 @@ const Checkbox: React.FC<Props> = ({
         <div className={className}>
             <input
                 type="checkbox"
-                onChange={() => onChange(!checked)}
+                onChange={() => onChange && onChange(!checked)}
                 checked={checked}
                 className={classNames.input}
             />

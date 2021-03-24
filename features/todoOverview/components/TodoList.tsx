@@ -7,7 +7,7 @@ import { groupItemsByPriorityLevel } from '../utility/itemGroupingUtilities';
 import TodoListItem from '../../todoListItem/TodoListItem';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import PriorityLevelDescription from './PriorityLevelDescription';
-import VerticalUnorderedList from '../../../primitives/verticalUnorderedList/VerticalUnorderedList';
+import UnorderedList from '../../../primitives/unorderedList/UnorderedList';
 
 type Props = {
     items: TodoListItemModel[];
@@ -33,11 +33,11 @@ const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
     const keys = Object.keys(itemsGrouped) as PriorityLevel[];
 
     return (
-        <VerticalUnorderedList>
+        <UnorderedList direction="vertical">
             {keys.map((priorityLevel) => (
                 <Fragment key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
-                    <VerticalUnorderedList>
+                    <UnorderedList direction="vertical">
                         {itemsGrouped[priorityLevel].map((item) => (
                             <TodoListItem
                                 key={item.id}
@@ -46,10 +46,10 @@ const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
                                 onContainerClick={() => setCurrentTodo(item.id)}
                             />
                         ))}
-                    </VerticalUnorderedList>
+                    </UnorderedList>
                 </Fragment>
             ))}
-        </VerticalUnorderedList>
+        </UnorderedList>
     );
 };
 

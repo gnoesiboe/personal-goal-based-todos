@@ -18,6 +18,7 @@ import {
 } from '../../context/todos/TodoListItemsContext';
 import DayActions from './components/DayActions';
 import DayHeading from './components/DayHeading';
+import FilterTodoOverview from '../filterTodoOverview/FilterTodoOverview';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -31,7 +32,7 @@ const TodoOverview: React.FC = () => {
         numberOfDaysDisplayed,
     } = useCurrentDate();
 
-    const { items } = useTodoListItems();
+    const { filteredItems } = useTodoListItems();
 
     const dateRange = createDateRange(firstVisibleDate, numberOfDaysDisplayed);
 
@@ -45,6 +46,7 @@ const TodoOverview: React.FC = () => {
                 onPreviousClick={() => moveToPreviousDate()}
                 currentDate={currentDate}
             />
+            <FilterTodoOverview />
             <DirectionIndicator
                 direction={dayNavigationDirection}
                 firstVisibleDate={firstVisibleDate}
@@ -53,7 +55,9 @@ const TodoOverview: React.FC = () => {
                 <DayList>
                     {dateRange.map((date) => {
                         const key = createDateKey(date);
-                        const itemsForDate = items ? items[key] || [] : [];
+                        const itemsForDate = filteredItems
+                            ? filteredItems[key] || []
+                            : [];
                         const isToday = checkIsSameDay(date, today);
                         const isCurrent = checkIsSameDay(date, currentDate);
 

@@ -10,11 +10,12 @@ import { TodoListItem } from '../../../model/todoListItem';
 export const applyMoveToNextTodoModifier = (currentState: State): State => {
     const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
 
-    if (!currentState.items) {
+    if (!currentState.filteredItems) {
         return currentState;
     }
 
-    const todosForCurrentDate = currentState.items[currentDateKey] || [];
+    const todosForCurrentDate =
+        currentState.filteredItems[currentDateKey] || [];
 
     if (todosForCurrentDate.length === 0) {
         return {
@@ -38,11 +39,12 @@ export const applyMoveToNextTodoModifier = (currentState: State): State => {
 export const applyMoveToPreviousTodoModifier = (currentState: State): State => {
     const currentDateKey = createDateKey(currentState.dateCursor.currentDate);
 
-    if (!currentState.items) {
+    if (!currentState.filteredItems) {
         return currentState;
     }
 
-    const todosForCurrentDate = currentState.items[currentDateKey] || [];
+    const todosForCurrentDate =
+        currentState.filteredItems[currentDateKey] || [];
 
     if (todosForCurrentDate.length === 0) {
         return {
@@ -73,16 +75,16 @@ export const applySelectTodoModifier = (
     action: SelectTodoAction,
 ): State => {
     return produce<State>(currentState, (nextState) => {
-        if (!currentState.items) {
+        if (!currentState.filteredItems) {
             return currentState;
         }
 
         let newCurrentDate: Date | null = null;
         let newCurrentIndex: number | null = null;
 
-        Object.keys(currentState.items).forEach((cursorDateKey) => {
-            const cursorItems: TodoListItem[] = currentState.items
-                ? currentState.items[cursorDateKey]
+        Object.keys(currentState.filteredItems).forEach((cursorDateKey) => {
+            const cursorItems: TodoListItem[] = currentState.filteredItems
+                ? currentState.filteredItems[cursorDateKey]
                 : [];
 
             const index = cursorItems.findIndex(

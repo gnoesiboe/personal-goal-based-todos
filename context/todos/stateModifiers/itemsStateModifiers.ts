@@ -21,6 +21,7 @@ import {
     groupTodosByRole,
 } from '../utility/todoGroupingUtilities';
 import { resolveTodoFromItems } from '../resolver/todoResolver';
+import { applyFilters } from '../utility/todoFilterUtilities';
 
 export const applyAddTodoModifier = (
     currentState: State,
@@ -319,6 +320,10 @@ const applyUpdateTodoFromItemsModifier = (
         }
 
         nextState.items = sortGroupedTodoListItemsByPriority(nextState.items);
+        nextState.filteredItems = applyFilters(
+            nextState.items,
+            nextState.appliedFilters,
+        );
 
         // set current item index to updated item
         const newIndexOfUpdatedItem = nextState.items[
@@ -350,6 +355,10 @@ export const applyLoadIncomingTodoListItemsModifier = (
     return {
         ...currentState,
         items: sortedItemsPerDate,
+        filteredItems: applyFilters(
+            sortedItemsPerDate,
+            currentState.appliedFilters,
+        ),
         backlogItems: sortedBacklogItemsPerRole,
         isFetching: false,
     };

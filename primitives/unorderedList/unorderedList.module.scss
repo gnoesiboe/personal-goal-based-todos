@@ -1,0 +1,15 @@
+.container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.isHorizontal {
+    flex-direction: row;
+}
+
+.isCentered {
+    justify-content: center;
+}

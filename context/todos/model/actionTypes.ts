@@ -19,6 +19,7 @@ export enum ActionType {
     StopFetchingItems = 'StopFetchingItems',
     LoadIncomingTodoListItems = 'LoadIncomingTodoListItems',
     ChangeNumberOfDaysDisplayed = 'ChangeNumberOfDaysDisplayed',
+    ToggleHideDone = 'ToggleHideDone',
 }
 
 interface BaseAction {
@@ -106,6 +107,10 @@ export interface ChangeNumberOfDaysDisplayedAction extends BaseAction {
     numberOfDaysDisplayed: number;
 }
 
+export interface ToggleHideDoneAction extends BaseAction {
+    type: ActionType.ToggleHideDone;
+}
+
 export type Action =
     | MoveToPreviousDateAction
     | MoveToNextDateAction
@@ -124,4 +129,5 @@ export type Action =
     | RemoveTodoAction
     | ChangeNumberOfDaysDisplayedAction
     | MoveToNextCurrentDateAction
-    | MoveToPreviousCurrentDateAction;
+    | MoveToPreviousCurrentDateAction
+    | ToggleHideDoneAction;

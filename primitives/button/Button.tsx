@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, ReactElement, ReactNode } from 'react';
 import createClassName from 'classnames';
 import classNames from './button.module.scss';
 
-type Props = Omit<
+export type Props = Omit<
     ButtonHTMLAttributes<HTMLButtonElement>,
     'children' | 'className' | 'style'
 > & {

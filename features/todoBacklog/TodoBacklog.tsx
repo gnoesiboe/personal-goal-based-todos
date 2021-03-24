@@ -2,7 +2,7 @@ import React from 'react';
 import Heading from '../../primitives/heading/Heading';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 import TodoListItem from '../todoListItem/TodoListItem';
-import VerticalUnorderedList from '../../primitives/verticalUnorderedList/VerticalUnorderedList';
+import UnorderedList from '../../primitives/unorderedList/UnorderedList';
 import Card from '../../primitives/card/Card';
 import CardList from '../../primitives/cardList/CardList';
 import classNames from './todoBacklog.module.scss';
@@ -31,7 +31,7 @@ const TodoBacklog: React.FC = () => {
                                 </Heading>
                             </Card.Header>
                             <Card.Body>
-                                <VerticalUnorderedList>
+                                <UnorderedList direction="vertical">
                                     {items.map((item) => (
                                         <TodoListItem
                                             item={item}
@@ -39,7 +39,7 @@ const TodoBacklog: React.FC = () => {
                                             expanded
                                         />
                                     ))}
-                                </VerticalUnorderedList>
+                                </UnorderedList>
                             </Card.Body>
                         </Card.Container>
                     );

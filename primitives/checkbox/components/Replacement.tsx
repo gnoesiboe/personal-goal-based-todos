@@ -5,12 +5,12 @@ import { OnChangeHandler } from '../Checkbox';
 
 type Props = {
     checked: boolean;
-    onChange: OnChangeHandler;
+    onChange?: OnChangeHandler;
 };
 
 const Replacement: React.FC<Props> = ({ checked, onChange }) => {
     const onReplacementClick: MouseEventHandler<HTMLInputElement> = () => {
-        onChange(!checked);
+        onChange && onChange(!checked);
     };
 
     const className = createClassName(classNames.replacement, {

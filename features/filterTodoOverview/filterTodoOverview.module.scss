@@ -1,0 +1,6 @@
+@use './../../styles/settings/spacing';
+
+.container {
+    gap: spacing.$spacing-medium;
+    margin-bottom: spacing.$spacing-medium;
+}

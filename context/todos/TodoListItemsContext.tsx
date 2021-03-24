@@ -15,12 +15,14 @@ import useModifyTodoCollection, {
 import useKeyboardEventListeners from './hooks/useKeyboardEventListeners';
 import useMoveNotDoneItemsInThePastToToday from './hooks/useMoveNotDoneItemsInThePastToToday';
 import {
+    AppliedFilters,
     DayNavigationDirection,
     ItemsState,
     useTodoReducer,
 } from './reducers/todoReducer';
 import { resolveCurrentTodo } from './resolver/todoResolver';
 import useFetchTodoListItems from './hooks/useFetchTodoListItems';
+import useManageFilters from './hooks/useManageFilters';
 
 type ContextValue = {
     numberOfDaysDisplayed: number;
@@ -32,6 +34,7 @@ type ContextValue = {
     moveToNextDate: () => void;
     dayNavigationDirection: DayNavigationDirection;
     items: ItemsState;
+    filteredItems: ItemsState;
     backlogItems: ItemsState;
     isFetching: boolean;
     currentTodoIndex: number | null;
@@ -40,6 +43,8 @@ type ContextValue = {
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
     moveTodoOneDayForward: MoveTodoOneDayForwardHandler;
+    appliedFilters: AppliedFilters;
+    toggleHideDone: () => void;
 };
 
 const initialValue: ContextValue = {
@@ -52,6 +57,7 @@ const initialValue: ContextValue = {
     moveToNextDate: () => {},
     dayNavigationDirection: 'forwards',
     items: {},
+    filteredItems: {},
     backlogItems: null,
     isFetching: false,
     currentTodoIndex: null,
@@ -60,6 +66,10 @@ const initialValue: ContextValue = {
     updateTodo: async () => false,
     removeTodo: async () => false,
     moveTodoOneDayForward: async () => false,
+    appliedFilters: {
+        hideDone: false,
+    },
+    toggleHideDone: () => {},
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -80,8 +90,10 @@ export const TodoListItemContextProvider: React.FC<{
         numberOfDaysDisplayed,
         currentTodoIndex,
         items,
+        filteredItems,
         backlogItems,
         isFetching,
+        appliedFilters,
     } = state;
 
     const {
@@ -109,6 +121,8 @@ export const TodoListItemContextProvider: React.FC<{
         dispatch,
     );
 
+    const { toggleHideDone } = useManageFilters(dispatch);
+
     const currentTodo = resolveCurrentTodo(
         items,
         currentDate,
@@ -135,6 +149,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveToNextDate,
         dayNavigationDirection,
         items,
+        filteredItems,
         backlogItems,
         isFetching,
         currentTodoIndex,
@@ -143,6 +158,8 @@ export const TodoListItemContextProvider: React.FC<{
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        appliedFilters,
+        toggleHideDone,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -153,24 +170,30 @@ export const useTodoListItems = () => {
         currentTodoIndex,
         setCurrentTodo,
         items,
+        filteredItems,
         backlogItems,
         isFetching,
         addTodo,
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        appliedFilters,
+        toggleHideDone,
     } = useContext(Context);
 
     return {
         currentTodoIndex,
         setCurrentTodo,
         items,
+        filteredItems,
         backlogItems,
         isFetching,
         addTodo,
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        appliedFilters,
+        toggleHideDone,
     };
 };
 
