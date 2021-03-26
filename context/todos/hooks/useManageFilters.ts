@@ -8,5 +8,11 @@ export default function useManageFilters(dispatch: Dispatch<Action>) {
         });
     }, [dispatch]);
 
-    return { toggleHideDone };
+    const toggleHideWaiting = useCallback(() => {
+        dispatch({
+            type: ActionType.ToggleHideWaiting,
+        });
+    }, [dispatch]);
+
+    return { toggleHideDone, toggleHideWaiting };
 }

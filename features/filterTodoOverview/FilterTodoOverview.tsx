@@ -5,7 +5,11 @@ import classNames from './filterTodoOverview.module.scss';
 import CheckboxButton from '../../primitives/checkboxButton/CheckboxButton';
 
 const FilterTodoOverview: React.FC = () => {
-    const { appliedFilters, toggleHideDone } = useTodoListItems();
+    const {
+        appliedFilters,
+        toggleHideDone,
+        toggleHideWaiting,
+    } = useTodoListItems();
 
     return (
         <UnorderedList
@@ -20,6 +24,14 @@ const FilterTodoOverview: React.FC = () => {
                 size="small"
             >
                 hide done
+            </CheckboxButton>
+            <CheckboxButton
+                active={appliedFilters.hideWaiting}
+                onClick={() => toggleHideWaiting()}
+                style="link"
+                size="small"
+            >
+                hide waiting
             </CheckboxButton>
         </UnorderedList>
     );

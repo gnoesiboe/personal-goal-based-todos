@@ -20,6 +20,7 @@ export enum ActionType {
     LoadIncomingTodoListItems = 'LoadIncomingTodoListItems',
     ChangeNumberOfDaysDisplayed = 'ChangeNumberOfDaysDisplayed',
     ToggleHideDone = 'ToggleHideDone',
+    ToggleHideWaiting = 'ToggleHideWaiting',
 }
 
 interface BaseAction {
@@ -111,6 +112,10 @@ export interface ToggleHideDoneAction extends BaseAction {
     type: ActionType.ToggleHideDone;
 }
 
+export interface ToggleHideWaitingAction extends BaseAction {
+    type: ActionType.ToggleHideWaiting;
+}
+
 export type Action =
     | MoveToPreviousDateAction
     | MoveToNextDateAction
@@ -130,4 +135,5 @@ export type Action =
     | ChangeNumberOfDaysDisplayedAction
     | MoveToNextCurrentDateAction
     | MoveToPreviousCurrentDateAction
-    | ToggleHideDoneAction;
+    | ToggleHideDoneAction
+    | ToggleHideWaitingAction;

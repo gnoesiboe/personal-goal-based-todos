@@ -1,12 +1,13 @@
-import { State } from '../reducers/todoReducer';
+import { AppliedFilters, State } from '../reducers/todoReducer';
 import { applyFilters } from '../utility/todoFilterUtilities';
 import produce from 'immer';
 
-export const applyToggleHideDoneActionModifier = (
+export const applyFilterToggleModifier = (
     currentState: State,
+    filter: keyof AppliedFilters,
 ): State => {
     return produce<State>(currentState, (nextState) => {
-        nextState.appliedFilters.hideDone = !nextState.appliedFilters.hideDone;
+        nextState.appliedFilters[filter] = !nextState.appliedFilters[filter];
 
         // reset current index, as it might now be hidden
         nextState.currentTodoIndex = null;

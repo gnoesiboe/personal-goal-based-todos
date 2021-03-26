@@ -45,6 +45,7 @@ type ContextValue = {
     moveTodoOneDayForward: MoveTodoOneDayForwardHandler;
     appliedFilters: AppliedFilters;
     toggleHideDone: () => void;
+    toggleHideWaiting: () => void;
 };
 
 const initialValue: ContextValue = {
@@ -68,8 +69,10 @@ const initialValue: ContextValue = {
     moveTodoOneDayForward: async () => false,
     appliedFilters: {
         hideDone: false,
+        hideWaiting: false,
     },
     toggleHideDone: () => {},
+    toggleHideWaiting: () => {},
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -121,7 +124,7 @@ export const TodoListItemContextProvider: React.FC<{
         dispatch,
     );
 
-    const { toggleHideDone } = useManageFilters(dispatch);
+    const { toggleHideDone, toggleHideWaiting } = useManageFilters(dispatch);
 
     const currentTodo = resolveCurrentTodo(
         items,
@@ -160,6 +163,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveTodoOneDayForward,
         appliedFilters,
         toggleHideDone,
+        toggleHideWaiting,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -179,6 +183,7 @@ export const useTodoListItems = () => {
         moveTodoOneDayForward,
         appliedFilters,
         toggleHideDone,
+        toggleHideWaiting,
     } = useContext(Context);
 
     return {
@@ -194,6 +199,7 @@ export const useTodoListItems = () => {
         moveTodoOneDayForward,
         appliedFilters,
         toggleHideDone,
+        toggleHideWaiting,
     };
 };
 

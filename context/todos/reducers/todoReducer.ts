@@ -23,7 +23,7 @@ import {
     applyRemoveTodoModifier,
     applyUpdateTodoModifier,
 } from '../stateModifiers/itemsStateModifiers';
-import { applyToggleHideDoneActionModifier } from '../stateModifiers/filterModifiers';
+import { applyFilterToggleModifier } from '../stateModifiers/filterModifiers';
 
 export type DayNavigationDirection = 'forwards' | 'backwards';
 
@@ -39,6 +39,7 @@ export type ItemsState = Record<string, TodoListItem[]> | null;
 
 export type AppliedFilters = {
     hideDone: boolean;
+    hideWaiting: boolean;
 };
 
 export type State = {
@@ -120,7 +121,10 @@ const reducer: ReducerType = (currentState, action) => {
             return applyLoadIncomingTodoListItemsModifier(currentState, action);
 
         case ActionType.ToggleHideDone:
-            return applyToggleHideDoneActionModifier(currentState);
+            return applyFilterToggleModifier(currentState, 'hideDone');
+
+        case ActionType.ToggleHideWaiting:
+            return applyFilterToggleModifier(currentState, 'hideWaiting');
 
         default:
             throw new Error('Action not supported');
@@ -141,6 +145,7 @@ const initialState: State = {
     isFetching: false,
     appliedFilters: {
         hideDone: false,
+        hideWaiting: false,
     },
 };
 

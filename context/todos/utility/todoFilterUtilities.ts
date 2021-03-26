@@ -12,7 +12,16 @@ export const applyFilters = (
 
     Object.keys(items).forEach((dateKey) => {
         filteredItems[dateKey] = items[dateKey].filter((item) => {
-            return !(appliedFilters.hideDone && item.done);
+            if (appliedFilters.hideDone && item.done) {
+                return false;
+            }
+
+            // noinspection RedundantIfStatementJS
+            if (appliedFilters.hideWaiting && item.waiting) {
+                return false;
+            }
+
+            return true;
         });
     });
 
