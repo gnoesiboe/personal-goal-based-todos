@@ -23,7 +23,7 @@ export const generateOptionsForRolesWithGoals = (
                 );
 
                 return {
-                    label: goal.title + (counter ? ` (${counter.count})` : ''),
+                    label: `${goal.title} (${counter ? counter.count : '?'})`,
                     value: generateComposedKey(role.uid, goal.uid),
                     count: counter ? counter.count : 0,
                 };
