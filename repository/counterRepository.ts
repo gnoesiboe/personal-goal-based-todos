@@ -51,8 +51,6 @@ export const incrementCountForGoal = async (
         const existingCount = await getCountForGoal(goalRef.id);
 
         if (existingCount !== null) {
-            console.log('is existing', 'increment');
-
             await firebase
                 .firestore()
                 .collection(collectionName)
@@ -86,8 +84,6 @@ export const decrementCountForGoal = async (
         const existingCount = await getCountForGoal(goalRef.id);
 
         if (existingCount !== null) {
-            console.log('is existing', 'decrement');
-
             await firebase
                 .firestore()
                 .collection(collectionName)
