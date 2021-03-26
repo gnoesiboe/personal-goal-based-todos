@@ -2,15 +2,10 @@ import { createTodoListItemFromFormValuesForUserAndDate } from '../../../model/f
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import { useNotifications } from '../../../context/notification/NotificationContext';
 import { useLoggedInUser } from '../../../context/authentication/AuthenticationContext';
-import useFormState, {
-    FormErrors,
-    InputValidator,
-    OnFormValidHandler,
-} from '../../../hooks/useFormState';
+import { OnFormValidHandler } from '../../../hooks/useFormState';
 import { NotificationType } from '../../../model/notification';
 import { FormValues } from '../../todoForm/TodoForm';
-import { FocusEventHandler } from 'react';
-import { applyAndExtractQuickTags } from '../utility/quickTagApplicationUtilities';
+import useHandleTodoFormEvents from '../../../hooks/useHandleTodoFormEvents';
 
 export default function useHandleAddTodoFormEvents(
     date: Date,
@@ -21,16 +16,6 @@ export default function useHandleAddTodoFormEvents(
     const user = useLoggedInUser();
 
     const { notify } = useNotifications();
-
-    const validateInput: InputValidator<FormValues> = (values) => {
-        const newErrors: FormErrors<FormValues> = {};
-
-        if (!values.summary) {
-            newErrors.summary = 'Required';
-        }
-
-        return newErrors;
-    };
 
     const onFormValid: OnFormValidHandler<FormValues> = async (values) => {
         if (!user) {
@@ -49,7 +34,7 @@ export default function useHandleAddTodoFormEvents(
         } else {
             notify(
                 'Oeps!',
-                'Er is iets foutgegaan bij het opslaan van de todo. Probeer het later nog eens!',
+                'Er is iets fout gegaan bij het opslaan van de todo. Probeer het later nog eens!',
                 NotificationType.Error,
             );
         }
@@ -57,64 +42,5 @@ export default function useHandleAddTodoFormEvents(
         return success;
     };
 
-    const {
-        onSubmit,
-        values,
-        errors,
-        onFieldChange,
-        setFieldValue,
-        touched,
-        onFieldBlur: handleFieldBlur,
-        inputIsValid,
-        disabled,
-        onFieldKeyDown,
-        onFieldFocus,
-        focussedField,
-    } = useFormState(
-        [
-            'summary',
-            'description',
-            'roleWithGoal',
-            'deadline',
-            'date',
-            'quickfix',
-        ],
-        validateInput,
-        onFormValid,
-        {
-            date,
-        },
-    );
-
-    const onFieldBlur: FocusEventHandler<
-        HTMLInputElement | HTMLTextAreaElement
-    > = (event) => {
-        const field = event.target.name as keyof FormValues;
-
-        if (field === 'summary') {
-            const newSummary = applyAndExtractQuickTags(
-                event.target.value,
-                setFieldValue,
-            );
-
-            setFieldValue('summary', newSummary);
-        }
-
-        handleFieldBlur(event);
-    };
-
-    return {
-        onSubmit,
-        values,
-        errors,
-        onFieldChange,
-        setFieldValue,
-        touched,
-        onFieldBlur,
-        inputIsValid,
-        disabled,
-        onFieldKeyDown,
-        onFieldFocus,
-        focussedField,
-    };
+    return useHandleTodoFormEvents(onFormValid, { date });
 }
