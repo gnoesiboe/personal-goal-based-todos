@@ -1,4 +1,3 @@
-import { SetFieldValueHandler } from '../../../hooks/useFormState';
 import { FormValues } from '../../todoForm/TodoForm';
 import {
     createEndOfThisWeek,
@@ -8,59 +7,63 @@ import {
 } from '../../../utility/dateTimeUtilities';
 
 export const applyAndExtractQuickTags = (
-    value: string,
-    setFieldValue: SetFieldValueHandler<FormValues>,
-): string => {
-    let newValue = value;
+    summary: string,
+): Partial<FormValues> => {
+    let updates: Partial<FormValues> = {};
 
-    if (value.match(/@quickfix/)) {
-        setFieldValue('quickfix', true);
+    let newSummary = summary;
 
-        newValue = newValue.replace(/@quickfix/g, '');
+    if (newSummary.match(/@quickfix/)) {
+        updates.quickfix = true;
+
+        newSummary = newSummary.replace(/@quickfix/g, '');
     }
 
-    if (value.match(/@must/)) {
-        setFieldValue('date', createStartOfToday());
-        setFieldValue('deadline', createStartOfToday());
+    if (newSummary.match(/@must/)) {
+        updates.date = createStartOfToday();
+        updates.deadline = createStartOfToday();
 
-        newValue = newValue.replace(/@must/g, '');
+        newSummary = newSummary.replace(/@must/g, '');
     }
 
-    if (value.match(/@today/)) {
-        setFieldValue('date', createStartOfToday());
+    if (newSummary.match(/@today/)) {
+        updates.date = createStartOfToday();
 
-        newValue = newValue.replace(/@today/g, '');
+        newSummary = newSummary.replace(/@today/g, '');
     }
 
-    if (value.match(/@tomorrow/)) {
-        setFieldValue('date', createStartOfTomorrow());
+    if (newSummary.match(/@tomorrow/)) {
+        updates.date = createStartOfTomorrow();
 
-        newValue = newValue.replace(/@tomorrow/g, '');
+        newSummary = newSummary.replace(/@tomorrow/g, '');
     }
 
-    if (value.match(/@nextWeek/i)) {
-        setFieldValue('date', createStartOfNextWeek());
+    if (newSummary.match(/@nextWeek/i)) {
+        updates.date = createStartOfNextWeek();
 
-        newValue = newValue.replace(/@nextWeek/gi, '');
+        newSummary = newSummary.replace(/@nextWeek/gi, '');
     }
 
-    if (value.match(/@dl\(today\)/g)) {
-        setFieldValue('deadline', createStartOfToday());
+    if (newSummary.match(/@dl\(today\)/g)) {
+        updates.deadline = createStartOfToday();
 
-        newValue = newValue.replace(/@dl\(today\)/g, '');
+        newSummary = newSummary.replace(/@dl\(today\)/g, '');
     }
 
-    if (value.match(/@dl\(tomorrow\)/g)) {
-        setFieldValue('deadline', createStartOfTomorrow());
+    if (newSummary.match(/@dl\(tomorrow\)/g)) {
+        updates.deadline = createStartOfTomorrow();
 
-        newValue = newValue.replace(/@dl\(tomorrow\)/g, '');
+        newSummary = newSummary.replace(/@dl\(tomorrow\)/g, '');
     }
 
-    if (value.match(/@thisWeek/g)) {
-        setFieldValue('deadline', createEndOfThisWeek());
+    if (newSummary.match(/@thisWeek/g)) {
+        updates.deadline = createEndOfThisWeek();
 
-        newValue = newValue.replace(/@thisWeek/g, '');
+        newSummary = newSummary.replace(/@thisWeek/g, '');
     }
 
-    return newValue.trim();
+    return {
+        ...updates,
+        summary: newSummary,
+    };
 };

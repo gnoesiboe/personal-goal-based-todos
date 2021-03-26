@@ -30,6 +30,10 @@ export type SetFieldValueHandler<FormValues> = (
     value: any,
 ) => void;
 
+export type PreCommitValuesUpdateCallback<FormValues> = (
+    values: FormValues,
+) => FormValues;
+
 const determineValues = <FormValues,>(
     keys: Array<keyof FormValues>,
     initialValues: Partial<FormValues> = {},
@@ -63,6 +67,7 @@ export default function useFormState<FormValues extends Record<string, any>>(
     validateInput: InputValidator<FormValues>,
     onFormValid: OnFormValidHandler<FormValues>,
     initialValues: Partial<FormValues> = {},
+    preCommitValuesUpdate?: PreCommitValuesUpdateCallback<FormValues>,
 ) {
     const [disabled, setDisabled] = useState<boolean>(false);
 
@@ -108,10 +113,14 @@ export default function useFormState<FormValues extends Record<string, any>>(
         // errors are shown
         setTouched(createTouched(keys, true));
 
+        const updatedValues: FormValues = preCommitValuesUpdate
+            ? preCommitValuesUpdate(values)
+            : values;
+
         if (checkInputIsValid()) {
             setDisabled(true);
 
-            const success = await onFormValid(values);
+            const success = await onFormValid(updatedValues);
 
             setDisabled(false);
 

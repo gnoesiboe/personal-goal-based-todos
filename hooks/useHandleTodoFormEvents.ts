@@ -2,6 +2,7 @@ import useFormState, {
     FormErrors,
     InputValidator,
     OnFormValidHandler,
+    PreCommitValuesUpdateCallback,
 } from './useFormState';
 import { FormValues } from '../features/todoForm/TodoForm';
 import { FocusEventHandler } from 'react';
@@ -20,6 +21,13 @@ export default function useHandleTodoFormEvents(
 
         return newErrors;
     };
+
+    const preCommitValueUpdates: PreCommitValuesUpdateCallback<FormValues> = (
+        values,
+    ) => ({
+        ...values,
+        ...applyAndExtractQuickTags(values.summary),
+    });
 
     const {
         onSubmit,
@@ -46,6 +54,7 @@ export default function useHandleTodoFormEvents(
         validateInput,
         onFormValid,
         initialValues,
+        preCommitValueUpdates,
     );
 
     const onFieldBlur: FocusEventHandler<
@@ -54,12 +63,12 @@ export default function useHandleTodoFormEvents(
         const field = event.target.name as keyof FormValues;
 
         if (field === 'summary') {
-            const newSummary = applyAndExtractQuickTags(
-                event.target.value,
-                setFieldValue,
-            );
+            const updates = applyAndExtractQuickTags(event.target.value);
 
-            setFieldValue('summary', newSummary);
+            // @ts-ignore → Somehow Typescript does not know that field is a key of FormValues here?!
+            Object.keys(updates).forEach((field: keyof FormValues) => {
+                setFieldValue(field, updates[field]);
+            });
         }
 
         handleFieldBlur(event);
