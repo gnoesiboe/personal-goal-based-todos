@@ -55,4 +55,20 @@
             color: #000;
         }
     }
+
+    pre {
+        background: rgba(#fff, 0.3);
+        padding: spacing.$spacing-medium;
+
+        * {
+            font-size: 0.6rem;
+        }
+    }
+
+    blockquote {
+        margin: 0 0 spacing.$spacing-medium;
+        padding: 0 0 0 spacing.$spacing-small;
+        font-style: italic;
+        border-left: 1px solid rgba(#000, 0.3);
+    }
 }
