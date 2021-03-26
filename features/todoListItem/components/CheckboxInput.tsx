@@ -26,6 +26,7 @@ const CheckboxInput: React.FC<Props> = ({ item, onChange, urgencyScore }) => {
             onChange={onChange}
             className={className}
             accented={urgencyScore === UrgencyScore.ExtremelyUrgent}
+            disabled={item.waiting}
         />
     );
 };

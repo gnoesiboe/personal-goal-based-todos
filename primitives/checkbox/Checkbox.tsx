@@ -10,6 +10,7 @@ type Props = {
     onChange?: OnChangeHandler;
     accented?: boolean;
     className?: string;
+    disabled?: boolean;
 };
 
 const Checkbox: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const Checkbox: React.FC<Props> = ({
     onChange,
     className: additionalClassName,
     accented = false,
+    disabled = false,
 }) => {
     const className = createClassName(
         classNames.container,
@@ -30,11 +32,22 @@ const Checkbox: React.FC<Props> = ({
         <div className={className}>
             <input
                 type="checkbox"
-                onChange={() => onChange && onChange(!checked)}
+                onChange={() => {
+                    if (disabled || !onChange) {
+                        return;
+                    }
+
+                    onChange(!checked);
+                }}
                 checked={checked}
                 className={classNames.input}
+                disabled={disabled}
             />
-            <Replacement checked={checked} onChange={onChange} />
+            <Replacement
+                checked={checked}
+                onChange={onChange}
+                disabled={disabled}
+            />
         </div>
     );
 };

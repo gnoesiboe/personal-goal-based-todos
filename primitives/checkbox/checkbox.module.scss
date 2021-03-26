@@ -49,3 +49,8 @@
         display: block;
     }
 }
+
+.replacementIsDisabled {
+    cursor: not-allowed;
+    opacity: 0.2;
+}
