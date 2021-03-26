@@ -122,6 +122,10 @@ const TodoForm: React.FC<Props> = ({
                                 term="@must"
                                 description="Set that this todo needs to be finished today."
                             />
+                            <DefinitionList.Item
+                                term="@waiting"
+                                description="Mark the todo as waiting for something."
+                            />
                         </DefinitionList.List>
                         <strong>Tip 2</strong> → Gebruik Markdown om links of
                         formatting toe te voegen.

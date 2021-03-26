@@ -62,6 +62,12 @@ export const applyAndExtractQuickTags = (
         newSummary = newSummary.replace(/@thisWeek/g, '');
     }
 
+    if (newSummary.match(/@waiting/g)) {
+        updates.waiting = true;
+
+        newSummary = newSummary.replace(/@waiting/g, '');
+    }
+
     return {
         ...updates,
         summary: newSummary,
