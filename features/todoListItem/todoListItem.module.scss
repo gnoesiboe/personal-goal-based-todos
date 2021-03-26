@@ -136,7 +136,7 @@ $column-gap-width: spacing.$spacing-small;
     }
 }
 
-.quickfixIndicator {
+.statusIndicator {
     // ensure that the icon is inline with the text it is in
     position: relative;
     top: -0.22rem;
@@ -149,5 +149,17 @@ $column-gap-width: spacing.$spacing-small;
 
         height: $-dimension !important;
         width: $-dimension !important;
+    }
+}
+
+.quickfixIndicator {
+    path {
+        color: darken(colors.$success, 30);
+    }
+}
+
+.waitingIndicator {
+    path {
+        color: darken(colors.$error, 30);
     }
 }

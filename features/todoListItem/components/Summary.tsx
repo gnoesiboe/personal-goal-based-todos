@@ -4,6 +4,7 @@ import createClassName from 'classnames';
 import { TodoListItem } from '../../../model/todoListItem';
 import { parseMarkdown } from '../../../utility/markdownUtilities';
 import QuickfixIndicator from './QuickfixIndicator';
+import WaitingIndicator from './WaitingIndicator';
 
 type Props = {
     item: TodoListItem;
@@ -19,6 +20,7 @@ const Summary: React.FC<Props> = ({ item }) => {
     return (
         <div className={className}>
             <QuickfixIndicator item={item} />
+            <WaitingIndicator item={item} />
             <span dangerouslySetInnerHTML={{ __html: title }} />
         </div>
     );

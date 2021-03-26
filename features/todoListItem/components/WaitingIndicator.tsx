@@ -1,28 +1,28 @@
 import React from 'react';
 import { TodoListItem } from '../../../model/todoListItem';
-import { GiftIcon } from '@primer/octicons-react';
 import classNames from '../todoListItem.module.scss';
+import { StopIcon } from '@primer/octicons-react';
 import createClassName from 'classnames';
 
 type Props = {
     item: TodoListItem;
 };
 
-const QuickfixIndicator: React.FC<Props> = ({ item }) => {
-    if (!item.quickfix) {
+const WaitingIndicator: React.FC<Props> = ({ item }) => {
+    if (!item.waiting) {
         return null;
     }
 
     const className = createClassName(
         classNames.statusIndicator,
-        classNames.quickfixIndicator,
+        classNames.waitingIndicator,
     );
 
     return (
         <span className={className}>
-            <GiftIcon size="small" />
+            <StopIcon size="small" />
         </span>
     );
 };
 
-export default QuickfixIndicator;
+export default WaitingIndicator;
