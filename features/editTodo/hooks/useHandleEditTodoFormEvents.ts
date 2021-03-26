@@ -91,6 +91,7 @@ export default function useHandleEditTodoFormEvents(
             roleTitle: role?.title || null,
             date,
             quickfix: values.quickfix,
+            waiting: values.waiting,
         };
 
         const success = await updateTodo(todo.id, updates);
@@ -100,7 +101,7 @@ export default function useHandleEditTodoFormEvents(
         } else {
             notify(
                 'Oeps!',
-                'Er is iets foutgegaan bij het opslaan van de wijzigingen. Probeer het later nog eens!',
+                'Er is iets fout gegaan bij het opslaan van de wijzigingen. Probeer het later nog eens!',
                 NotificationType.Error,
             );
         }
@@ -118,5 +119,6 @@ export default function useHandleEditTodoFormEvents(
         deadline: todo.deadline ? parseFirebaseTimestamp(todo.deadline) : null,
         date: todo.date ? parseFirebaseTimestamp(todo.date) : null,
         quickfix: todo.quickfix,
+        waiting: todo.waiting,
     });
 }

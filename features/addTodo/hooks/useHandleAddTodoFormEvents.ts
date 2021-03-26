@@ -42,5 +42,9 @@ export default function useHandleAddTodoFormEvents(
         return success;
     };
 
-    return useHandleTodoFormEvents(onFormValid, { date });
+    return useHandleTodoFormEvents(onFormValid, {
+        date,
+        quickfix: false,
+        waiting: false,
+    });
 }

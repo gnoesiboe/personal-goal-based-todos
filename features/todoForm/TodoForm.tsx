@@ -25,6 +25,7 @@ export type FormValues = {
     deadline: Date | null;
     date: Date | null;
     quickfix: boolean;
+    waiting: boolean;
 };
 
 type Props = {
@@ -247,6 +248,22 @@ const TodoForm: React.FC<Props> = ({
                     </Form.Label>
                     {touched.quickfix && errors.quickfix && (
                         <Form.Error>{errors.quickfix}</Form.Error>
+                    )}
+                </Form.Group>
+                <Form.Group horizontal>
+                    <Form.Label>
+                        <Form.Input
+                            type="checkbox"
+                            checked={values.waiting}
+                            onChange={onFieldChange}
+                            onFocus={onFieldFocus}
+                            onBlur={onFieldBlur}
+                            name="waiting"
+                        />
+                        Waiting
+                    </Form.Label>
+                    {touched.waiting && errors.waiting && (
+                        <Form.Error>{errors.waiting}</Form.Error>
                     )}
                 </Form.Group>
             </Form.Section>

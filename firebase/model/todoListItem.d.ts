@@ -14,4 +14,5 @@ export interface TodoListItemFirebaseData
     roleRef: firebase.firestore.DocumentReference<RoleDocumentData> | null;
     roleTitle: string | null;
     quickfix?: boolean;
+    waiting?: boolean;
 }

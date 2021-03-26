@@ -69,5 +69,6 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
             : null,
         roleTitle: role?.title || null,
         quickfix: values.quickfix,
+        waiting: values.waiting,
     };
 };

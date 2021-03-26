@@ -18,6 +18,7 @@ const firebaseToApplicationTodoListItemConverter: firebase.firestore.FirestoreDa
             id: snapshot.id,
             ...data,
             quickfix: !!data.quickfix,
+            waiting: !!data.waiting,
         };
     },
 };
