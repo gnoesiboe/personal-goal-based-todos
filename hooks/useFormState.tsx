@@ -76,6 +76,10 @@ export default function useFormState<FormValues extends Record<string, any>>(
         createTouched(keys, false),
     );
 
+    const [focussedField, setFocussedField] = useState<keyof FormValues | null>(
+        null,
+    );
+
     const [inputIsValid, setInputIsValid] = useState<boolean>(false);
 
     const checkInputIsValid = () => {
@@ -158,12 +162,22 @@ export default function useFormState<FormValues extends Record<string, any>>(
     > = (event) => {
         const field = event.target.name as keyof FormValues;
 
+        setFocussedField(null);
+
         setTouched((currentValue) => ({
             ...currentValue,
             [field]: true,
         }));
 
         checkInputIsValid();
+    };
+
+    const onFieldFocus: FocusEventHandler<
+        HTMLInputElement | HTMLTextAreaElement
+    > = (event) => {
+        const name = event.target.name as keyof FormValues;
+
+        setFocussedField(name);
     };
 
     const onFieldKeyDown: KeyboardEventHandler = (event) => {
@@ -184,5 +198,7 @@ export default function useFormState<FormValues extends Record<string, any>>(
         inputIsValid,
         disabled,
         onFieldKeyDown,
+        focussedField,
+        onFieldFocus,
     };
 }

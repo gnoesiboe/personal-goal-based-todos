@@ -27,6 +27,8 @@ const AddTodo: React.FC<Props> = ({ date }) => {
         inputIsValid,
         disabled,
         setFieldValue,
+        onFieldFocus,
+        focussedField,
     } = useHandleAddTodoFormEvents(date, hideForm);
 
     if (visible) {
@@ -46,6 +48,8 @@ const AddTodo: React.FC<Props> = ({ date }) => {
                         inputIsValid={inputIsValid}
                         onFieldKeyDown={onFieldKeyDown}
                         setFieldValue={setFieldValue}
+                        onFieldFocus={onFieldFocus}
+                        focussedField={focussedField}
                     />
                 </Modal.Content>
             </Modal.Container>

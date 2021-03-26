@@ -44,16 +44,16 @@ export const applyAndExtractQuickTags = (
         newValue = newValue.replace(/@nextWeek/gi, '');
     }
 
-    if (value.match(/@before\(today\)/g)) {
+    if (value.match(/@dl\(today\)/g)) {
         setFieldValue('deadline', createStartOfToday());
 
-        newValue = newValue.replace(/@before\(today\)/g, '');
+        newValue = newValue.replace(/@dl\(today\)/g, '');
     }
 
-    if (value.match(/@before\(tomorrow\)/g)) {
+    if (value.match(/@dl\(tomorrow\)/g)) {
         setFieldValue('deadline', createStartOfTomorrow());
 
-        newValue = newValue.replace(/@before\(tomorrow\)/g, '');
+        newValue = newValue.replace(/@dl\(tomorrow\)/g, '');
     }
 
     if (value.match(/@thisWeek/g)) {

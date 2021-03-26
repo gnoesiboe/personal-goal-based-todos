@@ -68,6 +68,8 @@ export default function useHandleAddTodoFormEvents(
         inputIsValid,
         disabled,
         onFieldKeyDown,
+        onFieldFocus,
+        focussedField,
     } = useFormState(
         [
             'summary',
@@ -112,5 +114,7 @@ export default function useHandleAddTodoFormEvents(
         inputIsValid,
         disabled,
         onFieldKeyDown,
+        onFieldFocus,
+        focussedField,
     };
 }

@@ -99,4 +99,8 @@ $default-widget-padding: 10px;
 .help {
     color: rgba(#000, 0.4);
     font-size: 0.8rem;
+
+    * {
+        color: rgba(#000, 0.4);
+    }
 }

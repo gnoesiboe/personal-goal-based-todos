@@ -28,6 +28,8 @@ const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
         inputIsValid,
         disabled,
         setFieldValue,
+        onFieldFocus,
+        focussedField,
     } = useHandleEditTodoFormEvents(todo, hideForm);
 
     if (visible) {
@@ -48,6 +50,8 @@ const EditTodo: React.FC<Props> = ({ children, todo, current }) => {
                         onFieldKeyDown={onFieldKeyDown}
                         setFieldValue={setFieldValue}
                         isUpdate
+                        onFieldFocus={onFieldFocus}
+                        focussedField={focussedField}
                     />
                 </Modal.Content>
             </Modal.Container>

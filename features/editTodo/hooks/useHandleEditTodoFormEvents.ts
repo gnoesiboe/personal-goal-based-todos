@@ -134,6 +134,8 @@ export default function useHandleEditTodoFormEvents(
         inputIsValid,
         disabled,
         onFieldKeyDown,
+        onFieldFocus,
+        focussedField,
     } = useFormState(
         [
             'summary',
@@ -188,5 +190,7 @@ export default function useHandleEditTodoFormEvents(
         inputIsValid,
         disabled,
         onFieldKeyDown,
+        onFieldFocus,
+        focussedField,
     };
 }

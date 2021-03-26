@@ -1,0 +1,24 @@
+@use './../../styles/settings/breakpoints';
+@use './../../styles/settings/spacing';
+//@use './../../styles/settings/colors';
+@import '~sass-mq';
+
+.list {
+    position: relative;
+}
+
+.term {
+    @include mq($from: tablet) {
+        position: absolute;
+        left: 0;
+    }
+}
+
+.description {
+    margin: 0 0 spacing.$spacing-small;
+
+    @include mq($from: tablet) {
+        margin-left: 17%;
+        margin-bottom: 0;
+    }
+}

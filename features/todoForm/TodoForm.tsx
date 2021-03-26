@@ -16,6 +16,7 @@ import Form from '../../primitives/form/Form';
 import { createStartOfToday } from '../../utility/dateTimeUtilities';
 import GroupedSelect from '../../primitives/groupedSelect/GroupedSelect';
 import { generateOptionsForRolesWithGoals } from './utility/optionGenerator';
+import DefinitionList from '../../primitives/definitionList/DefinitionList';
 
 export type FormValues = {
     summary: string;
@@ -31,6 +32,7 @@ type Props = {
     onFieldChange: ChangeEventHandler;
     onFieldKeyDown: KeyboardEventHandler;
     onFieldBlur: FocusEventHandler;
+    onFieldFocus: FocusEventHandler;
     onCancelClick: MouseEventHandler<HTMLButtonElement>;
     values: FormValues;
     errors: FormErrors<FormValues>;
@@ -39,6 +41,7 @@ type Props = {
     inputIsValid: boolean;
     setFieldValue: SetFieldValueHandler<FormValues>;
     isUpdate?: boolean;
+    focussedField: keyof FormValues | null;
 };
 
 const TodoForm: React.FC<Props> = ({
@@ -54,6 +57,8 @@ const TodoForm: React.FC<Props> = ({
     inputIsValid,
     setFieldValue,
     isUpdate = false,
+    onFieldFocus,
+    focussedField,
 }) => {
     const { rolesWithGoals } = useFetchUserRolesWithGoals();
 
@@ -70,6 +75,7 @@ const TodoForm: React.FC<Props> = ({
                             value={values.summary}
                             onChange={onFieldChange}
                             onBlur={onFieldBlur}
+                            onFocus={onFieldFocus}
                             disabled={disabled}
                             autoFocus={!isUpdate}
                             onKeyDown={onFieldKeyDown}
@@ -79,9 +85,45 @@ const TodoForm: React.FC<Props> = ({
                     {touched.summary && errors.summary && (
                         <Form.Error>{errors.summary}</Form.Error>
                     )}
-                    <Form.Help>
-                        Tip! Gebruik Markdown om links of formatting toe te
-                        voegen.
+                    <Form.Help visible={focussedField === 'summary'}>
+                        <strong>Tip 1</strong> → Gebruik tags om snel andere
+                        settings te kunnen doen:
+                        <DefinitionList.List>
+                            <DefinitionList.Item
+                                term="@today"
+                                description="Datum wordt naar vandaag gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@tomorrow"
+                                description="Datum wordt naar morgen gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@nextWeek"
+                                description="Datum wordt naar komende maandag gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@dl(today)"
+                                description="Deadline wordt op vandaag gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@dl(tomorrow)"
+                                description="Deadline wordt op morgen gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@thisWeek"
+                                description="Deadline wordt op einde van deze week (zondag) gezet."
+                            />
+                            <DefinitionList.Item
+                                term="@quickfix"
+                                description="Mark this todo as a quickfix."
+                            />
+                            <DefinitionList.Item
+                                term="@must"
+                                description="Set that this todo needs to be finished today."
+                            />
+                        </DefinitionList.List>
+                        <strong>Tip 2</strong> → Gebruik Markdown om links of
+                        formatting toe te voegen.
                     </Form.Help>
                 </Form.Group>
                 <Form.Group>
@@ -93,6 +135,7 @@ const TodoForm: React.FC<Props> = ({
                             value={values.description}
                             onChange={onFieldChange}
                             onBlur={onFieldBlur}
+                            onFocus={onFieldFocus}
                             disabled={disabled}
                             minRows={5}
                             onKeyDown={onFieldKeyDown}
@@ -102,7 +145,7 @@ const TodoForm: React.FC<Props> = ({
                     {touched.description && errors.description && (
                         <Form.Error>{errors.description}</Form.Error>
                     )}
-                    <Form.Help>
+                    <Form.Help visible={focussedField === 'description'}>
                         Tip! Gebruik Markdown om links of formatting toe te
                         voegen.
                     </Form.Help>
@@ -140,6 +183,7 @@ const TodoForm: React.FC<Props> = ({
                                 setFieldValue('date', newValue)
                             }
                             onBlur={onFieldBlur}
+                            onFocus={onFieldFocus}
                             disabled={disabled}
                             onKeyDown={onFieldKeyDown}
                             minDate={createStartOfToday()}
@@ -168,6 +212,7 @@ const TodoForm: React.FC<Props> = ({
                                 setFieldValue('deadline', newValue)
                             }
                             onBlur={onFieldBlur}
+                            onFocus={onFieldFocus}
                             disabled={disabled}
                             onKeyDown={onFieldKeyDown}
                             minDate={createStartOfToday()}
@@ -194,6 +239,8 @@ const TodoForm: React.FC<Props> = ({
                             type="checkbox"
                             checked={values.quickfix}
                             onChange={onFieldChange}
+                            onFocus={onFieldFocus}
+                            onBlur={onFieldBlur}
                             name="quickfix"
                         />
                         Quickfix
