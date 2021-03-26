@@ -1,4 +1,4 @@
-import { createUserFromUserInfo } from './../../../model/factory/userFactory';
+import { createUserFromUserInfo } from '../../../model/factory/userFactory';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useEffect } from 'react';

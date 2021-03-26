@@ -14,6 +14,7 @@ import ValueButton from './components/ValueButton';
 export type Option = {
     label: string;
     value: string;
+    [key: string]: any;
 };
 
 export type GroupedOptions = {

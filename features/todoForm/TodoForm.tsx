@@ -61,7 +61,7 @@ const TodoForm: React.FC<Props> = ({
     onFieldFocus,
     focussedField,
 }) => {
-    const { rolesWithGoals } = useFetchUserRolesWithGoals();
+    const { rolesWithGoals, goalCounters } = useFetchUserRolesWithGoals();
 
     return (
         <Form.Form onSubmit={onSubmit}>
@@ -162,6 +162,7 @@ const TodoForm: React.FC<Props> = ({
                             <GroupedSelect
                                 options={generateOptionsForRolesWithGoals(
                                     rolesWithGoals,
+                                    goalCounters,
                                 )}
                                 value={values.roleWithGoal}
                                 onChange={(newValue) =>

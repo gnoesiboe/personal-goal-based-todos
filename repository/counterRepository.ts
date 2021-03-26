@@ -2,10 +2,13 @@ import firebase from 'firebase/app';
 import { fetchCountForUserWithGoal } from './todoListItemRepository';
 import { GoalDocumentData } from '../firebase/model/roleDocumentData';
 import firebaseToApplicationCounterConverter from '../firebase/converter/toApplicationCounterConverter';
+import { Counter } from '../model/counter';
 
 const collectionName = 'counters';
 
-const generateKeyForGoal = (goalUid: string) => `goal_${goalUid}`;
+const inMemoryAllCountersForUserCache: Record<string, Counter[]> = {};
+
+export const generateKeyForGoal = (goalUid: string) => `goal_${goalUid}`;
 
 const getCountForGoal = async (goalUid: string): Promise<number | null> => {
     const snapshot = await firebase
@@ -18,6 +21,26 @@ const getCountForGoal = async (goalUid: string): Promise<number | null> => {
     const count = snapshot.exists ? snapshot.data()?.count : null;
 
     return typeof count === 'number' ? count : null;
+};
+
+export const fetchAllCountersForUser = async (
+    userUid: string,
+): Promise<Counter[]> => {
+    if (inMemoryAllCountersForUserCache[userUid]) {
+        return inMemoryAllCountersForUserCache[userUid];
+    }
+
+    const snapshot = await firebase
+        .firestore()
+        .collection(collectionName)
+        .withConverter(firebaseToApplicationCounterConverter)
+        .get();
+
+    inMemoryAllCountersForUserCache[userUid] = snapshot.docs.map((doc) =>
+        doc.data(),
+    );
+
+    return inMemoryAllCountersForUserCache[userUid];
 };
 
 export const incrementCountForGoal = async (
@@ -37,6 +60,9 @@ export const incrementCountForGoal = async (
                 .update({
                     count: firebase.firestore.FieldValue.increment(1),
                 });
+
+            // clear cache to ensure it is loaded from scratch next time
+            delete inMemoryAllCountersForUserCache[userUid];
 
             return true;
         } else {
@@ -70,6 +96,9 @@ export const decrementCountForGoal = async (
                     count: firebase.firestore.FieldValue.increment(-1),
                 });
 
+            // clear cache to ensure it is loaded from scratch next time
+            delete inMemoryAllCountersForUserCache[userUid];
+
             return true;
         } else {
             // no count exists yet, let's generate it with the current data we have. This
@@ -99,6 +128,9 @@ const resetCountForGoal = async (
                 count: upToDateCount,
                 userUid,
             });
+
+        // clear cache to ensure it is loaded from scratch next time
+        delete inMemoryAllCountersForUserCache[userUid];
 
         return true;
     } catch (error) {

@@ -4,11 +4,15 @@ import { useEffect, useState } from 'react';
 import { RoleWithGoals } from '../model/role';
 import { fetchAllRolesWithGoalsForUserOrderedByTimestamp } from '../repository/rolesRepository';
 import { useLoggedInUser } from '../context/authentication/AuthenticationContext';
+import { fetchAllCountersForUser } from '../repository/counterRepository';
+import { Counter } from '../model/counter';
 
 export default function useFetchUserRolesWithGoals() {
     const [rolesWithGoals, setRolesWithGoals] = useState<
         RoleWithGoals[] | null
     >(null);
+
+    const [goalCounters, setGoalCounters] = useState<Counter[]>([]);
 
     const user = useLoggedInUser();
 
@@ -30,7 +34,15 @@ export default function useFetchUserRolesWithGoals() {
 
                 console.error(error);
             });
+
+        fetchAllCountersForUser(user.uid).then((results) => {
+            setGoalCounters(results);
+        });
     }, [user]);
 
-    return { rolesWithGoals, isFetching: rolesWithGoals === null };
+    return {
+        rolesWithGoals,
+        isFetching: rolesWithGoals === null,
+        goalCounters,
+    };
 }
