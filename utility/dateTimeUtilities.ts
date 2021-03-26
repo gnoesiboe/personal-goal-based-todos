@@ -12,6 +12,9 @@ import {
     startOfTomorrow,
     endOfDay,
     isThisYear,
+    startOfWeek,
+    addWeeks,
+    endOfWeek,
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import firebase from 'firebase/app';
@@ -49,6 +52,22 @@ export const createEndOfDay = (date: Date) => endOfDay(date);
 export const createStartOfToday = () => startOfToday();
 
 export const createStartOfTomorrow = () => startOfTomorrow();
+
+export const createEndOfThisWeek = () => {
+    const today = createStartOfToday();
+
+    return endOfWeek(today, {
+        locale: nl,
+    });
+};
+
+export const createStartOfNextWeek = () => {
+    const today = createStartOfToday();
+
+    return startOfWeek(addWeeks(today, 1), {
+        locale: nl,
+    });
+};
 
 export const checkIsSameDay = (first: Date, second: Date) =>
     isSameDay(first, second);

@@ -9,6 +9,8 @@ import useFormState, {
 } from '../../../hooks/useFormState';
 import { NotificationType } from '../../../model/notification';
 import { FormValues } from '../../todoForm/TodoForm';
+import { FocusEventHandler } from 'react';
+import { applyAndExtractQuickTags } from '../utility/quickTagApplicationUtilities';
 
 export default function useHandleAddTodoFormEvents(
     date: Date,
@@ -55,7 +57,18 @@ export default function useHandleAddTodoFormEvents(
         return success;
     };
 
-    return useFormState(
+    const {
+        onSubmit,
+        values,
+        errors,
+        onFieldChange,
+        setFieldValue,
+        touched,
+        onFieldBlur: handleFieldBlur,
+        inputIsValid,
+        disabled,
+        onFieldKeyDown,
+    } = useFormState(
         [
             'summary',
             'description',
@@ -70,4 +83,34 @@ export default function useHandleAddTodoFormEvents(
             date,
         },
     );
+
+    const onFieldBlur: FocusEventHandler<
+        HTMLInputElement | HTMLTextAreaElement
+    > = (event) => {
+        const field = event.target.name as keyof FormValues;
+
+        if (field === 'summary') {
+            const newSummary = applyAndExtractQuickTags(
+                event.target.value,
+                setFieldValue,
+            );
+
+            setFieldValue('summary', newSummary);
+        }
+
+        handleFieldBlur(event);
+    };
+
+    return {
+        onSubmit,
+        values,
+        errors,
+        onFieldChange,
+        setFieldValue,
+        touched,
+        onFieldBlur,
+        inputIsValid,
+        disabled,
+        onFieldKeyDown,
+    };
 }

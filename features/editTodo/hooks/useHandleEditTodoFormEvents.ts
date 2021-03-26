@@ -30,6 +30,8 @@ import {
     createFirestoreTimestampFromDate,
     parseFirebaseTimestamp,
 } from '../../../utility/dateTimeUtilities';
+import { FocusEventHandler } from 'react';
+import { applyAndExtractQuickTags } from '../../addTodo/utility/quickTagApplicationUtilities';
 
 export default function useHandleEditTodoFormEvents(
     todo: TodoListItem,
@@ -121,7 +123,18 @@ export default function useHandleEditTodoFormEvents(
         return false;
     };
 
-    return useFormState(
+    const {
+        onSubmit,
+        values,
+        errors,
+        onFieldChange,
+        setFieldValue,
+        touched,
+        onFieldBlur: handleFieldBlur,
+        inputIsValid,
+        disabled,
+        onFieldKeyDown,
+    } = useFormState(
         [
             'summary',
             'description',
@@ -146,4 +159,34 @@ export default function useHandleEditTodoFormEvents(
             quickfix: todo.quickfix,
         },
     );
+
+    const onFieldBlur: FocusEventHandler<
+        HTMLInputElement | HTMLTextAreaElement
+    > = (event) => {
+        const field = event.target.name as keyof FormValues;
+
+        if (field === 'summary') {
+            const newSummary = applyAndExtractQuickTags(
+                event.target.value,
+                setFieldValue,
+            );
+
+            setFieldValue('summary', newSummary);
+        }
+
+        handleFieldBlur(event);
+    };
+
+    return {
+        onSubmit,
+        values,
+        errors,
+        onFieldChange,
+        setFieldValue,
+        touched,
+        onFieldBlur,
+        inputIsValid,
+        disabled,
+        onFieldKeyDown,
+    };
 }
