@@ -1,3 +1,4 @@
+import { createStartOfNextWeek } from './../../../utility/dateTimeUtilities';
 import {
     persistNewTodo,
     persistTodoUpdate,
@@ -27,6 +28,8 @@ export type UpdateTodoHandler = (
 ) => Promise<boolean>;
 
 export type MoveTodoOneDayForwardHandler = (id: string) => Promise<boolean>;
+
+export type MoveToNextWeekHandler = (id: string) => Promise<boolean>;
 
 export type MoveTodoOneDayBackwardsHandler = (id: string) => Promise<boolean>;
 
@@ -233,11 +236,59 @@ export default function useModifyTodoCollection(
         return success;
     };
 
+    const moveToNextWeek: MoveToNextWeekHandler = async (id) => {
+        if (!user) {
+            throw new Error('Expecting user to be available at this point');
+        }
+
+        if (!items) {
+            throw new Error(
+                'Expecting current items to be available at this point',
+            );
+        }
+
+        const todoToUpdate = resolveTodoFromItems(items, id);
+
+        if (!todoToUpdate || !todoToUpdate.date) {
+            return false;
+        }
+
+        const newDate = createFirestoreTimestampFromDate(
+            createStartOfNextWeek(),
+        );
+
+        const updates: Partial<TodoListItem> = {
+            date: newDate,
+        };
+
+        // optimistic updating
+        dispatch({
+            type: ActionType.UpdateTodo,
+            updates,
+            id,
+        });
+
+        // persist to server
+        const success = await persistUpdates(todoToUpdate, updates);
+
+        if (!success) {
+            // rewind optimistic update
+            dispatch({
+                type: ActionType.UpdateTodo,
+                updates: todoToUpdate,
+                id,
+            });
+        }
+
+        return success;
+    };
+
     return {
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
         moveTodoOneDayBackwards,
+        moveToNextWeek,
         removeTodo,
     };
 }

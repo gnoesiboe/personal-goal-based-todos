@@ -9,6 +9,7 @@ import useManageCurrentTodo, {
 import useModifyTodoCollection, {
     AddTodoHandler,
     MoveTodoOneDayForwardHandler,
+    MoveToNextWeekHandler,
     RemoveTodoHandler,
     UpdateTodoHandler,
 } from './hooks/useModifyTodoCollection';
@@ -43,6 +44,7 @@ type ContextValue = {
     updateTodo: UpdateTodoHandler;
     removeTodo: RemoveTodoHandler;
     moveTodoOneDayForward: MoveTodoOneDayForwardHandler;
+    moveToNextWeek: MoveToNextWeekHandler;
     appliedFilters: AppliedFilters;
     toggleHideDone: () => void;
     toggleHideWaiting: () => void;
@@ -67,6 +69,7 @@ const initialValue: ContextValue = {
     updateTodo: async () => false,
     removeTodo: async () => false,
     moveTodoOneDayForward: async () => false,
+    moveToNextWeek: async () => false,
     appliedFilters: {
         hideDone: false,
         hideWaiting: false,
@@ -116,6 +119,7 @@ export const TodoListItemContextProvider: React.FC<{
         addTodo,
         updateTodo,
         moveTodoOneDayForward,
+        moveToNextWeek,
         moveTodoOneDayBackwards,
         removeTodo,
     } = useModifyTodoCollection(items, backlogItems, dispatch, refetchTodos);
@@ -161,6 +165,7 @@ export const TodoListItemContextProvider: React.FC<{
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        moveToNextWeek,
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
@@ -181,6 +186,7 @@ export const useTodoListItems = () => {
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        moveToNextWeek,
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
@@ -197,6 +203,7 @@ export const useTodoListItems = () => {
         updateTodo,
         removeTodo,
         moveTodoOneDayForward,
+        moveToNextWeek,
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,

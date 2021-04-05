@@ -38,7 +38,7 @@ const TodoListItem: React.FC<Props> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const { moveTodoOneDayForward } = useTodoListItems();
+    const { moveTodoOneDayForward, moveToNextWeek } = useTodoListItems();
 
     const urgencyScore = determineUrgencyScore(item);
 
@@ -100,6 +100,13 @@ const TodoListItem: React.FC<Props> = ({
                                 onClick={() => moveTodoOneDayForward(item.id)}
                             >
                                 tomorrow
+                            </ActionButton>
+                        )}
+                        {item.date && (
+                            <ActionButton
+                                onClick={() => moveToNextWeek(item.id)}
+                            >
+                                next week
                             </ActionButton>
                         )}
                     </ActionButtonList>
