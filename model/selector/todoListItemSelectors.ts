@@ -33,7 +33,7 @@ export const determineUrgencyScore = (item: TodoListItem): UrgencyScore => {
     return UrgencyScore.MildlyUrgent;
 };
 
-const determineDeadlineSortingAdjustment = (item: TodoListItem): number => {
+const determineDeadlineScore = (item: TodoListItem): number => {
     if (!item.deadline) {
         return 0;
     }
@@ -43,19 +43,13 @@ const determineDeadlineSortingAdjustment = (item: TodoListItem): number => {
     return deadline.getTime() / 10000000000000;
 };
 
-const determineQuickfixAdjustment = (item: TodoListItem) =>
-    item.quickfix ? 1 : 0;
-
 const calculatePriorityScore = (item: TodoListItem): number => {
     const urgencyScore = determineUrgencyScore(item);
+    const deadlineScore = determineDeadlineScore(item);
+    const hasGoalScore = item.goalRef ? 10 : 0;
+    const quickfixScore = item.quickfix ? 1 : 0;
 
-    const deadlineAdjustment = determineDeadlineSortingAdjustment(item);
-
-    return (
-        (item.goalRef ? 10 + urgencyScore : urgencyScore) -
-        deadlineAdjustment +
-        determineQuickfixAdjustment(item)
-    );
+    return hasGoalScore + urgencyScore + deadlineScore + quickfixScore;
 };
 
 export const sortTodoListItemsByPriority = (items: TodoListItem[]) => {
