@@ -2,11 +2,12 @@ import React from 'react';
 import UnorderedList from '../../primitives/unorderedList/UnorderedList';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
 import classNames from './filterTodoOverview.module.scss';
-import CheckboxButton from '../../primitives/checkboxButton/CheckboxButton';
+import FilterButton from './components/FilterButton';
 
 const FilterTodoOverview: React.FC = () => {
     const {
         appliedFilters,
+        filterCounts,
         toggleHideDone,
         toggleHideWaiting,
         toggleHideEvening,
@@ -18,30 +19,27 @@ const FilterTodoOverview: React.FC = () => {
             centered
             className={classNames.container}
         >
-            <CheckboxButton
+            <FilterButton
                 active={appliedFilters.hideDone}
                 onClick={() => toggleHideDone()}
-                style="link"
-                size="small"
+                count={filterCounts.done}
             >
                 hide done
-            </CheckboxButton>
-            <CheckboxButton
+            </FilterButton>
+            <FilterButton
                 active={appliedFilters.hideWaiting}
                 onClick={() => toggleHideWaiting()}
-                style="link"
-                size="small"
+                count={filterCounts.waiting}
             >
                 hide waiting
-            </CheckboxButton>
-            <CheckboxButton
+            </FilterButton>
+            <FilterButton
                 active={appliedFilters.hideEvening}
                 onClick={() => toggleHideEvening()}
-                style="link"
-                size="small"
+                count={filterCounts.evening}
             >
                 hide evening
-            </CheckboxButton>
+            </FilterButton>
         </UnorderedList>
     );
 };

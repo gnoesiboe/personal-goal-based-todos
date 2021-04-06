@@ -1,3 +1,4 @@
+import { FilterItemCounts } from './../reducers/todoReducer';
 import { AppliedFilters, ItemsState } from '../reducers/todoReducer';
 
 export const applyFilters = (
@@ -30,4 +31,34 @@ export const applyFilters = (
     });
 
     return filteredItems;
+};
+
+export const countAppliedFilters = (items: ItemsState): FilterItemCounts => {
+    const counts: FilterItemCounts = {
+        done: 0,
+        evening: 0,
+        waiting: 0,
+    };
+
+    if (!items) {
+        return counts;
+    }
+
+    Object.keys(items).forEach((dateKey) => {
+        items[dateKey].forEach((item) => {
+            if (item.done) {
+                counts.done++;
+            }
+
+            if (item.waiting) {
+                counts.waiting++;
+            }
+
+            if (item.evening) {
+                counts.evening++;
+            }
+        });
+    });
+
+    return counts;
 };

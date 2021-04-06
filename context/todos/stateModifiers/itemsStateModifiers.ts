@@ -1,3 +1,4 @@
+import { countAppliedFilters } from './../utility/todoFilterUtilities';
 import {
     AddTodoAction,
     LoadIncomingTodoListItemsAction,
@@ -324,6 +325,7 @@ const applyUpdateTodoFromItemsModifier = (
             nextState.items,
             nextState.appliedFilters,
         );
+        nextState.filterCounts = countAppliedFilters(nextState.items);
 
         // set current item index to updated item
         const newIndexOfUpdatedItem = nextState.items[
@@ -359,6 +361,7 @@ export const applyLoadIncomingTodoListItemsModifier = (
             sortedItemsPerDate,
             currentState.appliedFilters,
         ),
+        filterCounts: countAppliedFilters(sortedItemsPerDate),
         backlogItems: sortedBacklogItemsPerRole,
         isFetching: false,
     };

@@ -43,6 +43,12 @@ export type AppliedFilters = {
     hideEvening: boolean;
 };
 
+export type FilterItemCounts = {
+    done: number;
+    waiting: number;
+    evening: number;
+};
+
 export type State = {
     dateCursor: DateCursor;
     currentTodoIndex: TodoIndexCursor;
@@ -52,6 +58,7 @@ export type State = {
     backlogItems: ItemsState;
     isFetching: boolean;
     appliedFilters: AppliedFilters;
+    filterCounts: FilterItemCounts;
 };
 
 type ReducerType = Reducer<State, Action>;
@@ -151,6 +158,11 @@ const initialState: State = {
         hideDone: false,
         hideWaiting: false,
         hideEvening: false,
+    },
+    filterCounts: {
+        done: 0,
+        waiting: 0,
+        evening: 0,
     },
 };
 

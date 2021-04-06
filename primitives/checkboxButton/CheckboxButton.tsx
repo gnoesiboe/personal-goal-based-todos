@@ -12,11 +12,16 @@ type Props = ButtonProps & {
 const CheckboxButton: React.FC<Props> = ({
     active,
     children,
+    className: additionalClassName,
     ...otherProps
 }) => {
-    const className = createClassName(classNames.container, {
-        [classNames.isActive]: active,
-    });
+    const className = createClassName(
+        classNames.container,
+        additionalClassName,
+        {
+            [classNames.isActive]: active,
+        },
+    );
 
     return (
         <Button {...otherProps} className={className}>

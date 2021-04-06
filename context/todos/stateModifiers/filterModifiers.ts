@@ -1,3 +1,4 @@
+import { countAppliedFilters } from './../utility/todoFilterUtilities';
 import { AppliedFilters, State } from '../reducers/todoReducer';
 import { applyFilters } from '../utility/todoFilterUtilities';
 import produce from 'immer';
@@ -16,5 +17,8 @@ export const applyFilterToggleModifier = (
         nextState.filteredItems = nextState.items
             ? applyFilters(nextState.items, nextState.appliedFilters)
             : null;
+
+        // reset counts
+        nextState.filterCounts = countAppliedFilters(nextState.items);
     });
 };

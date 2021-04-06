@@ -18,6 +18,7 @@ import useMoveNotDoneItemsInThePastToToday from './hooks/useMoveNotDoneItemsInTh
 import {
     AppliedFilters,
     DayNavigationDirection,
+    FilterItemCounts,
     ItemsState,
     useTodoReducer,
 } from './reducers/todoReducer';
@@ -46,6 +47,7 @@ type ContextValue = {
     moveTodoOneDayForward: MoveTodoOneDayForwardHandler;
     moveToNextWeek: MoveToNextWeekHandler;
     appliedFilters: AppliedFilters;
+    filterCounts: FilterItemCounts;
     toggleHideDone: () => void;
     toggleHideWaiting: () => void;
     toggleHideEvening: () => void;
@@ -76,6 +78,11 @@ const initialValue: ContextValue = {
         hideWaiting: false,
         hideEvening: false,
     },
+    filterCounts: {
+        done: 0,
+        evening: 0,
+        waiting: 0,
+    },
     toggleHideDone: () => {},
     toggleHideWaiting: () => {},
     toggleHideEvening: () => {},
@@ -103,6 +110,7 @@ export const TodoListItemContextProvider: React.FC<{
         backlogItems,
         isFetching,
         appliedFilters,
+        filterCounts,
     } = state;
 
     const {
@@ -174,6 +182,7 @@ export const TodoListItemContextProvider: React.FC<{
         moveTodoOneDayForward,
         moveToNextWeek,
         appliedFilters,
+        filterCounts,
         toggleHideDone,
         toggleHideWaiting,
         toggleHideEvening,
@@ -196,6 +205,7 @@ export const useTodoListItems = () => {
         moveTodoOneDayForward,
         moveToNextWeek,
         appliedFilters,
+        filterCounts,
         toggleHideDone,
         toggleHideWaiting,
         toggleHideEvening,
@@ -214,6 +224,7 @@ export const useTodoListItems = () => {
         moveTodoOneDayForward,
         moveToNextWeek,
         appliedFilters,
+        filterCounts,
         toggleHideDone,
         toggleHideWaiting,
         toggleHideEvening,

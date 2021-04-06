@@ -1,5 +1,43 @@
 @use './../../styles/settings/spacing';
+@use './../../styles/settings/colors';
+@use './../../styles/settings/breakpoints';
+@import '~sass-mq';
 
 .container {
     margin-bottom: spacing.$spacing-medium;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: spacing.$spacing-extra-small;
+    align-items: center;
+    padding: spacing.$spacing-extra-small;
+
+    @include mq($from: tablet) {
+        flex-direction: row;
+        padding: spacing.$spacing-small spacing.$spacing-medium;
+    }
+}
+
+.button {
+    padding: spacing.$spacing-extra-small;
+}
+
+.badge {
+    $-dimension: 18px;
+
+    background: colors.$fourth;
+    width: $-dimension;
+    height: $-dimension;
+    text-align: center;
+    line-height: $-dimension;
+    font-size: 0.6rem;
+    border-radius: $-dimension / 2;
+    color: white;
+    text-decoration: none;
+    display: none;
+
+    @include mq($from: tablet) {
+        display: block;
+    }
 }
