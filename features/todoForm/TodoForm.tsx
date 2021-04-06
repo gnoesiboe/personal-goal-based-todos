@@ -26,6 +26,7 @@ export type FormValues = {
     date: Date | null;
     quickfix: boolean;
     waiting: boolean;
+    evening: boolean;
 };
 
 type Props = {
@@ -275,6 +276,22 @@ const TodoForm: React.FC<Props> = ({
                     </Form.Label>
                     {touched.waiting && errors.waiting && (
                         <Form.Error>{errors.waiting}</Form.Error>
+                    )}
+                </Form.Group>
+                <Form.Group horizontal>
+                    <Form.Label>
+                        <Form.Input
+                            type="checkbox"
+                            checked={values.evening}
+                            onChange={onFieldChange}
+                            onFocus={onFieldFocus}
+                            onBlur={onFieldBlur}
+                            name="evening"
+                        />
+                        Evening
+                    </Form.Label>
+                    {touched.evening && errors.evening && (
+                        <Form.Error>{errors.evening}</Form.Error>
                     )}
                 </Form.Group>
             </Form.Section>

@@ -19,6 +19,7 @@ const firebaseToApplicationTodoListItemConverter: firebase.firestore.FirestoreDa
             ...data,
             quickfix: !!data.quickfix,
             waiting: !!data.waiting,
+            evening: !!data.evening,
         };
     },
 };

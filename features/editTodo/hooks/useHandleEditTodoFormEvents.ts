@@ -92,6 +92,7 @@ export default function useHandleEditTodoFormEvents(
             date,
             quickfix: values.quickfix,
             waiting: values.waiting,
+            evening: values.evening,
         };
 
         const success = await updateTodo(todo.id, updates);
@@ -120,5 +121,6 @@ export default function useHandleEditTodoFormEvents(
         date: todo.date ? parseFirebaseTimestamp(todo.date) : null,
         quickfix: todo.quickfix,
         waiting: todo.waiting,
+        evening: todo.evening,
     });
 }

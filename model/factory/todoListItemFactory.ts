@@ -70,5 +70,6 @@ export const createTodoListItemFromFormValuesForUserAndDate = async (
         roleTitle: role?.title || null,
         quickfix: values.quickfix,
         waiting: values.waiting,
+        evening: values.evening,
     };
 };

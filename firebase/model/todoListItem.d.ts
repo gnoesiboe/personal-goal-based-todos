@@ -15,4 +15,5 @@ export interface TodoListItemFirebaseData
     roleTitle: string | null;
     quickfix?: boolean;
     waiting?: boolean;
+    evening?: boolean;
 }
