@@ -68,6 +68,12 @@ export const applyAndExtractQuickTags = (
         newSummary = newSummary.replace(/@waiting/g, '');
     }
 
+    if (newSummary.match(/@evening/g)) {
+        updates.evening = true;
+
+        newSummary = newSummary.replace(/@evening/g, '');
+    }
+
     return {
         ...updates,
         summary: newSummary,
