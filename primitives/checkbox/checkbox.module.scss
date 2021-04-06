@@ -14,9 +14,10 @@
 }
 
 .replacement {
-    $-dimension: 15px;
+    $-dimension: 14px;
 
     position: absolute;
+    display: block;
     top: 0;
     left: 0;
     height: $-dimension;
@@ -32,19 +33,22 @@
     }
 
     .containerIsAccented &:not(.replacementIsChecked) {
+        $-border-width: 3px;
+        $-adjustment-margin: $-border-width / 2;
+
         border-width: 3px;
-        margin: -1px 0 0 -1px;
+        margin: -$-adjustment-margin 0 0 -$-adjustment-margin;
     }
 }
 
 .replacementIsChecked {
     &:before {
-        color: rgba(0, 0, 0, 0.5);
+        color: rgba(0, 0, 0, 0.7);
         position: absolute;
-        left: 0;
+        left: -0.02rem;
         top: -0.35rem;
         content: '+';
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         transform: rotate(45deg);
         display: block;
     }
