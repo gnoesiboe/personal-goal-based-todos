@@ -9,6 +9,7 @@ const FilterTodoOverview: React.FC = () => {
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
+        toggleHideEvening,
     } = useTodoListItems();
 
     return (
@@ -32,6 +33,14 @@ const FilterTodoOverview: React.FC = () => {
                 size="small"
             >
                 hide waiting
+            </CheckboxButton>
+            <CheckboxButton
+                active={appliedFilters.hideEvening}
+                onClick={() => toggleHideEvening()}
+                style="link"
+                size="small"
+            >
+                hide evening
             </CheckboxButton>
         </UnorderedList>
     );

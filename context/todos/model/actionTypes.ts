@@ -21,6 +21,7 @@ export enum ActionType {
     ChangeNumberOfDaysDisplayed = 'ChangeNumberOfDaysDisplayed',
     ToggleHideDone = 'ToggleHideDone',
     ToggleHideWaiting = 'ToggleHideWaiting',
+    ToggleHideEvening = 'ToggleHideEvening',
 }
 
 interface BaseAction {
@@ -116,6 +117,10 @@ export interface ToggleHideWaitingAction extends BaseAction {
     type: ActionType.ToggleHideWaiting;
 }
 
+export interface ToggleHideEveningAction extends BaseAction {
+    type: ActionType.ToggleHideEvening;
+}
+
 export type Action =
     | MoveToPreviousDateAction
     | MoveToNextDateAction
@@ -136,4 +141,5 @@ export type Action =
     | MoveToNextCurrentDateAction
     | MoveToPreviousCurrentDateAction
     | ToggleHideDoneAction
-    | ToggleHideWaitingAction;
+    | ToggleHideWaitingAction
+    | ToggleHideEveningAction;

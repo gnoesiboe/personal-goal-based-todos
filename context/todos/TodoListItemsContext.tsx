@@ -48,6 +48,7 @@ type ContextValue = {
     appliedFilters: AppliedFilters;
     toggleHideDone: () => void;
     toggleHideWaiting: () => void;
+    toggleHideEvening: () => void;
 };
 
 const initialValue: ContextValue = {
@@ -73,9 +74,11 @@ const initialValue: ContextValue = {
     appliedFilters: {
         hideDone: false,
         hideWaiting: false,
+        hideEvening: false,
     },
     toggleHideDone: () => {},
     toggleHideWaiting: () => {},
+    toggleHideEvening: () => {},
 };
 
 const Context = React.createContext<ContextValue>(initialValue);
@@ -128,7 +131,11 @@ export const TodoListItemContextProvider: React.FC<{
         dispatch,
     );
 
-    const { toggleHideDone, toggleHideWaiting } = useManageFilters(dispatch);
+    const {
+        toggleHideDone,
+        toggleHideWaiting,
+        toggleHideEvening,
+    } = useManageFilters(dispatch);
 
     const currentTodo = resolveCurrentTodo(
         items,
@@ -169,6 +176,7 @@ export const TodoListItemContextProvider: React.FC<{
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
+        toggleHideEvening,
     };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -190,6 +198,7 @@ export const useTodoListItems = () => {
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
+        toggleHideEvening,
     } = useContext(Context);
 
     return {
@@ -207,6 +216,7 @@ export const useTodoListItems = () => {
         appliedFilters,
         toggleHideDone,
         toggleHideWaiting,
+        toggleHideEvening,
     };
 };
 

@@ -21,6 +21,10 @@ export const applyFilters = (
                 return false;
             }
 
+            if (appliedFilters.hideEvening && item.evening) {
+                return false;
+            }
+
             return true;
         });
     });

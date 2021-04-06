@@ -40,6 +40,7 @@ export type ItemsState = Record<string, TodoListItem[]> | null;
 export type AppliedFilters = {
     hideDone: boolean;
     hideWaiting: boolean;
+    hideEvening: boolean;
 };
 
 export type State = {
@@ -126,6 +127,9 @@ const reducer: ReducerType = (currentState, action) => {
         case ActionType.ToggleHideWaiting:
             return applyFilterToggleModifier(currentState, 'hideWaiting');
 
+        case ActionType.ToggleHideEvening:
+            return applyFilterToggleModifier(currentState, 'hideEvening');
+
         default:
             throw new Error('Action not supported');
     }
@@ -146,6 +150,7 @@ const initialState: State = {
     appliedFilters: {
         hideDone: false,
         hideWaiting: false,
+        hideEvening: false,
     },
 };
 
