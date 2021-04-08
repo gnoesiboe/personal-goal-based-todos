@@ -46,5 +46,6 @@ export default function useHandleAddTodoFormEvents(
         date,
         quickfix: false,
         waiting: false,
+        evening: false,
     });
 }
