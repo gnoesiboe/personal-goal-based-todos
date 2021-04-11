@@ -19,6 +19,7 @@ import {
 import DayActions from './components/DayActions';
 import DayHeading from './components/DayHeading';
 import FilterTodoOverview from '../filterTodoOverview/FilterTodoOverview';
+import { StickyContainer } from 'react-sticky';
 
 const TodoOverview: React.FC = () => {
     const {
@@ -39,7 +40,7 @@ const TodoOverview: React.FC = () => {
     const today = createStartOfToday();
 
     return (
-        <>
+        <StickyContainer>
             <DayNavigation
                 onNextClick={() => moveToNextDate()}
                 onTodayClick={() => moveCurrentDateToToday()}
@@ -87,7 +88,7 @@ const TodoOverview: React.FC = () => {
                     })}
                 </DayList>
             </div>
-        </>
+        </StickyContainer>
     );
 };
 

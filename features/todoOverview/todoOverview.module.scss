@@ -44,10 +44,16 @@
 .dayHeading {
     border-bottom: 5px solid transparent;
     transition: border-bottom-color 0.5s;
+    background: colors.$first;
 
     .dayIsCurrent & {
         border-bottom: 5px solid colors.$second;
     }
+}
+
+.dayHeadingIsSticky {
+    margin-top: sizes.$header-height;
+    z-index: z-index.$z-index-day-header;
 }
 
 .dayContent {
