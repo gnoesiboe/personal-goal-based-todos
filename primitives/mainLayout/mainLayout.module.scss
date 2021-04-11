@@ -9,15 +9,18 @@
     display: grid;
     gap: 1rem;
     grid-template-rows: auto;
+    height: auto;
 }
 
 .header {
     display: block;
-    position: sticky;
+    position: fixed;
     z-index: z-index.$z-index-main-header;
     top: 0;
+    left: 0;
+    right: 0;
     height: sizes.$header-height;
-    margin-bottom: 30px;
+    box-shadow: 0 5px 10px 2px rgba(0,0,0,0.2);
 
     @include mq($from: tablet) {
         margin-bottom: 50px;
@@ -26,7 +29,7 @@
 
 .body {
     width: 100%;
-    margin: 0 auto;
+    margin: (sizes.$header-height + 30px) auto 0;
     padding: 0 $layout-default-side-gap $layout-default-side-gap;
     display: grid;
     gap: spacing.$spacing-medium;
