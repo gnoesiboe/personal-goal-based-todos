@@ -8,6 +8,7 @@ import TodoListItem from '../../todoListItem/TodoListItem';
 import { useTodoListItems } from '../../../context/todos/TodoListItemsContext';
 import PriorityLevelDescription from './PriorityLevelDescription';
 import UnorderedList from '../../../primitives/unorderedList/UnorderedList';
+import { AnimatePresence } from 'framer-motion';
 
 type Props = {
     items: TodoListItemModel[];
@@ -38,14 +39,18 @@ const TodoList: React.FC<Props> = ({ items, currentDate = false }) => {
                 <Fragment key={priorityLevel}>
                     <PriorityLevelDescription level={priorityLevel} />
                     <UnorderedList direction="vertical">
-                        {itemsGrouped[priorityLevel].map((item) => (
-                            <TodoListItem
-                                key={item.id}
-                                item={item}
-                                current={checkItemIsCurrent(item)}
-                                onContainerClick={() => setCurrentTodo(item.id)}
-                            />
-                        ))}
+                        <AnimatePresence>
+                            {itemsGrouped[priorityLevel].map((item) => (
+                                <TodoListItem
+                                    key={item.id}
+                                    item={item}
+                                    current={checkItemIsCurrent(item)}
+                                    onContainerClick={() =>
+                                        setCurrentTodo(item.id)
+                                    }
+                                />
+                            ))}
+                        </AnimatePresence>
                     </UnorderedList>
                 </Fragment>
             ))}

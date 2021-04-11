@@ -19,6 +19,7 @@ import {
 } from '../../model/selector/todoListItemSelectors';
 import DeadlineDescription from './components/DeadlineDescription';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
+import { motion } from 'framer-motion';
 
 type Props = {
     item: TodoListItemModel;
@@ -62,7 +63,10 @@ const TodoListItem: React.FC<Props> = ({
     );
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50, transition: { duration: 0.2 } }}
             className={containerClassName}
             onClick={() => onContainerClick && onContainerClick()}
             ref={containerRef}
@@ -112,7 +116,7 @@ const TodoListItem: React.FC<Props> = ({
                     </ActionButtonList>
                 </CurrentContentContainer>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
