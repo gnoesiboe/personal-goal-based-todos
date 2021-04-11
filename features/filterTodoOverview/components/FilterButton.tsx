@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import CheckboxButton from '../../../primitives/checkboxButton/CheckboxButton';
-import FilterBadge from './FilterBadge';
 import classNames from '../filterTodoOverview.module.scss';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type Props = {
     active: boolean;
@@ -16,19 +16,26 @@ const FilterButton: React.FC<Props> = ({
     children,
     count,
 }) => (
-    <div className={classNames.buttonContainer}>
-        <CheckboxButton
-            active={active}
-            onClick={onClick}
-            deflated
-            style="link"
-            size="small"
-            className={classNames.button}
-        >
-            <span>{children}</span>
-        </CheckboxButton>
-        <FilterBadge count={count} />
-    </div>
+    <AnimatePresence>
+        {count > 0 && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
+                <CheckboxButton
+                    active={active}
+                    onClick={onClick}
+                    deflated
+                    style="link"
+                    size="small"
+                    className={classNames.button}
+                >
+                    {children} ({count})
+                </CheckboxButton>
+            </motion.div>
+        )}
+    </AnimatePresence>
 );
 
 export default FilterButton;

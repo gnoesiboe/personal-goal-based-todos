@@ -4,19 +4,8 @@
 @import '~sass-mq';
 
 .container {
+    height: 24px;
     margin-bottom: spacing.$spacing-medium;
-}
-
-.buttonContainer {
-    display: flex;
-    gap: spacing.$spacing-extra-small;
-    align-items: center;
-    padding: spacing.$spacing-extra-small;
-
-    @include mq($from: tablet) {
-        flex-direction: row;
-        padding: spacing.$spacing-small spacing.$spacing-medium;
-    }
 }
 
 .button {

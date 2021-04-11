@@ -1,8 +1,7 @@
 import React from 'react';
-import UnorderedList from '../../primitives/unorderedList/UnorderedList';
 import { useTodoListItems } from '../../context/todos/TodoListItemsContext';
-import classNames from './filterTodoOverview.module.scss';
 import FilterButton from './components/FilterButton';
+import FilterList from './components/FilterList';
 
 const FilterTodoOverview: React.FC = () => {
     const {
@@ -14,11 +13,7 @@ const FilterTodoOverview: React.FC = () => {
     } = useTodoListItems();
 
     return (
-        <UnorderedList
-            direction="horizontal"
-            centered
-            className={classNames.container}
-        >
+        <FilterList>
             <FilterButton
                 active={appliedFilters.hideDone}
                 onClick={() => toggleHideDone()}
@@ -40,7 +35,7 @@ const FilterTodoOverview: React.FC = () => {
             >
                 hide evening
             </FilterButton>
-        </UnorderedList>
+        </FilterList>
     );
 };
 
