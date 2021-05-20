@@ -103,14 +103,14 @@ const TodoListItem: React.FC<Props> = ({
                             <ActionButton
                                 onClick={() => moveTodoOneDayForward(item.id)}
                             >
-                                tomorrow
+                                +1 day
                             </ActionButton>
                         )}
                         {item.date && (
                             <ActionButton
                                 onClick={() => moveToNextWeek(item.id)}
                             >
-                                next week
+                                +1 week
                             </ActionButton>
                         )}
                     </ActionButtonList>
