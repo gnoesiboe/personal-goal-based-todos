@@ -225,7 +225,13 @@ const TodoForm: React.FC<Props> = ({
                                 setFieldValue('deadline', newValue)
                             }
                             onBlur={onFieldBlur}
-                            onFocus={onFieldFocus}
+                            onFocus={(event) => {
+                                // workaround to make sure that keyboard does not pop up on mobile when editing the date
+                                // @see https://github.com/Hacker0x01/react-datepicker/issues/1640
+                                event.target.readOnly = true;
+
+                                onFieldFocus(event);
+                            }}
                             disabled={disabled}
                             onKeyDown={onFieldKeyDown}
                             minDate={createStartOfToday()}
